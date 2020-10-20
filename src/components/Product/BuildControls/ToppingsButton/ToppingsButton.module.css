@@ -1,0 +1,11 @@
+.ToppingsButton {
+  width: 60%;
+  margin-top: 2rem;
+  height: 200px;
+  display: inline-block;
+  max-width: 400px;
+  background-color: aliceblue;
+}
+.ToppingsButton:hover {
+  cursor: pointer;
+}
