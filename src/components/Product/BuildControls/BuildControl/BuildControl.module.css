@@ -1,0 +1,14 @@
+.BuildControl {
+  border: 1px solid black;
+  margin: 1rem;
+}
+
+.BuildControl button {
+  border: 1px solid black;
+  margin: 0.5rem;
+  font-size: 18px;
+  font-weight: bold;
+}
+.BuildControl button:hover {
+  cursor: pointer;
+}
