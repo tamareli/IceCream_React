@@ -1,0 +1,12 @@
+.NewUser {
+  direction: rtl;
+  width: 300px;
+  padding: 32px;
+  border: 2px solid crimson;
+  border-radius: 1%;
+  margin: 100px;
+}
+.Button {
+  width: 100px;
+  padding: 1rem 0;
+}

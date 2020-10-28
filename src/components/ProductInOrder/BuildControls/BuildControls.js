@@ -2,6 +2,7 @@ import classes from './BuildControls.module.css';
 import React, { Component } from 'react';
 import ToppingsButton from './ToppingsButton/ToppingsButton';
 import BuildControl from './BuildControl/BuildControl';
+import { Link } from 'react-router-dom';
 
 const TOPPINGS = {
   1: [
@@ -72,6 +73,9 @@ class BuildControls extends Component {
               );
             })
           : controls}
+        <Link to='/OrderSummary' className={classes.FinishButton}>
+          סיום
+        </Link>
       </div>
     );
   }

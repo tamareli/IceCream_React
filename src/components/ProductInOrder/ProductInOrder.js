@@ -1,4 +1,4 @@
-import classes from './Product.module.css';
+import classes from './ProductInOrder.module.css';
 import ProductTopping from './ProductTopping/ProductTopping';
 import React from 'react';
 

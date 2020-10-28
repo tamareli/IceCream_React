@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import BuildControls from '../../components/Product/BuildControls/BuildControls';
-import Product from '../../components/Product/Product';
+import BuildControls from '../../components/ProductInOrder/BuildControls/BuildControls';
+import Product from '../../components/ProductInOrder/ProductInOrder';
 import classes from './ProductBuilder.module.css';
 
 const TOPPINGS_PRICES = {
@@ -98,13 +98,13 @@ class ProductBuilder extends Component {
         this.state.totalPrice
     );
     return (
-      <React.Fragment>
+      <div className={classes.ProductBuilder}>
         <BuildControls
           addTopping={this.addToppingHandler}
           removeTopping={this.removeToppingHandler}
         />
         <Product toppings={this.state.toppings} />
-      </React.Fragment>
+      </div>
     );
   }
 }
