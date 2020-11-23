@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import BuildControls from '../../components/ProductInOrder/BuildControls/BuildControls';
-import Product from '../../components/ProductInOrder/ProductInOrder';
+import ProductInOrder from '../../components/ProductInOrder/ProductInOrder';
 import classes from './ProductBuilder.module.css';
+import axios from '../../axios';
 
 const TOPPINGS_PRICES = {
   1: 2,
@@ -16,7 +17,7 @@ const TOPPINGS_PRICES = {
 
 class ProductBuilder extends Component {
   state = {
-    productId: 1,
+    product: {},
     toppings: {
       1: 0,
       2: 0,
@@ -38,7 +39,17 @@ class ProductBuilder extends Component {
       2: 0, // תוספות
     },
   };
-
+  componentDidMount() {
+    axios
+      .get('product/product/' + this.props.match.params.product_id)
+      .then((res) => {
+        this.setState({ product: res.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log();
+  }
   addToppingHandler = (toppingId, catgId) => {
     //עדכון כמות התוספות או הרטבים הכללית שנבחרה
     let currToppingCount = this.state.toppingsAmount[catgId];
@@ -61,6 +72,7 @@ class ProductBuilder extends Component {
       toppingsAmount: updatedToppingsAmount,
     });
   };
+
   // needs work
   removeToppingHandler = (toppingId, catgId) => {
     // עדכון הכמות הכללית של הרטבים או התוספות שנבחרה
@@ -87,23 +99,18 @@ class ProductBuilder extends Component {
     });
   };
   render() {
-    console.log(
-      'sauces:' +
-        this.state.toppingsAmount[1] +
-        '   ' +
-        'toppings:' +
-        this.state.toppingsAmount[2] +
-        '   ' +
-        'totalPrice:' +
-        this.state.totalPrice
-    );
     return (
       <div className={classes.ProductBuilder}>
         <BuildControls
           addTopping={this.addToppingHandler}
           removeTopping={this.removeToppingHandler}
+          productId={this.props.match.params.product_id}
+          categoryId={this.props.location.state.categoryId}
         />
-        <Product toppings={this.state.toppings} />
+        <ProductInOrder
+          toppings={this.state.toppings}
+          product={this.state.product}
+        />
       </div>
     );
   }

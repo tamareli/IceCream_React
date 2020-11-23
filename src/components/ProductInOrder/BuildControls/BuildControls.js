@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ToppingsButton from './ToppingsButton/ToppingsButton';
 import BuildControl from './BuildControl/BuildControl';
 import { Link } from 'react-router-dom';
+import axios from '../../../axios';
 
 const TOPPINGS = {
   1: [
@@ -21,15 +22,17 @@ const TOPPINGS = {
 
 class BuildControls extends Component {
   state = {
-    categories: [
-      { id: 1, title: 'רטבים' },
-      { id: 2, title: 'תוספות' },
-    ],
+    categories: [],
     toppings: null,
     categoryClicked: null,
   };
   componentDidMount() {
-    //axios.get('hk'+ this.props.productId).then(this.setState({categories: ...}))
+    /*axios
+      .get('toppingsForProduct/getToppingsForProduct/' + this.props.categoryId)
+      .then((res) => {
+        this.setState({ categories: res.data });
+      })
+      .catch((err) => console.log(err));*/
   }
 
   categoryClickedHandler = (catgId) => {
@@ -62,18 +65,22 @@ class BuildControls extends Component {
             ---&#62;
           </p>
         ) : null}
+
         {!this.state.categoryClicked
           ? this.state.categories.map((catg) => {
               return (
                 <ToppingsButton
-                  key={catg.id}
-                  title={catg.title}
+                  key={catg.toppingCategoryId}
+                  title={catg.toppingCategoryId}
                   clicked={() => this.categoryClickedHandler(catg.id)}
                 />
               );
             })
           : controls}
-        <Link to='/OrderSummary' className={classes.FinishButton}>
+        <Link
+          to={'/OrderSummary/' + this.props.productId}
+          className={classes.FinishButton}
+        >
           סיום
         </Link>
       </div>

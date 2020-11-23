@@ -14,7 +14,7 @@ const Product = (props) => {
     }, []);
   return (
     <div className={classes.Product}>
-      <h1>Product</h1>
+      <h1> {props.product.productName}</h1>
       {transformedToppings}
     </div>
   );

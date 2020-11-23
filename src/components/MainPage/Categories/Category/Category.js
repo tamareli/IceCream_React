@@ -1,11 +1,10 @@
 import React from 'react';
+import classes from './Category.module.css';
 
 export default function Category(props) {
   return (
-    <div>
-      <h2>{props.type}</h2>
-      <h2>{props.description}</h2>
-      <br />
+    <div className={classes.Category}>
+      <h2>{props.name}</h2>
     </div>
   );
 }

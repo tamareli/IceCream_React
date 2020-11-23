@@ -1,28 +1,27 @@
 import React from 'react';
 import Category from './Category/Category';
+import { Link } from 'react-router-dom';
 
-export default function Categories(props) {
-  const state = {
-    selected: [
-      { type: 'Belgian-Waffels', description: 'jfijvitfipe' },
-      { type: 'Ice-Creams', description: 'jfijivjtjfipe' },
-      { type: 'Yogurte', description: 'nggt' },
-    ],
-  };
-
+const categories = (props) => {
   return (
     <>
-      {state.selected.map((mainpage) => {
+      {props.categories.map((category) => {
         return (
-          <button>
-            {' '}
-            <Category
-              type={mainpage.type}
-              description={mainpage.description}
-            />{' '}
-          </button>
+          <Link
+            key={category.categoryId}
+            to={{
+              pathname: '/products/' + category.categoryId,
+              state: {
+                categoryName: category.categoryName,
+              },
+            }}
+            style={{ textDecoration: 'none' }}
+          >
+            <Category name={category.categoryName} />
+          </Link>
         );
       })}
     </>
   );
-}
+};
+export default categories;

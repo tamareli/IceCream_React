@@ -5,10 +5,12 @@ import classes from './Authenticate.module.css';
 
 function Authenticate(props) {
   let isFromOrder = false;
-  if (props.fromOrder) isFromOrder = true;
+  if (props.location.aboutProps)
+    if (props.location.aboutProps.fromOrder) isFromOrder = true;
+
   return (
     <div className={classes.Authenticate}>
-      <LogIn />
+      <LogIn fromOrder={isFromOrder} />
       <NewUser fromOrder={isFromOrder} />
     </div>
   );

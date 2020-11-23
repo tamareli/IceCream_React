@@ -6,8 +6,8 @@ const navigationItems = (props) => (
   <ul className={classes.NavigationItems}>
     <NavigationItem link='/Authenticate'>התחברות</NavigationItem>
     <NavigationItem link='/'>בית</NavigationItem>
-    <NavigationItem link='/'>עלינו</NavigationItem>
-    <NavigationItem link='/'>צור קשר</NavigationItem>
+    <NavigationItem link='/AboutUs'>עלינו</NavigationItem>
+    <NavigationItem link='/Contact'>צור קשר</NavigationItem>
   </ul>
 );
 

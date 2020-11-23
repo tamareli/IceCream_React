@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './LogIn.module.css';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 export class LogIn extends Component {
   state = {
@@ -10,9 +10,11 @@ export class LogIn extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (fun()) alert('ברוכה הבאה ' + this.state.userName);
-    //אפשרות גישה לאתר
-    else alert('שם משתמש או סיסמה שגויים');
+    if (fun()) {
+      alert('ברוכה הבאה ' + this.state.userName);
+      if (this.props.fromOrder) this.props.history.push('/Orderdetails');
+      else this.props.history.push('/');
+    } else alert('שם משתמש או סיסמה שגויים');
   };
 
   handleChange = (input) => (e) => {
@@ -65,4 +67,4 @@ function fun(params) {
   //return false;
 }
 
-export default LogIn;
+export default withRouter(LogIn);

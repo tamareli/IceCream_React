@@ -1,6 +1,5 @@
 import classes from './OrderDetails.module.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 class OrderDetails extends Component {
   state = {
@@ -15,6 +14,7 @@ class OrderDetails extends Component {
   };
   submitHandler = (event) => {
     event.preventDefault();
+    alert('...ההזמנה בדרך אליך :)');
   };
   render() {
     console.log(this.state);
