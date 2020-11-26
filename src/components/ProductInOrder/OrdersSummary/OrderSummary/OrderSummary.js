@@ -3,14 +3,18 @@ import classes from './OrderSummary.module.css';
 import { Link } from 'react-router-dom';
 
 const OrderSummary = (props) => {
+  let transformedToppings = Object.keys(props.toppings).map((igKey) => {
+    return [...Array(props.toppings[igKey]['amount'])].map((_, index) => {
+      return <div>{props.toppings[igKey]['toppingName']}</div>;
+    });
+  });
+
   return (
     <div className={classes.OrderSummary}>
-      <h2> {props.match.params.product_id + ' מוצר'}</h2>
+      <h2>{props.product.productName}</h2>
       <h3>:תוספות</h3>
-      {/*props.toppings.map((top) => {
-        return <p>top.name</p>;
-      })*/}
-      <h3> :מחיר סופי{/*props.totalPrice*/}</h3>
+      {transformedToppings}
+      <h3>{props.totalPrice} :מחיר סופי</h3>
       <Link to='/OrdersSummary'>
         <button>קופה</button>
       </Link>

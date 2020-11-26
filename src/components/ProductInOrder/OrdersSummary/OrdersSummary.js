@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function OrdersSummary() {
+function OrdersSummary(props) {
   return (
     <div>
       <h1>סיכום הזמנות</h1>

@@ -3,9 +3,10 @@ import ProductTopping from './ProductTopping/ProductTopping';
 import React from 'react';
 
 const Product = (props) => {
+  //canvas
   let transformedToppings = Object.keys(props.toppings)
     .map((igKey) => {
-      return [...Array(props.toppings[igKey])].map((_, index) => {
+      return [...Array(props.toppings[igKey]['amount'])].map((_, index) => {
         return <ProductTopping key={igKey + '' + index} title={igKey} />;
       });
     })

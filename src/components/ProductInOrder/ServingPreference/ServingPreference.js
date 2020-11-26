@@ -1,11 +1,13 @@
 import React from 'react';
-
-function ServingPreference() {
+import classes from './ServingPreference.module.css';
+import Sizes from './Sizes/Sizes';
+import Serving from './Serving/Serving';
+function ServingPreference(props) {
   return (
-    <div>
-      <h2>גודל רצוי:{/**props.sizes */}</h2>
-      <h2>צורת הגשה:{/**props.preferences */}</h2>
-      <button>המשך</button>
+    <div className={classes.Container}>
+      <Sizes sizes={props.sizes} sizeClicked={props.sizeClicked} />
+      <Serving />
+      <button onClick={props.modalClosed}>המשך</button>
     </div>
   );
 }

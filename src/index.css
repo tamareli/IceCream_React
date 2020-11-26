@@ -6,6 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: 56px;
+  min-height: 100vh;
 }
 
 code {
@@ -14,4 +15,7 @@ code {
 }
 * {
   text-decoration: none;
+}
+#root {
+  height: calc(100vh - 56px);
 }

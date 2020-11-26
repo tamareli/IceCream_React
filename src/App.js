@@ -26,11 +26,6 @@ function App() {
         />
         <Route path='/Authenticate' exact component={Authenticate} />
         <Route path='/SignIn' exact component={SignIn} />
-        <Route
-          path='/OrderSummary/:product_id'
-          exact
-          component={OrderSummary}
-        />
         <Route path='/OrdersSummary' exact component={OrdersSummary} />
         <Route path='/OrderDetails' exact component={OrderDetails} />
         <Route path='/ForgetPassword' exact component={ForgetPassword} />

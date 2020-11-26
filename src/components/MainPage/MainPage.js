@@ -12,6 +12,7 @@ export class MainPage extends Component {
       .get('category/categories')
       .then((res) => {
         this.setState({ categories: res.data });
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);

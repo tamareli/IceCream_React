@@ -6,7 +6,7 @@
   top: 0;
   right: 0;
   width: 70%;
-  height: 100vh;
+  min-height: 100vh;
   text-align: center;
   background-color: rgb(243, 193, 203);
 }
