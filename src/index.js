@@ -3,11 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import cartReducer from './store/reducers/cart';
+import { Provider } from 'react-redux';
 
+import { createStore, combineReducers } from 'redux';
+const rootReducer = combineReducers({
+  cart: cartReducer,
+});
+const store = createStore(rootReducer);
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 );
 
