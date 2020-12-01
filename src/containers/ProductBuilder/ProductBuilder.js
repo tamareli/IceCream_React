@@ -20,27 +20,29 @@ const TOPPINGS_PRICES = {
 
 class ProductBuilder extends Component {
   state = {
-    preferenceClicked: false,
+    category: {},
     product: {},
     toppingsCatgs: [],
-    toppings: {
-      //toppings (not categoriesToppings) allowed according to product
-    },
+    sizes: [],
+    toppings: {},
+    selectedSize: {},
+    ServingPreference: '',
     startingPrice: 0, //according to size
     toppingsPrice: 0,
-    sizes: [],
     freeToppingsAmount: {
       // should be getting from an api to a certain product,
-      1: 2,
-      2: 3,
+      sauces: 2,
+      others: 3,
     },
     toppingsAmount: {
-      1: 0, //רטבים
-      2: 0, // תוספות
+      sauces: 0, //רטבים
+      others: 0, // תוספות
     },
     purchaseble: false,
+    preferenceClicked: false,
   };
   componentDidMount() {
+    //product
     axios
       .get('product/product/' + this.props.match.params.product_id)
       .then((res) => {
@@ -49,7 +51,24 @@ class ProductBuilder extends Component {
       .catch((err) => {
         console.log(err);
       });
-
+    //category
+    axios
+      .get('category/category/' + this.props.location.state.categoryId)
+      .then((res) => {
+        let updateFreeToppingsAmount = this.state.freeToppingsAmount;
+        updateFreeToppingsAmount['sauces'] =
+          res.data.freeToppingsForSaucesAmount;
+        updateFreeToppingsAmount['others'] =
+          res.data.freeToppingsForOthersAmount;
+        this.setState({
+          category: res.data,
+          freeToppingsAmount: updateFreeToppingsAmount,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    //toppingsCategories
     axios
       .get(
         'category/toppingsCategoriesForProductCategory/' +
@@ -59,6 +78,7 @@ class ProductBuilder extends Component {
         this.setState({ toppingsCatgs: res.data });
       })
       .catch((err) => console.log(err));
+    //toppings id:{...},id:{...}
     axios
       .get(
         'topping/toppingsByCatgProduct/' + this.props.location.state.categoryId
@@ -73,6 +93,7 @@ class ProductBuilder extends Component {
         const toppingsObject = this.arrayToObject(updatedToppings);
         this.setState({ toppings: toppingsObject });
       });
+    //sizes
     axios
       .get('size/sizes/' + this.props.location.state.categoryId)
       .then((res) => {
@@ -87,6 +108,9 @@ class ProductBuilder extends Component {
       obj[item.toppingId] = item;
       return obj;
     }, {});
+  sizeClickHandler = (price) => {
+    this.setState({ startingPrice: price });
+  };
   preferenceCanceleddHandler = () => {
     this.setState({ preferenceClicked: false });
   };
@@ -99,19 +123,44 @@ class ProductBuilder extends Component {
   purchasableHandler = () => {
     this.setState({ purchaseble: true });
   };
-  addToppingHandler = (toppingId, catgId) => {
+  GetCurrToppingCount = (catgType, amountUpdate) => {
+    let currToppingCount = this.state.toppingsAmount[catgType];
+    currToppingCount += amountUpdate;
+    return currToppingCount;
+  };
+  updateOrderedToppingsAmount = (currToppingCount, catgType) => {
     //עדכון כמות התוספות או הרטבים הכללית שנבחרה
-    let currToppingCount = this.state.toppingsAmount[catgId];
-    currToppingCount++;
     let updatedToppingsAmount = { ...this.state.toppingsAmount };
-    updatedToppingsAmount[catgId] = currToppingCount;
-    //עדכון כמות תוספת מסוימת
+    updatedToppingsAmount[catgType] = currToppingCount;
+    return updatedToppingsAmount;
+  };
+  updateOrderedToppingAmount = (toppingId, amountUpdate) => {
+    let updatedCount = this.state.toppings[toppingId]['amount'];
+    if (amountUpdate < 0) {
+      if (updatedCount <= 0) return;
+    }
+    updatedCount += amountUpdate;
     const updateToppings = { ...this.state.toppings };
-    updateToppings[toppingId].amount += 1;
+    updateToppings[toppingId]['amount'] = updatedCount;
+    return updateToppings;
+  };
+
+  addToppingHandler = (toppingId, catgId) => {
+    let catgType = this.state.toppingsCatgs.find(
+      (catg) => catg.categoryId === catgId
+    ).categoryName;
+    if (catgType === 'רטבים') catgType = 'sauces';
+    else catgType = 'others';
+    let currToppingCount = this.GetCurrToppingCount(catgType, 1);
+    let updatedToppingsAmount = this.updateOrderedToppingsAmount(
+      currToppingCount,
+      catgType
+    );
+    let updateToppings = this.updateOrderedToppingAmount(toppingId, 1);
     //עדכון המחיר הכללי
     let updatedtoppingsPrice = this.state.toppingsPrice;
     updatedtoppingsPrice =
-      currToppingCount > this.state.freeToppingsAmount[catgId]
+      currToppingCount > this.state.freeToppingsAmount[catgType]
         ? updatedtoppingsPrice + updateToppings[toppingId]['price']
         : updatedtoppingsPrice;
     // עדכון הסטייט
@@ -120,29 +169,29 @@ class ProductBuilder extends Component {
       toppingsPrice: updatedtoppingsPrice,
       toppingsAmount: updatedToppingsAmount,
     });
+    console.log(updatedToppingsAmount);
+    console.log(updatedtoppingsPrice);
   };
-  sizeClickHandler = (price) => {
-    this.setState({ startingPrice: price });
-  };
-  // needs work
+
   removeToppingHandler = (toppingId, catgId) => {
-    // עדכון הכמות הכללית של הרטבים או התוספות שנבחרה
-    let currToppingCount = this.state.toppingsAmount[catgId];
-    currToppingCount--;
-    let updatedToppingsAmount = { ...this.state.toppingsAmount };
-    updatedToppingsAmount[catgId] = currToppingCount;
-    //עדכון כמות שהוזמנה מתוספת מסוימת
-    let updatedCount = this.state.toppings[toppingId]['amount'];
-    if (updatedCount <= 0) return;
-    updatedCount -= 1;
-    const updateToppings = { ...this.state.toppings };
-    updateToppings[toppingId]['amount'] = updatedCount;
+    let catgType = this.state.toppingsCatgs.find(
+      (catg) => (catg.categoryId = catgId)
+    ).categoryName;
+    if (catgType === 'רטבים') catgType = 'sauces';
+    else catgType = 'others';
+    let currToppingCount = this.GetCurrToppingCount(catgType, -1);
+    let updatedToppingsAmount = this.updateOrderedToppingsAmount(
+      currToppingCount,
+      catgType
+    );
+    let updateToppings = this.updateOrderedToppingAmount(toppingId, -1);
     //עדכון המחיר הכללי
     let updatedtoppingsPrice = this.state.toppingsPrice;
     updatedtoppingsPrice =
-      currToppingCount >= this.state.freeToppingsAmount[catgId]
-        ? updatedtoppingsPrice - TOPPINGS_PRICES[toppingId]
+      currToppingCount >= this.state.freeToppingsAmount[catgType]
+        ? updatedtoppingsPrice - updateToppings[toppingId]['price']
         : updatedtoppingsPrice;
+    //עדכון הסטייט
     this.setState({
       toppings: updateToppings,
       toppingsPrice: updatedtoppingsPrice,
@@ -150,6 +199,7 @@ class ProductBuilder extends Component {
     });
   };
   render() {
+    console.log(this.state.freeToppingsAmount);
     return (
       <div className={classes.ProductBuilder}>
         <Modal

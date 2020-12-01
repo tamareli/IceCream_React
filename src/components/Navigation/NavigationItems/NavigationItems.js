@@ -8,6 +8,7 @@ const navigationItems = (props) => (
     <NavigationItem link='/'>בית</NavigationItem>
     <NavigationItem link='/AboutUs'>עלינו</NavigationItem>
     <NavigationItem link='/Contact'>צור קשר</NavigationItem>
+    <NavigationItem link='/OrdersSummary'>סל קניות</NavigationItem>
   </ul>
 );
 
