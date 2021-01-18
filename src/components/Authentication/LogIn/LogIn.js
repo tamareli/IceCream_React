@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
-import classes from './LogIn.module.css';
-import { Link, withRouter } from 'react-router-dom';
-
+import classes from '../../../css/Form.module.css';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import * as AuthActions from '../../../store/actions/auth';
+import { connect } from 'react-redux';
+import Spinner from '../../UI/Spinner/Spinner';
+import Input from '../../UI/Input/Input';
 export class LogIn extends Component {
   state = {
-    userName: '',
+    email: '',
     password: '',
   };
 
   onSubmit = (e) => {
     e.preventDefault();
-    if (fun()) {
-      alert('ברוכה הבאה ' + this.state.userName);
-      if (this.props.fromOrder) this.props.history.push('/Orderdetails');
-      else this.props.history.push('/');
-    } else alert('שם משתמש או סיסמה שגויים');
+    this.props.onAuth(this.state.email, this.state.password);
   };
 
   handleChange = (input) => (e) => {
@@ -23,48 +22,71 @@ export class LogIn extends Component {
   };
 
   render() {
-    return (
-      <form onSubmit={this.onSubmit} className={classes.LoginForm}>
-        <h3>התחברות לחשבון</h3>
-        <label className={classes.LoginItem} htmlFor='user-name'>
-          שם משתמש
-        </label>
-        <input
-          className={[classes.LoginItem, classes.InputField].join(' ')}
-          type='text'
-          name='user-name'
-          value={this.state.userName}
-          id='name'
-          placeholder='שם משתמש'
-          onChange={this.handleChange('userName')}
+    console.log();
+    let path = '/';
+    let authRedirect = null;
+    let error = null;
+
+    if (this.props.isAuthenticated) {
+      if (this.props.redirectTo != null) {
+        path = this.props.redirectTo;
+      }
+      authRedirect = <Redirect to={path} />;
+    }
+
+    if (this.props.error) {
+      error = <p style={{ color: 'red' }}>{this.props.error}</p>;
+    }
+
+    let loginForm = (
+      <form onSubmit={this.onSubmit} className={classes.Form}>
+        {authRedirect}
+        <h3>התחבר/י</h3>
+        <hr></hr>
+        {error}
+        <Input
+          type='email'
+          name='email'
+          inputtype='input'
+          label='מייל'
+          value={this.state.email}
+          onChange={this.handleChange('email')}
         />
-        <label className={classes.LoginItem} htmlFor='password'>
-          סיסמה{' '}
-        </label>
-        <input
-          className={[classes.LoginItem, classes.InputField].join(' ')}
+        <Input
           type='password'
           name='password'
+          inputtype='input'
+          label='סיסמה'
           value={this.state.password}
-          id='password'
-          placeholder='סיסמה'
           onChange={this.handleChange('password')}
         />
-        <div className={classes.LoginItem}>
-          <input className={classes.LoginButton} type='submit' value='כניסה' />
+
+        <div>
+          <input className={classes.Button} type='submit' value='כניסה' />
         </div>
-        <div className={classes.LoginItem}>
+
+        <div className={classes.ForgetPass}>
           {/* הקישור יפנה לדף של שיחזור סיסמה */}
-          <Link to='/ForgetPassword'>שכחת סיסמה?</Link>
+          <Link to='/ForgetPassword'> שכחת סיסמה? לחץ כאן</Link>
         </div>
       </form>
     );
+    if (this.props.loading) loginForm = <Spinner></Spinner>;
+    return loginForm;
   }
 }
-//זו כביכול הפונקציה שתחזור מהשרת
-function fun(params) {
-  return true;
-  //return false;
-}
 
-export default withRouter(LogIn);
+const mapStateToProps = (state) => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token !== null,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onAuth: (email, password, path) =>
+      dispatch(AuthActions.auth(email, password, path)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LogIn));

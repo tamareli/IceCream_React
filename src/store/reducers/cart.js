@@ -1,18 +1,21 @@
-import * as actionTypes from '../actionTypes';
+import * as actionTypes from '../actionTypes/cart';
 const initialState = {
-  cartItems: [],
+  cartItems: JSON.parse(localStorage.getItem('cartItems') || '[]'),
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.ADD_TO_CART: {
-      const newItem = {
-        product: action.payload.product,
-        price: action.payload.price,
-        toppings: action.payload.toppings,
-      };
+    case actionTypes.ADD_TO_CART:
+    case actionTypes.DELETE_FROM_CART:
+    case actionTypes.UPDATE_ORDER_AMOUNT: {
       return {
         ...state,
-        cartItems: state.cartItems.concat(newItem),
+        cartItems: JSON.parse(localStorage.getItem('cartItems')),
+      };
+    }
+    case actionTypes.CLEAR_CART: {
+      return {
+        ...state,
+        cartItems: [],
       };
     }
   }

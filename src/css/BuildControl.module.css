@@ -1,0 +1,13 @@
+.BuildControl {
+  background-color: white;
+  margin: 1rem;
+  width: 30%;
+}
+
+.BuildControl button {
+  margin: 0.5rem;
+  font-size: 14px;
+}
+.BuildControl button:hover {
+  cursor: pointer;
+}

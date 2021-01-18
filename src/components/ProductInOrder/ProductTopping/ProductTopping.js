@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from '../../../css/ProductTopping.module.css';
 
 const ProductTopping = (props) => {
   return (

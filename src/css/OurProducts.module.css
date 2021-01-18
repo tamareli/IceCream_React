@@ -1,0 +1,14 @@
+.OurProducts {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.Container {
+  width: 100%;
+  display: flex;
+  padding: 0 20%;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,16 @@
+.Product {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  height: calc(100vh - 56px);
+  text-align: center;
+}
+.productImage {
+  width: 400px;
+  height: 400px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}

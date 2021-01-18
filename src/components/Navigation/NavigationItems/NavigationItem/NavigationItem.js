@@ -1,11 +1,24 @@
 import React from 'react';
-import classes from './NavigationItem.module.css';
-import { Link } from 'react-router-dom';
+import classes from '../../../../css/NavigationItem.module.css';
+import { NavLink } from 'react-router-dom';
 
-const navigationItem = (props) => (
-  <li className={classes.NavigationItem}>
-    <Link to={props.link}>{props.children}</Link>
-  </li>
-);
+const navigationItem = (props) => {
+  let active = '';
+  if (props.activeClass === true) {
+    active = 'active';
+  }
+  return (
+    <li className={classes.NavigationItem}>
+      <NavLink
+        exact
+        activeClassName={active}
+        to={props.link}
+        activeStyle={{ color: '#69be73' }}
+      >
+        {props.children}
+      </NavLink>
+    </li>
+  );
+};
 
 export default navigationItem;

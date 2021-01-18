@@ -1,0 +1,36 @@
+.ProductBuilder {
+  color: black;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  direction: ltr;
+}
+.Middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+}
+
+.FinishButton {
+  margin: 1rem;
+  width: 50%;
+  padding: 0.4rem 2rem;
+  text-align: center;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  background-color: #9ce0a4;
+  border: 3px solid var(--brown-color);
+  color: var(--brown-color);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.FinishButton:hover {
+  cursor: pointer;
+  background-color: var(--brown-color);
+  border: 3px solid var(--brown-color);
+  color: white;
+}

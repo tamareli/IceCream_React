@@ -1,21 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap');
+:root {
+  --brown-color: rgba(66, 28, 28, 0.815);
+  --brown-color-dark: rgb(66, 28, 28);
+  --green-color: #9ce0a4;
+}
+* {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  text-decoration: none;
+  box-sizing: border-box;
+  color: var(--brown-color);
+}
+.active {
+  color: #7ddb88;
+  text-shadow: 2px 2px 5px rgba(57, 131, 27, 0.41);
+}
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding-top: 56px;
   min-height: 100vh;
+  background-color: rgb(243, 233, 215);
+  /*background-image: url('./assets/images/bricks-1044659_1920.jpg');*/
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+body::after {
+  content: '';
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-* {
-  text-decoration: none;
-}
+
 #root {
   height: calc(100vh - 56px);
+}
+h3 {
+  padding-bottom: 1rem;
 }

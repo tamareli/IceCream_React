@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationItems from '../NavigationItems/NavigationItems';
-import classes from './SideDrawer.module.css';
+import classes from '../../../css/SideDrawer.module.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 const sideDrawer = (props) => {
   let attachedClasses = [classes.SideDrawer, classes.Close];
@@ -10,7 +10,7 @@ const sideDrawer = (props) => {
       <Backdrop show={props.show} clicked={props.closed} />
       <div className={attachedClasses.join(' ')}>
         <nav>
-          <NavigationItems />
+          <NavigationItems isAuth={props.isAuth} />
         </nav>
       </div>
     </React.Fragment>
