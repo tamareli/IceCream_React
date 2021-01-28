@@ -18,11 +18,11 @@ const input = (props) => {
     default:
       inputElement = <input className={inputClasses.join(' ')} {...props} />;
   }
-
   return (
     <div className={classes.Input}>
       <label className={classes.Label}>{props.label}</label>
       {inputElement}
+      <h5 style={{ color: 'red' }}>{props.errmessage}</h5>
     </div>
   );
 };

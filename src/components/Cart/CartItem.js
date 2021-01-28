@@ -53,12 +53,12 @@ export default function CartItem(props) {
             <p> &#8362;{props.cartItem.price}</p>
           </div>
           <div className={classes.Amount}>
-            <div className={classes.Plus}>
-              <b onClick={props.increaseOrderAmount}>+</b>
+            <div className={classes.Plus} onClick={props.increaseOrderAmount}>
+              <b>+</b>
             </div>
             <span>{props.cartItem.amount}</span>
-            <div className={classes.Minus}>
-              <b onClick={props.decreaseOrderAmount}>-</b>
+            <div className={classes.Minus} onClick={props.decreaseOrderAmount}>
+              <b>-</b>
             </div>
           </div>
         </div>

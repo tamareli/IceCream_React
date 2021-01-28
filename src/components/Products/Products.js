@@ -4,15 +4,21 @@ import Product from './Product/Product';
 import classes from '../../css/Products.module.css';
 import { connect } from 'react-redux';
 import * as productBuilderActions from '../../store/actions/productBuilder';
+import ProductsNavigation from './ProductsNavigation';
 
 class Products extends Component {
   componentDidMount() {
+    console.log('componentDidMount', this.props.match.params.catg_id);
     this.props.setCategory(this.props.match.params.catg_id);
     this.props.setProductsForCatg(this.props.match.params.catg_id);
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.catg_id !== prevProps.match.params.catg_id) {
+      this.props.setCategory(this.props.match.params.catg_id);
+      this.props.setProductsForCatg(this.props.match.params.catg_id);
+    }
+  }
   render() {
-    console.log(this.props.category);
-
     let products = null;
     if (this.props.products)
       products = this.props.products.map((product) => {
@@ -36,6 +42,23 @@ class Products extends Component {
       const bgIllu = require(`../../assets/images/${this.props.category.image}`);
       return (
         <div className={classes.ProductsPage}>
+          {/*<div
+            className={classes.Img}
+            style={{
+              backgroundImage: 'url(' + bgImage + ')',
+            }}
+          ></div>*/}
+          <div className={classes.txtContent}>
+            <h1>{this.props.category.categoryName}</h1>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
+          </div>
+          <div className={classes.Container}>
+            <ProductsNavigation />
+            <div className={classes.Products}>{products}</div>
+          </div>
           <div
             className={classes.BgIllu}
             style={{
@@ -62,20 +85,6 @@ class Products extends Component {
               transform: 'rotate(10deg)',
             }}
           ></div>
-          {/*<div
-            className={classes.Img}
-            style={{
-              backgroundImage: 'url(' + bgImage + ')',
-            }}
-          ></div>*/}
-          <div className={classes.txtContent}>
-            <h1>{this.props.category.categoryName}</h1>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <div className={classes.Products}>{products}</div>
         </div>
       );
     } else {

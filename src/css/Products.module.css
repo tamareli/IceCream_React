@@ -5,8 +5,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 6rem 0;
   position: relative;
-  padding: 6rem;
+}
+.Container {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  align-items: flex-start;
 }
 .Products {
   display: flex;
@@ -14,6 +21,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  width: 80%;
 }
 .Img {
   width: 60%;

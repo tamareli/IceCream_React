@@ -5,7 +5,9 @@ const initialState = {
   products: null,
   product: null,
   toppingsCatgs: [],
+  toppingsCatgsLoading: true,
   toppingsForCatgs: [],
+  toppingsForCatgsLoading: true,
   sizes: [],
   freeToppingsAmount: {
     // should be getting from an api to a certain product,
@@ -96,11 +98,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         toppingsCatgs: action.categories,
+        toppingsCatgsLoading: false,
       };
     case actionTypes.SET_TOPPINGS_FOR_CATEGORIES:
       return {
         ...state,
         toppingsForCatgs: action.toppings,
+        toppingsForCatgsLoading: false,
       };
     case actionTypes.SET_SIZES:
       return {
@@ -119,6 +123,16 @@ const reducer = (state = initialState, action) => {
         ...state,
         selectedSize: action.size,
         startingPrice: action.size.price,
+      };
+    case actionTypes.SET_LOADING_FOR_CATEGORIES:
+      return {
+        ...state,
+        toppingsCatgsLoading: action.loading,
+      };
+    case actionTypes.SET_LOADING_FOR_CATEGORIES_TOPPINGS:
+      return {
+        ...state,
+        toppingsForCatgsLoading: action.loading,
       };
   }
   return state;

@@ -9,7 +9,6 @@ class categories extends Component {
     return (
       <>
         {this.props.categories.map((category) => {
-          console.log(category, 'category');
           return (
             <Link
               key={category.categoryId}

@@ -1,13 +1,22 @@
 import React from 'react';
+import { Component } from 'react';
 import classes from '../../../css/ProductTopping.module.css';
 
-const ProductTopping = (props) => {
-  return (
-    <div>
-      <h3>{props.title + ' '}</h3>
-      <br />
-    </div>
-  );
-};
+class ProductTopping extends Component {
+  constructor(props) {
+    super(props);
+    this.test = React.createRef();
+  }
+
+  render() {
+    return (
+      <img
+        ref={this.test}
+        src={this.props.toppingImagePath}
+        className='hidden'
+      ></img>
+    );
+  }
+}
 
 export default ProductTopping;

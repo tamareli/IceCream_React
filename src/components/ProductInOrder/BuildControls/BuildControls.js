@@ -17,12 +17,12 @@ class BuildControls extends Component {
             removeTopping={this.props.removeTopping}
             addTopping={this.props.addTopping}
             toppingsCatgs={this.props.toppingsCatgs}
+            toppings={this.props.toppings}
           />
         );
       });
     }
 
-    console.log(this.props.toppingsForCategories.length, 'toppingsCatgs');
     return (
       <div className={classes.BuildControls}>
         <div className={classes.Controls}>{controls}</div>

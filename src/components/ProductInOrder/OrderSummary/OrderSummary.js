@@ -29,7 +29,7 @@ class OrderSummary extends Component {
         return [...Array(this.props.toppings[igKey]['amount'])].map(
           (_, index) => {
             return (
-              <div key={this.props.toppings[igKey]['toppingId']}>
+              <div key={this.props.toppings[igKey]['toppingId'] + index}>
                 {this.props.toppings[igKey]['toppingName']}
               </div>
             );

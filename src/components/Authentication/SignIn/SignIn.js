@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as AuthActions from '../../../store/actions/auth';
 import Input from '../../UI/Input/Input';
+import { checkValidity } from '../../../shared/validate';
 
 class SignIn extends Component {
   state = {
@@ -31,7 +32,7 @@ class SignIn extends Component {
       },
       phone: {
         required: true,
-        regExc: /\b\d{3}[-]?\d{3}[-]?\d{4}|\d{2}[-]?\d{3}[-]?\d{4}|\d{1}[-]?\d{3}[-]?\d{6}|\d{1}[-]?\d{3}[-]?\d{2}[-]?\d{2}[-]?\d{2}|\*{1}?\d{2,5}\b/g,
+        regExc: /\b\d{3}[-]?\d{3}[-]?\d{4}|\d{2}[-]?\d{3}[-]?\d{4}|\d{1}[-]?\d{3}[-]?\d{6}|\d{1}[-]?\d{3}[-]?\d{2}[-]?\d{2}[-]?\d{2}|\*{1}?\d{2,5}\b/,
       },
       address: { required: true, minLength: 2, maxLength: 20 },
       email: {
@@ -41,26 +42,27 @@ class SignIn extends Component {
       password: { required: true, minLength: 8, maxLength: 15 },
     },
     userValid: {
-      firstName: { valid: false, touched: false },
-      lastName: { valid: false, touched: false },
-      phone: { valid: false, touched: false },
-      address: { valid: false, touched: false },
-      email: { valid: false, touched: false },
-      password: { valid: false, touched: false },
+      firstName: { valid: false, touched: false, errmessage: '' },
+      lastName: { valid: false, touched: false, errmessage: '' },
+      phone: { valid: false, touched: false, errmessage: '' },
+      address: { valid: false, touched: false, errmessage: '' },
+      email: { valid: false, touched: false, errmessage: '' },
+      password: { valid: false, touched: false, errmessage: '' },
     },
     isValidForm: false,
   };
   handleChange = (input) => (e) => {
     e.preventDefault();
-    console.log('hii');
     let updatedUser = this.state.user;
     let validUser = this.state.userValid;
     updatedUser[input] = e.target.value;
     validUser[input].touched = true;
-    validUser[input].valid = this.checkValidity(
+    validUser[input].errmessage = checkValidity(
       updatedUser[input],
       this.state.userValidationRules[input]
     );
+    validUser[input].valid = validUser[input].errmessage === '';
+
     let validForm = true;
     for (let field in validUser) {
       validForm = validUser[field].valid && validForm;
@@ -72,22 +74,7 @@ class SignIn extends Component {
       isValidForm: validForm,
     });
   };
-  checkValidity = (value, rules) => {
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== '' && isValid === true;
-    }
-    if (rules.minLength !== null) {
-      isValid = value.length >= rules.minLength && isValid === true;
-    }
-    if (rules.maxLength) {
-      isValid = value.length <= rules.maxLength && isValid === true;
-    }
-    if (rules.regExc) {
-      isValid = rules.regExc.test(value);
-    }
-    return isValid;
-  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -129,6 +116,7 @@ class SignIn extends Component {
             onChange={this.handleChange('firstName')}
             invalid={(!this.state.userValid.firstName.valid).toString()}
             touched={this.state.userValid.firstName.touched.toString()}
+            errmessage={this.state.userValid.firstName.errmessage}
           />
 
           <Input
@@ -140,6 +128,7 @@ class SignIn extends Component {
             onChange={this.handleChange('lastName')}
             invalid={(!this.state.userValid.lastName.valid).toString()}
             touched={this.state.userValid.lastName.touched.toString()}
+            errmessage={this.state.userValid.lastName.errmessage}
           />
           <Input
             type='text'
@@ -150,6 +139,7 @@ class SignIn extends Component {
             onChange={this.handleChange('phone')}
             invalid={(!this.state.userValid.phone.valid).toString()}
             touched={this.state.userValid.phone.touched.toString()}
+            errmessage={this.state.userValid.phone.errmessage}
           />
           <Input
             type='text'
@@ -160,6 +150,7 @@ class SignIn extends Component {
             onChange={this.handleChange('address')}
             invalid={(!this.state.userValid.address.valid).toString()}
             touched={this.state.userValid.address.touched.toString()}
+            errmessage={this.state.userValid.address.errmessage}
           />
           <Input
             type='email'
@@ -170,6 +161,7 @@ class SignIn extends Component {
             onChange={this.handleChange('email')}
             invalid={(!this.state.userValid.email.valid).toString()}
             touched={this.state.userValid.email.touched.toString()}
+            errmessage={this.state.userValid.email.errmessage}
           />
           <Input
             type='password'
@@ -180,6 +172,7 @@ class SignIn extends Component {
             onChange={this.handleChange('password')}
             invalid={(!this.state.userValid.password.valid).toString()}
             touched={this.state.userValid.password.touched.toString()}
+            errmessage={this.state.userValid.password.errmessage}
           />
           <input
             className={classes.Button}

@@ -1,0 +1,26 @@
+.ProductsNavigation {
+  position: sticky;
+  top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  padding: 2rem 0;
+  border: 2px solid var(--brown-color);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+.Item {
+  padding: 1rem 0;
+  width: 85%;
+  text-align: center;
+}
+.Active {
+  color: white;
+  font-weight: 600;
+  background-color: var(--green-color);
+}

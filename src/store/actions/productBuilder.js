@@ -80,8 +80,22 @@ const setCategoriesForToppings = (categories) => {
     categories: categories,
   };
 };
+const setCategoriesForToppingsLoading = (loading) => {
+  return {
+    type: actionTypes.SET_LOADING_FOR_CATEGORIES,
+    loading: loading,
+  };
+};
+const setToppingsCategoriesLoading = (loading) => {
+  return {
+    type: actionTypes.SET_LOADING_FOR_CATEGORIES_TOPPINGS,
+    loading: loading,
+  };
+};
 export const initToppingsCategories = (catgId) => {
   return (dispatch) => {
+    dispatch(setCategoriesForToppingsLoading(true));
+    dispatch(setToppingsCategoriesLoading(true));
     axios
       .get('category/toppingsCategoriesForProductCategory/' + catgId)
       .then((res) => {

@@ -47,7 +47,12 @@ class ProductBuilder extends Component {
     this.props.updatePriceRemove(toppingId);
   };
   render() {
-    console.log(this.props.selectedSize, 'selectedSize');
+    if (
+      this.props.toppingsCatgsLoading === true ||
+      this.props.toppingsForCatgsLoading === true
+    ) {
+      return <div>loading...</div>;
+    }
     return (
       <div className={classes.ProductBuilder}>
         <Modal
@@ -73,6 +78,17 @@ class ProductBuilder extends Component {
           />
         </Modal>
         <div className={classes.Middle}>
+          <div>
+            מחיר:{' '}
+            <span className='bold'>
+              &#8362;{this.props.startingPrice + this.props.toppingsPrice}
+            </span>
+          </div>
+          <div>
+            {this.props.selectedSize !== null
+              ? `גודל: ${this.props.selectedSize.sizeName}`
+              : null}
+          </div>
           <div
             className={classes.FinishButton}
             onClick={this.preferenceHandler}
@@ -89,9 +105,7 @@ class ProductBuilder extends Component {
         <ProductInOrder
           toppings={this.props.toppings}
           product={this.props.product}
-          price={this.props.startingPrice + this.props.toppingsPrice}
           freeToppingsAmount={this.props.freeToppingsAmount}
-          selectedSize={this.props.selectedSize}
         />{' '}
         <BuildControls
           addTopping={this.addToppingHandler}
@@ -100,6 +114,7 @@ class ProductBuilder extends Component {
           toppingsCatgs={this.props.toppingsCatgs}
           toppingsForCategories={this.props.toppingsForCategories}
           openSize={this.chooseSizeClickedHandler}
+          toppings={this.props.toppings}
         />
       </div>
     );
@@ -118,6 +133,8 @@ const mapStateToProps = (state) => {
     toppingsPrice: state.productBuilder.toppingsPrice,
     toppingsAmount: state.productBuilder.toppingsAmount,
     selectedSize: state.productBuilder.selectedSize,
+    toppingsCatgsLoading: state.productBuilder.toppingsCatgsLoading,
+    toppingsForCatgsLoading: state.productBuilder.toppingsForCatgsLoading,
   };
 };
 const mapDispatchToProps = (dispatch) => {

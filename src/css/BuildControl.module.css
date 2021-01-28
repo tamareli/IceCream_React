@@ -1,7 +1,9 @@
 .BuildControl {
-  background-color: white;
   margin: 1rem;
-  width: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .BuildControl button {
@@ -9,5 +11,27 @@
   font-size: 14px;
 }
 .BuildControl button:hover {
+  cursor: pointer;
+}
+.Amount {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  background-color: #9ce0a4;
+  border-radius: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 16px;
+}
+.Plus {
+  padding: 0.4rem 0.5rem;
+}
+.Minus {
+  padding: 0.4rem 0.5rem;
+}
+.Plus:hover,
+.Minus:hover {
+  background-color: #79bd81;
+  border-radius: 20px;
   cursor: pointer;
 }
