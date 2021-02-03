@@ -34,7 +34,7 @@ const navigationItems = (props) => (
       צור קשר
     </NavigationItem>
     <NavigationItem link='/OrdersSummary' activeClass={false}>
-      <i className='fa fa-shopping-cart fa-lg'></i>
+      <i className='fa fa-shopping-cart fa-md'></i>
       <ItemsSumUI />
     </NavigationItem>
   </ul>

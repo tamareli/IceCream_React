@@ -45,7 +45,7 @@
   margin: 0;
   padding: 0;
 }
-.MainPage {
+/*.MainPage {
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -59,7 +59,7 @@
   padding: 0 20%;
   justify-content: space-between;
   align-items: center;
-}
+}*/
 .ImageContainer {
   margin: 6rem 0;
   width: 100%;

@@ -63,8 +63,8 @@ class Canvas extends Component {
       <div>
         <div
           style={{
-            width: '600px',
-            height: '480px',
+            width: '500px',
+            height: '400px',
             backgroundImage: 'url(' + this.props.productImagePath + ')',
             backgroundPosition: 'center',
             backgroundSize: 'cover',

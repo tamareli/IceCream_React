@@ -36,6 +36,9 @@ class OrdersSummary extends Component {
                 deleteItem={this.props.deleteItem}
                 updateOrderAmount={this.props.updateOrderAmount}
                 updateOrderAmount={this.props.updateOrderAmount}
+                setEditToTrue={this.props.setEditToTrue}
+                setEditToFalse={this.props.setEditToFalse}
+                editClicked={this.props.editClicked}
               />
             </>
           )}
@@ -49,6 +52,7 @@ const mapStateToProps = (state) => {
   return {
     cartItems: state.cart.cartItems,
     isAuthenticated: state.auth.token !== null,
+    editClicked: state.cart.editClicked,
   };
 };
 const mapDispatcToProps = (dispatch) => {
@@ -57,6 +61,8 @@ const mapDispatcToProps = (dispatch) => {
       dispatch(cartActions.deleteOrder(orders, index)),
     updateOrderAmount: (orders, index, amount) =>
       dispatch(cartActions.updateOrderAmount(orders, index, amount)),
+    setEditToTrue: () => dispatch(cartActions.setEditTrue()),
+    setEditToFalse: () => dispatch(cartActions.setEditFalse()),
   };
 };
 export default connect(mapStateToProps, mapDispatcToProps)(OrdersSummary);

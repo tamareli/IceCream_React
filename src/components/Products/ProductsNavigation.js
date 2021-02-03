@@ -14,6 +14,7 @@ class ProductsNavigation extends Component {
       navItems = this.props.categories.map((catg) => {
         return (
           <NavLink
+            key={catg.categoryId}
             exact
             to={{
               pathname: '/products/' + catg.categoryId,

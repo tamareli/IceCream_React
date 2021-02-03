@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import classes from '../../../css/OrderSummary.module.css';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actionTypes/cart';
 import * as cartActions from '../../../store/actions/cart';
 import uuid from 'react-uuid';
 
@@ -16,11 +15,11 @@ class OrderSummary extends Component {
     this.props.addToCart(
       this.props.product,
       this.props.totalPrice,
-      this.props.toppings, //send toppings
+      this.props.toppings,
       this.props.size,
       this.props.orders
     );
-    //sending data to redux(this.props.toppings,this.props.product,this.props.price,this.props.size,this.props.pref)
+    this.props.initProductBuilder();
   };
   render() {
     let transformedToppings = null;

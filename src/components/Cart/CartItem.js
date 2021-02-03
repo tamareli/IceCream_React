@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from '../../css/Cart.module.css';
+
 export default function CartItem(props) {
   let transformedToppings = Object.keys(props.cartItem.toppings).map(
     (igKey) => {
@@ -52,13 +53,23 @@ export default function CartItem(props) {
             <p className={classes.Header}>מחיר:</p>
             <p> &#8362;{props.cartItem.price}</p>
           </div>
-          <div className={classes.Amount}>
-            <div className={classes.Plus} onClick={props.increaseOrderAmount}>
-              <b>+</b>
+          <div className={classes.AmountEditContainer}>
+            <div className={classes.Edit} onClick={props.editClicked}>
+              <i className='fa fa-pen fa-md'></i>
             </div>
-            <span>{props.cartItem.amount}</span>
-            <div className={classes.Minus} onClick={props.decreaseOrderAmount}>
-              <b>-</b>
+            <div className={classes.Amount}>
+              <div className={classes.Plus} onClick={props.increaseOrderAmount}>
+                <b>+</b>
+              </div>
+              <span>
+                <b>{props.cartItem.amount}</b>
+              </span>
+              <div
+                className={classes.Minus}
+                onClick={props.decreaseOrderAmount}
+              >
+                <b>-</b>
+              </div>
             </div>
           </div>
         </div>

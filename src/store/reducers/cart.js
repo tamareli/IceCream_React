@@ -1,6 +1,7 @@
 import * as actionTypes from '../actionTypes/cart';
 const initialState = {
   cartItems: JSON.parse(localStorage.getItem('cartItems') || '[]'),
+  editClicked: false,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,6 +17,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         cartItems: [],
+      };
+    }
+    case actionTypes.EDIT_TRUE: {
+      return {
+        ...state,
+        editClicked: true,
+      };
+    }
+    case actionTypes.EDIT_FALSE: {
+      return {
+        ...state,
+        editClicked: false,
       };
     }
   }

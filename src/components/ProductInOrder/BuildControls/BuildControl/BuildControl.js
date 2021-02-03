@@ -1,34 +1,49 @@
 import classes from '../../../../css/BuildControl.module.css';
 import React from 'react';
+import { Component } from 'react';
 
-const BuildControl = (props) => {
-  const toppingImage = require(`../../../../assets/images/toppings/${props.image}`);
-  return (
-    <div className={classes.BuildControl}>
-      <div
-        style={{
-          backgroundImage: 'url(' + toppingImage + ')',
-          backgroundPosition: 'center',
-          backgroundSize: 'contain',
-          backgroundRepeat: 'no-repeat',
-          width: '80px',
-          height: '80px',
-          borderRadius: '50%',
-          backgroundColor: 'white',
-        }}
-      ></div>
-      <h5>{props.title}</h5>
-      <div className={classes.Amount}>
-        <div className={classes.Plus} onClick={props.addClicked}>
-          <b>+</b>
-        </div>
-        <span>{props.amount}</span>
-        <div className={classes.Minus} onClick={props.removeClicked}>
-          <b>-</b>
-        </div>
+class BuildControl extends Component {
+  state = {
+    chosen: false,
+  };
+  componentDidMount = () => {
+    this.setState({ chosen: this.props.chosen });
+  };
+  toppingClickedHandler = (active) => {
+    if (!active) {
+      return;
+    }
+    console.log('clicked');
+    let func = null;
+    if (this.state.chosen) {
+      func = this.props.removeClicked;
+    } else {
+      func = this.props.addClicked;
+    }
+    this.setState({ chosen: !this.state.chosen });
+    console.log(func, 'func');
+    func();
+  };
+  render() {
+    let toppingClasses = [
+      classes.Topping,
+      this.state.chosen || this.props.chosen ? classes.Chosen : null,
+    ].join(' ');
+    if (this.props.active === false) {
+      toppingClasses = [classes.NotActive, classes.Topping].join(' ');
+    }
+    const toppingImage = require(`../../../../assets/images/toppings/${this.props.image}`);
+    return (
+      <div className={['col-md-4', classes.BuildControl].join(' ')} disabled>
+        <div
+          className={toppingClasses}
+          style={{ backgroundImage: 'url(' + toppingImage + ')' }}
+          onClick={() => this.toppingClickedHandler(this.props.active)}
+        ></div>
+        <h6>{this.props.title}</h6>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default BuildControl;
