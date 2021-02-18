@@ -12,7 +12,9 @@
   box-sizing: border-box;
   display: block;
 }
-
+.NavigationItem:hover {
+  cursor: pointer;
+}
 @media (min-width: 500px) {
   .NavigationItem {
     margin: 0;

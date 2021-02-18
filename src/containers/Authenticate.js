@@ -7,9 +7,17 @@ function Authenticate(props) {
   var urlParams = new URLSearchParams(window.location.search);
   let redirectTo = urlParams.get('redirectTo');
   return (
-    <div className={classes.Authenticate}>
-      <LogIn redirectTo={redirectTo} />
-      <NewUser redirectTo={redirectTo} />
+    <div className={['container', classes.Authenticate].join(' ')}>
+      <div className='row'>
+        <div className='col-md-2'></div>
+        <div className='col-md-4'>
+          <NewUser redirectTo={redirectTo} />
+        </div>
+        <div className='col-md-4'>
+          <LogIn redirectTo={redirectTo} />
+        </div>
+        <div className='col-md-2'></div>
+      </div>
     </div>
   );
 }

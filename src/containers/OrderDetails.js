@@ -7,6 +7,7 @@ import * as cartActions from '../store/actions/cart';
 import * as authActions from '../store/actions/auth';
 import Input from '../components/UI/Input/Input';
 import { checkValidity } from '../shared/validate';
+import { sendEmail } from '../shared/Email';
 
 class OrderDetails extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class OrderDetails extends Component {
         },
         phone: {
           required: true,
-          regExc: /\b\d{3}[-]?\d{3}[-]?\d{4}|\d{2}[-]?\d{3}[-]?\d{4}|\d{1}[-]?\d{3}[-]?\d{6}|\d{1}[-]?\d{3}[-]?\d{2}[-]?\d{2}[-]?\d{2}|\*{1}?\d{2,5}\b/g,
+          regExc: /\b\d{3}[-]?\d{3}[-]?\d{4}|\d{2}[-]?\d{3}[-]?\d{4}|\d{1}[-]?\d{3}[-]?\d{6}|\d{1}[-]?\d{3}[-]?\d{2}[-]?\d{2}[-]?\d{2}|\*{1}?\d{2,5}\b/,
         },
         address: { required: true, minLength: 2, maxLength: 20 },
         email: {
@@ -68,9 +69,11 @@ class OrderDetails extends Component {
             label: type.deliveryDescription,
           };
         });
+        console.log('options', options[options.length - 1]);
         this.setState({ deliverySelects: options });
         this.setState({ deliveryTypes: res.data });
         this.setState({ deliverySelected: options[options.length - 1] });
+        this.setState({ deliveryType: options[options.length - 1].value });
       })
       .catch((err) => {
         console.log(err);
@@ -101,6 +104,7 @@ class OrderDetails extends Component {
               email: res.data.email,
               address: res.data.address,
             },
+            isValidForm: true,
           });
         })
         .catch((err) => {
@@ -133,13 +137,12 @@ class OrderDetails extends Component {
   };
   setupOrder = (userId) => {
     let newOrderItems = JSON.parse(localStorage.getItem('cartItems'));
-
+    console.log('cart Items1', JSON.parse(localStorage.getItem('cartItems')));
     newOrderItems = newOrderItems.map((item) => {
       let newToppings = Object.values(item.toppings).map((top) => {
         return {
           toppingId: top.toppingId,
           price: top.price,
-          amount: top.amount,
         };
       });
       return {
@@ -154,25 +157,65 @@ class OrderDetails extends Component {
     const order = {
       deliveryTypeId: this.state.deliveryType,
       orderItems: newOrderItems,
-      finalPrice: this.state.deliveryPrice + 100,
+      finalPrice: this.state.deliveryPrice + this.props.finalPrice,
       clientId: userId,
     };
-
+    console.log('newOrderItems', newOrderItems);
     axios
       .post('order/order', order, {
         headers: { Authorization: `Bearer ${this.props.token}` },
       })
       .then((res) => {
-        console.log(res.data);
+        this.sendingEmails();
+        this.props.onPay();
       })
       .catch((err) => {
         console.log(err);
       });
 
-    this.props.onPay();
     alert('...ההזמנה בדרך אליך :)');
   };
 
+  sendingEmails = () => {
+    const dreamCream = 'Dream Cream';
+    const subject = 'ההזמנה שלך התקבלה';
+    const paragraph = `<br />ההזמנה שלך התקבלה באתר בהצלחה.<br />בקרוב יגיע אליך שליח.<br /> תודה שבחרת לקנות אצלינו ${dreamCream}`;
+    const space = '<br /><br />המוצרים שהזמנת:<br />';
+    let body = JSON.parse(localStorage.getItem('cartItems'))
+      .map((item) => {
+        const toppings = item.toppings
+          .map((top) => {
+            return top.toppingName;
+          })
+          .join('<br />');
+        let arr = [
+          '<b>' + item.product.productName + ':</b>',
+          toppings,
+          'גודל: ' + item.size.sizeName,
+          'כמות:' + item.amount,
+        ];
+        return arr.join('<br />');
+      })
+      .join('<br />');
+    body +=
+      '<br /><br /> סוג משלוח: ' +
+      this.state.deliveryTypes.find((del) => {
+        return del.deliveryTypeId === this.state.deliverySelected.value;
+      }).deliveryDescription;
+    body += '<br /> כתובת: ' + this.state.user.address;
+    let price = this.state.deliveryPrice + this.props.finalPrice;
+    body += '<br /> מחיר סופי: ' + price;
+    sendEmail(
+      this.state.user.email,
+      subject,
+      paragraph + '' + space + '' + body
+    );
+    sendEmail(
+      process.env.REACT_APP_MANAGER_EMAIL,
+      subject,
+      paragraph + '' + space + '' + body
+    );
+  };
   submitHandler = (event) => {
     event.preventDefault();
 
@@ -200,6 +243,7 @@ class OrderDetails extends Component {
           console.log(err);
         });
     } else {
+      console.log('else');
       this.setupOrder(this.state.user.userId);
     }
   };
@@ -214,6 +258,7 @@ class OrderDetails extends Component {
   };
 
   render() {
+    console.log('this.state.deliverySelected', this.state.deliverySelected);
     return (
       <div className={classes.OrderDetails}>
         <h2>פרטים אישיים להזמנה</h2>
@@ -276,10 +321,15 @@ class OrderDetails extends Component {
             </label>
             <DeliveryTypes
               delTypes={this.state.deliverySelects}
-              handleSelectChange={(selectedOption) =>
-                this.handleSelectChange(selectedOption)
+              handleSelectChange={(selectedOption) => {
+                console.log('selectedOption', selectedOption);
+                this.handleSelectChange(selectedOption);
+              }}
+              value={
+                this.state.deliverySelected !== null
+                  ? this.state.deliverySelected
+                  : null
               }
-              value={this.state.deliverySelected}
             />
             <p style={{ fontWeight: 600 }}>
               {`מחיר המשלוח: ${this.state.deliveryPrice}`}
@@ -316,6 +366,7 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.token !== null,
     token: state.auth.token,
     userId: state.auth.userId,
+    finalPrice: state.cart.finalPrice,
   };
 };
 const mapDispatchToProps = (dispatch) => {

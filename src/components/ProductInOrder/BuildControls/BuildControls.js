@@ -1,8 +1,5 @@
 import classes from '../../../css/BuildControls.module.css';
 import React, { Component } from 'react';
-import ToppingsButton from './ToppingsButton/ToppingsButton';
-import { Link } from 'react-router-dom';
-import axios from '../../../axios';
 import ToppingsByCatg from '../ToppingsByCatg';
 
 class BuildControls extends Component {
@@ -14,8 +11,8 @@ class BuildControls extends Component {
           <ToppingsByCatg
             key={index}
             categoryForToppings={category}
-            removeTopping={this.props.removeTopping}
             addTopping={this.props.addTopping}
+            removeTopping={this.props.removeTopping}
             toppingsCatgs={this.props.toppingsCatgs}
             toppings={this.props.toppings}
           />

@@ -1,3 +1,4 @@
+/*
 .OurProducts {
   width: 100%;
   display: flex;
@@ -11,4 +12,11 @@
   padding: 0 20%;
   justify-content: space-between;
   align-items: center;
+}*/
+.Bg {
+  width: 100%;
+  background-color: var(--green-color);
+  color: var(--bg-color);
+  padding: 5rem !important;
+  margin-bottom: 3rem;
 }

@@ -6,7 +6,7 @@ import { Component } from 'react';
 class ForgetPassword extends Component {
   state = {
     userName: '',
-    emai: '',
+    email: '',
   };
   handleChange = (input) => (e) => {
     e.preventDefault();
@@ -18,19 +18,10 @@ class ForgetPassword extends Component {
         <h2>קבלת סיסמה חדשה למייל</h2>
         <form className={classes.Form}>
           <Input
-            type='text'
-            name='userName'
-            inputtype='input'
-            label='שם משתמש'
-            value={this.state.userName}
-            onChange={this.handleChange('userName')}
-          />
-
-          <Input
             type='email'
             name='email'
             inputtype='input'
-            label='מייל'
+            label='הכנס כתובת אימייל'
             value={this.state.email}
             onChange={this.handleChange('email')}
           />

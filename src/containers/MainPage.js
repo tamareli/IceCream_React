@@ -10,12 +10,10 @@ export class MainPage extends Component {
   }
   render() {
     return (
-      <div className={classes.MainPage}>
+      <div className={['container', classes.MainPage].join(' ')}>
         <div className={classes.ImageContainer}></div>
         <h1 className={classes.Header}>Choose your favorite toppings</h1>
-        <div className={classes.Container}>
-          <Categories categories={this.props.categories} />
-        </div>
+        <Categories categories={this.props.categories} />
       </div>
     );
   }

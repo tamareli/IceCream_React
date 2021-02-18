@@ -10,11 +10,10 @@ const initialState = {
   toppingsForCatgsLoading: true,
   sizes: [],
   freeToppingsAmount: {
-    // should be getting from an api to a certain product,
     sauces: 0,
     others: 0,
   },
-  toppings: null, //toppings id:{...},id:{...}
+  toppings: [], //toppings id:{...},id:{...}
   selectedSize: null,
   startingPrice: 0,
   toppingsPrice: 0,
@@ -26,54 +25,83 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.INIT_PRODUCT_BUILDER:
+      return {
+        category: null,
+        products: null,
+        product: null,
+        toppingsCatgs: [],
+        toppingsCatgsLoading: false,
+        toppingsForCatgs: [],
+        toppingsForCatgsLoading: false,
+        sizes: [],
+        freeToppingsAmount: {
+          sauces: 0,
+          others: 0,
+        },
+        toppings: [], //toppings id:{...},id:{...}
+        selectedSize: null,
+        startingPrice: 0,
+        toppingsPrice: 0,
+        toppingsAmount: {
+          sauces: 0, //רטבים
+          others: 0, // תוספות
+        },
+      };
     case actionTypes.ADD_TOPPING:
       let amount = 0;
-      if (action.amount === 1) amount = 1;
-      else {
-        if (state.toppings[action.toppingId].amount === 0) amount = 0;
-        else amount = -1;
+      let toppings = state.toppings;
+      if (action.amount === 1) {
+        amount = 1;
+        toppings.push(action.topping);
+      } else {
+        amount = -1;
+        toppings = toppings.filter(
+          (obj) => obj.toppingId !== action.topping.toppingId
+        );
       }
       return {
         ...state,
-        toppings: {
-          ...state.toppings,
-          [action.toppingId]: {
-            ...state.toppings[action.toppingId],
-            amount: state.toppings[action.toppingId].amount + amount,
-          },
-        },
+        toppings: toppings,
         toppingsAmount: {
           ...state.toppingsAmount,
-          [state.toppings[action.toppingId].categoryType]:
-            state.toppingsAmount[
-              state.toppings[action.toppingId].categoryType
-            ] + amount,
+          [action.topping.categoryType]:
+            state.toppingsAmount[action.topping.categoryType] + amount,
         },
       };
     case actionTypes.UPDATE_PRICE_ADD:
+      let topping = state.toppings.filter(
+        (top) => top.toppingId === action.toppingId
+      )[0];
+      console.log('topping', topping);
       let price = 0;
       if (
-        state.toppingsAmount[state.toppings[action.toppingId].categoryType] >
-        state.freeToppingsAmount[state.toppings[action.toppingId].categoryType]
-      )
-        price = state.toppings[action.toppingId].price;
+        state.toppingsAmount[topping.categoryType] >
+        state.freeToppingsAmount[topping.categoryType]
+      ) {
+        price = topping.price;
+      }
+
       return {
         ...state,
         toppingsPrice: state.toppingsPrice + price,
       };
     case actionTypes.UPDATE_PRICE_REMOVE:
-      let price2 = 0;
+      let priceR = 0;
+      let toppingR = state.toppings.filter(
+        (top) => top.toppingId === action.toppingId
+      )[0];
       if (
-        state.toppingsAmount[state.toppings[action.toppingId].categoryType] >=
-        state.freeToppingsAmount[state.toppings[action.toppingId].categoryType]
-      )
-        price2 = state.toppings[action.toppingId].price;
+        state.toppingsAmount[toppingR.categoryType] >
+        state.freeToppingsAmount[toppingR.categoryType]
+      ) {
+        priceR = toppingR.price;
+      }
       return {
         ...state,
-        toppingsPrice: state.toppingsPrice - price2,
+        toppingsPrice: state.toppingsPrice - priceR,
       };
-    case actionTypes.ADD_TOPPING:
-      return state;
+
     case actionTypes.SET_CATEGORY:
       return {
         ...state,
@@ -107,17 +135,20 @@ const reducer = (state = initialState, action) => {
         toppingsForCatgsLoading: false,
       };
     case actionTypes.SET_SIZES:
-      return {
-        ...state,
-        sizes: action.sizes,
-        selectedSize: action.sizes[0],
-        startingPrice: action.sizes[0].price,
-      };
-    case actionTypes.SET_TOPPINGS:
-      return {
-        ...state,
-        toppings: action.toppings,
-      };
+      let size = state.selectedSize;
+      if (size === null) {
+        return {
+          ...state,
+          sizes: action.sizes,
+          selectedSize: action.sizes[0],
+          startingPrice: action.sizes[0].price,
+        };
+      } else {
+        return {
+          ...state,
+          sizes: action.sizes,
+        };
+      }
     case actionTypes.SET_SELECTED_SIZE:
       return {
         ...state,
@@ -133,6 +164,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         toppingsForCatgsLoading: action.loading,
+      };
+    case actionTypes.SET_TOPPINGS:
+      return {
+        ...state,
+        toppings: action.toppings,
       };
   }
   return state;
