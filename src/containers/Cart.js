@@ -29,13 +29,20 @@ class OrdersSummary extends Component {
             </div>
           ) : (
             <>
-              <Pay path={path} length={this.props.cartItems.length} />
+              <Pay
+                path={path}
+                length={this.props.cartItems.length}
+                finalPrice={this.props.finalPrice}
+              />
 
               <CartItems
                 cartItems={this.props.cartItems}
                 deleteItem={this.props.deleteItem}
                 updateOrderAmount={this.props.updateOrderAmount}
                 updateOrderAmount={this.props.updateOrderAmount}
+                setEditToTrue={this.props.setEditToTrue}
+                setEditToFalse={this.props.setEditToFalse}
+                editClicked={this.props.editClicked}
               />
             </>
           )}
@@ -48,7 +55,9 @@ class OrdersSummary extends Component {
 const mapStateToProps = (state) => {
   return {
     cartItems: state.cart.cartItems,
+    finalPrice: state.cart.finalPrice,
     isAuthenticated: state.auth.token !== null,
+    editClicked: state.cart.editClicked,
   };
 };
 const mapDispatcToProps = (dispatch) => {
@@ -57,6 +66,8 @@ const mapDispatcToProps = (dispatch) => {
       dispatch(cartActions.deleteOrder(orders, index)),
     updateOrderAmount: (orders, index, amount) =>
       dispatch(cartActions.updateOrderAmount(orders, index, amount)),
+    setEditToTrue: () => dispatch(cartActions.setEditTrue()),
+    setEditToFalse: () => dispatch(cartActions.setEditFalse()),
   };
 };
 export default connect(mapStateToProps, mapDispatcToProps)(OrdersSummary);

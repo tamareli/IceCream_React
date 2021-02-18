@@ -7,7 +7,7 @@ import { Component } from 'react';
 class categories extends Component {
   render() {
     return (
-      <>
+      <div className='row'>
         {this.props.categories.map((category) => {
           return (
             <Link
@@ -15,7 +15,8 @@ class categories extends Component {
               to={{
                 pathname: '/products/' + category.categoryId,
               }}
-              style={{ textDecoration: 'none', width: '30%' }}
+              style={{ textDecoration: 'none' }}
+              className='col-md-4'
             >
               <Category
                 name={category.categoryName}
@@ -24,7 +25,7 @@ class categories extends Component {
             </Link>
           );
         })}
-      </>
+      </div>
     );
   }
 }

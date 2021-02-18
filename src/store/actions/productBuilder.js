@@ -1,6 +1,11 @@
 import * as actionTypes from '../actionTypes/productBuilder';
 import axios from '../../axios';
 
+export const initProductBuilder = () => {
+  return {
+    type: actionTypes.INIT_PRODUCT_BUILDER,
+  };
+};
 const setCategory = (category) => {
   return {
     type: actionTypes.SET_CATEGORY,
@@ -127,7 +132,7 @@ export const initFreeToppingsAmount = () => {
     type: actionTypes.SET_FREE_TOPPINGS_AMOUNT,
   };
 };
-const setToppings = (toppings) => {
+export const initToppings = (toppings) => {
   return {
     type: actionTypes.SET_TOPPINGS,
     toppings: toppings,
@@ -138,28 +143,11 @@ const arrayToObject = (array) =>
     obj[item.toppingId] = item;
     return obj;
   }, {});
-export const initToppings = (catgId) => {
-  return (dispatch) => {
-    axios
-      .get('topping/toppingsByCatgProduct/' + catgId)
-      .then((res) => {
-        const updatedToppings = res.data.map((topping) => {
-          return {
-            ...topping,
-            amount: 0,
-          };
-        });
-        const toppingsObject = arrayToObject(updatedToppings);
-        dispatch(setToppings(toppingsObject));
-      })
-      .catch((err) => console.log(err));
-  };
-};
 
-export const addToppping = (toppingId, amount) => {
+export const addToppping = (topping, amount) => {
   return {
     type: actionTypes.ADD_TOPPING,
-    toppingId: toppingId,
+    topping: topping,
     amount: amount,
   };
 };
@@ -175,13 +163,7 @@ export const updatePriceRemove = (toppingId) => {
     toppingId: toppingId,
   };
 };
-export const removeTopping = (toppingId, catgId) => {
-  return {
-    type: actionTypes.REMOVE_TOPPING,
-    toppingId: toppingId,
-    catgId: catgId,
-  };
-};
+
 export const setSelectedSize = (size) => {
   return {
     type: actionTypes.SET_SELECTED_SIZE,

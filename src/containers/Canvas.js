@@ -6,10 +6,10 @@ class Canvas extends Component {
     ctx: null,
     imgWidth: 150,
     imgHeight: 100,
-    paddingLeft: 100,
-    paddingRight: 50,
+    paddingLeft: 50,
+    paddingRight: 30,
     paddingTop: 100,
-    paddingBottom: 50,
+    paddingBottom: 100,
   };
   componentDidMount() {
     const canvas = this.refs.canvas;
@@ -37,9 +37,14 @@ class Canvas extends Component {
         ) {
           for (
             let j = paddingLeft;
-            j <= context.canvas.width - (paddingRight + imgWidth);
-            j += 150
+            j <= context.canvas.width - (paddingRight + imgWidth + 100);
+            j += 130
           ) {
+            console.log('indexhh', index);
+            if (index === 3) {
+              console.log(3);
+              j += 65;
+            }
             array.push({ x: j, y: i });
             index++;
           }
@@ -63,8 +68,8 @@ class Canvas extends Component {
       <div>
         <div
           style={{
-            width: '600px',
-            height: '480px',
+            width: '500px',
+            height: '400px',
             backgroundImage: 'url(' + this.props.productImagePath + ')',
             backgroundPosition: 'center',
             backgroundSize: 'cover',

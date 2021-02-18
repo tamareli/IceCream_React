@@ -8,23 +8,15 @@ class Product extends Component {
   render() {
     let transformedToppings = null;
     if (this.props.toppings) {
-      transformedToppings = Object.keys(this.props.toppings)
-        .map((igKey) => {
-          return [...Array(this.props.toppings[igKey]['amount'])].map(
-            (_, index) => {
-              return {
-                key: igKey + '' + index,
-                reference: igKey + '' + index,
-                image: require(`../../assets/images/toppings/${this.props.toppings[igKey].image}`),
-              };
-            }
-          );
-        })
-        .reduce((arr, el) => {
-          return arr.concat(el);
-        }, []);
+      transformedToppings = this.props.toppings.map((topping) => {
+        return {
+          key: topping.toppingId,
+          reference: topping.toppingId,
+          image: require(`../../assets/images/toppings/${topping.image}`),
+        };
+      });
     }
-
+    console.log('toppings from productInOrder', this.props.toppings);
     let pname = null;
     let productImage = null;
     if (this.props.product) {

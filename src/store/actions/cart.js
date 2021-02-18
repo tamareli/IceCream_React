@@ -2,21 +2,49 @@ import * as actionTypes from '../actionTypes/cart';
 
 export const addOrder = (orders, newOrder) => {
   return (dispatch) => {
-    let exist = checkAndUpdateExistingOrder(orders, newOrder, dispatch);
-    console.log(exist);
-
-    if (exist === true) {
+    let returnedObj = editOrder(orders, newOrder);
+    orders = returnedObj.orders;
+    if (!returnedObj.edited) {
+      let exist = checkAndUpdateExistingOrder(orders, newOrder, dispatch);
       console.log(exist);
-      return;
+      if (exist === true) {
+        console.log(exist);
+        return;
+      }
+      localStorage.setItem(
+        'cartItems',
+        JSON.stringify(orders.concat(newOrder))
+      );
+    } else {
+      localStorage.setItem('cartItems', JSON.stringify(orders));
     }
-    localStorage.setItem('cartItems', JSON.stringify(orders.concat(newOrder)));
     dispatch({ type: actionTypes.ADD_TO_CART });
   };
+};
+const editOrder = (orders, newOrder) => {
+  let foundIndex = orders.findIndex((x) => x.id == newOrder.id);
+  let edited = false;
+  if (foundIndex !== -1 && orders.length !== 0) {
+    orders[foundIndex] = newOrder;
+    edited = true;
+  }
+
+  return { orders: orders, edited: edited };
 };
 export const clearCart = () => {
   return (dispatch) => {
     localStorage.removeItem('cartItems');
     dispatch({ type: actionTypes.CLEAR_CART });
+  };
+};
+export const setEditTrue = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.EDIT_TRUE });
+  };
+};
+export const setEditFalse = () => {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.EDIT_FALSE });
   };
 };
 export const deleteOrder = (orders, index) => {
@@ -47,7 +75,6 @@ const checkAndUpdateExistingOrder = (orders, newOrder, dispatch) => {
   let newOrderToCompare = {
     product: newOrder.product,
     price: newOrder.price,
-    toppings: newOrder.toppings,
     size: newOrder.size,
   };
   let flag = false;
@@ -55,14 +82,26 @@ const checkAndUpdateExistingOrder = (orders, newOrder, dispatch) => {
     let orderToCompare = {
       product: element.product,
       price: element.price,
-      toppings: element.toppings,
       size: element.size,
     };
     if (JSON.stringify(orderToCompare) === JSON.stringify(newOrderToCompare)) {
-      dispatch(updateOrderAmount(orders, index, 1));
-      flag = true;
-      return;
+      if (equalArrays(element.toppings, newOrder.toppings)) {
+        dispatch(updateOrderAmount(orders, index, 1));
+        flag = true;
+        return;
+      }
     }
   });
   return flag;
 };
+function equalArrays(a, b) {
+  if (a.length !== b.length) return false;
+  const ser = (o) =>
+    JSON.stringify(
+      Object.keys(o)
+        .sort()
+        .map((k) => [k, o[k]])
+    );
+  a = new Set(a.map(ser));
+  return b.every((o) => a.has(ser(o)));
+}

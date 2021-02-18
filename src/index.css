@@ -2,16 +2,29 @@
 :root {
   --brown-color: rgba(66, 28, 28, 0.815);
   --brown-color-dark: rgb(66, 28, 28);
-  --green-color: #b5e7bb;
+  /*--green-color: #8cb8a6;*/
+  --green-color: #8cb8a6;
+  --pink-color: #ec6f77;
+  --bg-color: rgb(243, 233, 215);
+  --box-shadow-light: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 5px 8px -8px;
 }
 * {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   text-decoration: none;
   box-sizing: border-box;
-  color: var(--brown-color);
+}
+hr {
+  height: 6px;
+  background: url(http://ibrahimjabbari.com/images/hr-12.png) repeat-x 0 0;
+  border: 0;
+}
+a {
+  color: inherit !important;
+  text-decoration: none !important;
 }
 .active {
-  color: #7ddb88;
+  color: #7ddb88 !important;
   text-shadow: 2px 2px 5px rgba(57, 131, 27, 0.41);
 }
 body {
@@ -19,7 +32,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
-  background-color: rgb(243, 233, 215);
+  background-color: var(--bg-color);
   /*background-image: url('./assets/images/bricks-1044659_1920.jpg');*/
   background-size: cover;
   background-position: center;
