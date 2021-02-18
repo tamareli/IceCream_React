@@ -29,7 +29,11 @@ class OrdersSummary extends Component {
             </div>
           ) : (
             <>
-              <Pay path={path} length={this.props.cartItems.length} />
+              <Pay
+                path={path}
+                length={this.props.cartItems.length}
+                finalPrice={this.props.finalPrice}
+              />
 
               <CartItems
                 cartItems={this.props.cartItems}
@@ -51,6 +55,7 @@ class OrdersSummary extends Component {
 const mapStateToProps = (state) => {
   return {
     cartItems: state.cart.cartItems,
+    finalPrice: state.cart.finalPrice,
     isAuthenticated: state.auth.token !== null,
     editClicked: state.cart.editClicked,
   };

@@ -10,6 +10,7 @@ import SignIn from './components/Authentication/SignIn/SignIn';
 import OrdersSummary from './containers/Cart';
 import AboutUs from './containers/AboutUs';
 import Contact from './containers/Contact';
+import Orders from './containers/Orders';
 import Logout from './components/Authentication/Logout/Logout';
 import OurProducts from './containers/OurProducts';
 import { BrowserRouter, Route, withRouter } from 'react-router-dom';
@@ -34,7 +35,7 @@ class App extends Component {
           <Route path='/Authenticate' exact component={Authenticate} />
           <Route path='/Logout' exact component={Logout} />
           <Route path='/ourProducts' exact component={OurProducts} />
-
+          <Route path='/orders' exact component={Orders} />
           <Route path='/SignIn' exact component={SignIn} />
           <Route path='/OrdersSummary' exact component={OrdersSummary} />
           <Route path='/OrderDetails' exact component={OrderDetails} />

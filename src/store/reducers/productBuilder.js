@@ -52,8 +52,10 @@ const reducer = (state = initialState, action) => {
       let amount = 0;
       let toppings = state.toppings;
       if (action.amount === 1) {
+        amount = 1;
         toppings.push(action.topping);
       } else {
+        amount = -1;
         toppings = toppings.filter(
           (obj) => obj.toppingId !== action.topping.toppingId
         );
@@ -70,13 +72,16 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_PRICE_ADD:
       let topping = state.toppings.filter(
         (top) => top.toppingId === action.toppingId
-      );
+      )[0];
+      console.log('topping', topping);
       let price = 0;
       if (
         state.toppingsAmount[topping.categoryType] >
         state.freeToppingsAmount[topping.categoryType]
-      )
+      ) {
         price = topping.price;
+      }
+
       return {
         ...state,
         toppingsPrice: state.toppingsPrice + price,
@@ -85,12 +90,13 @@ const reducer = (state = initialState, action) => {
       let priceR = 0;
       let toppingR = state.toppings.filter(
         (top) => top.toppingId === action.toppingId
-      );
+      )[0];
       if (
-        state.toppingsAmount[toppingR.categoryType] >=
+        state.toppingsAmount[toppingR.categoryType] >
         state.freeToppingsAmount[toppingR.categoryType]
-      )
+      ) {
         priceR = toppingR.price;
+      }
       return {
         ...state,
         toppingsPrice: state.toppingsPrice - priceR,

@@ -73,8 +73,9 @@ class ProductBuilder extends Component {
   };
 
   removeToppingHandler = (topping) => {
-    this.props.addTopping(topping, -1);
     this.props.updatePriceRemove(topping.toppingId);
+
+    this.props.addTopping(topping, -1);
   };
   render() {
     if (

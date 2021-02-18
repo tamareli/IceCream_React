@@ -11,8 +11,13 @@ class OurProducts extends Component {
   render() {
     return (
       <div className={['container', classes.OurProducts].join(' ')}>
-        <div className='row'>
-          <h2 className='text-center'>הרכב/י לך מנה עם התוספות האהובות עליך</h2>
+        <div
+          className={['row', classes.Bg].join(' ')}
+          style={{ paddingTop: '4rem' }}
+        >
+          <h1 className='text-center' style={{ fontWeight: '600' }}>
+            הרכב/י לך מנה עם התוספות האהובות עליך
+          </h1>
         </div>
         <Categories categories={this.props.categories} />
       </div>

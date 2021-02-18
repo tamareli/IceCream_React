@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import * as AuthActions from '../../../store/actions/auth';
 import Input from '../../UI/Input/Input';
 import { checkValidity } from '../../../shared/validate';
+import { sendEmail } from '../../../shared/Email';
 
 class SignIn extends Component {
   state = {
+    emailError: null,
     user: {
       firstName: '',
       lastName: '',
@@ -80,14 +82,26 @@ class SignIn extends Component {
     axios
       .post('user/register', this.state.user)
       .then((res) => {
-        alert('ברוכה הבאה!');
+        this.setState({ emailError: null });
+        alert('ברוכה הבאה');
         this.props.onAuth(this.state.user.email, this.state.user.password);
       })
+      .then(() => {
+        const dreamCream = 'Dream Cream';
+        const subject = 'ברוכה הבאה מDream Cream';
+        const body = ` <br /> ${this.state.user.firstName} היי ,<br /> ברוכה הבאה לאתר שלנו.<br /> אנו שמחים שהצטרפת לקהל לקחותינו המרוצים ומקווים שתהנה.<br /> ${dreamCream} מציעה חווית קניה יוצאת דופן ומגוון עשיר ונרחב של מוצרים. </ br>אנחנו פה לשירותכם לכל שאלה ומבטיחים מענה זריז ומהיר. <br />צוות ${dreamCream}<br />`;
+        sendEmail(this.state.user.email, subject, body);
+      })
       .catch((err) => {
-        console.log(err);
+        console.log('from catch', err.response.data.Message);
+        this.setState({ emailError: err.response.data.Message });
       });
   };
+
   render() {
+    console.log(this.state.emailError);
+    let error = null;
+    error = <p style={{ color: 'red' }}>{this.state.emailError}</p>;
     var urlParams = new URLSearchParams(window.location.search);
     let redirectTo = urlParams.get('redirectTo');
     let path = '/';
@@ -162,6 +176,7 @@ class SignIn extends Component {
               touched={this.state.userValid.email.touched.toString()}
               errmessage={this.state.userValid.email.errmessage}
             />
+            {error}
             <Input
               type='password'
               name='password'

@@ -66,14 +66,20 @@ class OrderSummary extends Component {
       </div>
     );
     let buttons = (
-      <div className={classes.Buttons}>
+      <div>
         {' '}
-        <Link to='/OrdersSummary'>
-          <button className={classes.Button}>קופה</button>
-        </Link>
-        <Link to='/'>
-          <button className={classes.Button}>המשך קניה</button>
-        </Link>
+        <div>
+          <p>המוצר התווסף לסל בהצלחה</p>
+          <hr />
+        </div>
+        <div className={classes.Buttons}>
+          <Link to='/OrdersSummary'>
+            <button className={classes.Button}>קופה</button>
+          </Link>
+          <Link to='/'>
+            <button className={classes.Button}>המשך קניה</button>
+          </Link>
+        </div>
       </div>
     );
     return (

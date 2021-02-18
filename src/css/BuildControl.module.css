@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 .Chosen {
-  border: 3px solid var(--green-color);
+  border: 5px solid var(--green-color);
 }
 .BuildControl button {
   margin: 0.5rem;
