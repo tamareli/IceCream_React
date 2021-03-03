@@ -13,6 +13,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-bottom: 1rem;
 }
 .Size {
   width: 30%;
@@ -32,13 +33,11 @@
 }
 .Size:hover {
   cursor: pointer;
-  border-radius: 15px;
-  box-shadow: 0 0 6px 1px var(--green-color);
 }
 .Active {
   cursor: pointer;
-  border-radius: 15px;
-  box-shadow: 0 0 6px 1px var(--green-color);
+  color: var(--green-color);
+  font-weight: 600;
 }
 .Btn {
   margin: 1rem;
@@ -47,7 +46,7 @@
   text-align: center;
   font-size: 1.1rem;
   border-radius: 50px;
-  background-color: #9ce0a4;
+  background-color: var(--green-color);
   border: 3px solid var(--brown-color);
   color: var(--brown-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

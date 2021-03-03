@@ -1,30 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500&display=swap');*/
+@import '~react-image-gallery/styles/css/image-gallery.css';
 :root {
   --brown-color: rgba(66, 28, 28, 0.815);
+  --brown-color-light: rgba(66, 45, 28, 0.527);
+
   --brown-color-dark: rgb(66, 28, 28);
   /*--green-color: #8cb8a6;*/
   --green-color: #8cb8a6;
+  --light-green-color: #8cb8a69f;
+  --lighter-green-color: #8cb8a64b;
   --pink-color: #ec6f77;
+  --light-pink-color: #ec6f779c;
+  --lighter-pink-color: #ec6f775b;
   --bg-color: rgb(243, 233, 215);
+  --light-bg-color: rgba(243, 233, 215, 0.527);
+  --green-color-email: #8cb8a69f;
+  --light-green-color-email: #b3d4c69f;
+  --bg-color-email: rgb(243, 233, 215);
+
   --box-shadow-light: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
     rgba(0, 0, 0, 0.3) 0px 5px 8px -8px;
 }
 * {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+  /*font-family: 'M PLUS Rounded 1c', sans-serif;*/
   text-decoration: none;
   box-sizing: border-box;
 }
-hr {
-  height: 6px;
-  background: url(http://ibrahimjabbari.com/images/hr-12.png) repeat-x 0 0;
-  border: 0;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+button,
+label,
+i {
+  color: var(--brown-color);
 }
+hr {
+  border: 0 !important;
+  height: 1px !important;
+  width: 100%;
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  ) !important;
+  background-color: transparent !important;
+  opacity: 0.8;
+}
+
 a {
   color: inherit !important;
   text-decoration: none !important;
 }
+p {
+  font-size: 18px;
+}
 .active {
-  color: #7ddb88 !important;
+  color: var(--green-color) !important;
   text-shadow: 2px 2px 5px rgba(57, 131, 27, 0.41);
 }
 body {
@@ -33,14 +70,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   background-color: var(--bg-color);
-  /*background-image: url('./assets/images/bricks-1044659_1920.jpg');*/
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-body::after {
-  content: '';
 }
 
 code {
@@ -73,13 +102,13 @@ img {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--brown-color);
+  background-color: var(--brown-color-light);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--brown-color);
+  background-color: var(--brown-color-light);
 }
 .bold {
   font-weight: 600;
@@ -89,5 +118,80 @@ img {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  flex-direction: column;
+  flex-direction: row;
+}
+h2 {
+  padding-bottom: 0.5rem !important;
+}
+.PinkWhiteButton {
+  padding: 0.6rem 2rem;
+  background-color: white;
+  color: rgb(66, 28, 28);
+  text-align: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  position: relative;
+  margin: 0.5rem;
+  border: 2px solid var(--pink-color);
+  box-shadow: 5px 5px var(--light-pink-color);
+}
+.PinkWhiteButton:hover {
+  background-color: var(--pink-color) !important;
+  color: white;
+  cursor: pointer;
+}
+.GreenWhiteButton {
+  padding: 0.6rem 2rem;
+  background-color: white;
+  color: rgb(66, 28, 28);
+  text-align: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  position: relative;
+  margin: 0.5rem;
+  border: 2px solid var(--green-color);
+  box-shadow: 5px 5px var(--light-green-color);
+}
+.GreenWhiteButton:hover {
+  background-color: var(--green-color) !important;
+  color: white;
+  cursor: pointer;
+}
+.container {
+  margin-left: 2.5vw !important;
+  margin-right: 2.5vw !important;
+  box-sizing: border-box;
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 95vw;
+  }
+}
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+  max-height: 78vh !important;
+}
+.image-gallery-slide .image-gallery-image {
+  width: 100%;
+  object-fit: cover !important;
+}
+.bullet {
+  background-color: pink;
+  border: 1px solid var(--bg-color);
+}
+.image-gallery-icon {
+  color: var(--bg-color) !important;
+}
+.image-gallery-icon:hover {
+  color: var(--bg-color);
+}
+.image-gallery-bullets .image-gallery-bullet {
+  border: 1px solid var(--bg-color);
+}
+.image-gallery-bullets .image-gallery-bullet.active {
+  background-color: var(--bg-color);
+}
+
+.image-gallery-bullets .image-gallery-bullet:focus,
+.image-gallery-bullets .image-gallery-bullet:hover {
+  background-color: var(--green-color);
 }

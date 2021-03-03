@@ -40,9 +40,7 @@ class Canvas extends Component {
             j <= context.canvas.width - (paddingRight + imgWidth + 100);
             j += 130
           ) {
-            console.log('indexhh', index);
             if (index === 3) {
-              console.log(3);
               j += 65;
             }
             array.push({ x: j, y: i });

@@ -15,7 +15,10 @@ class OurProducts extends Component {
           className={['row', classes.Bg].join(' ')}
           style={{ paddingTop: '4rem' }}
         >
-          <h1 className='text-center' style={{ fontWeight: '600' }}>
+          <h1
+            className='text-center'
+            style={{ fontWeight: '600', color: 'var(--bg-color' }}
+          >
             הרכב/י לך מנה עם התוספות האהובות עליך
           </h1>
         </div>

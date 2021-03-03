@@ -1,3 +1,4 @@
+import classes from '../../css/ToppingsByCatg.module.css';
 import React from 'react';
 import BuildControl from './BuildControls/BuildControl/BuildControl';
 
@@ -28,13 +29,19 @@ export default function ToppingsByCatg(props) {
     );
   });
   return (
-    <div className='container'>
-      <h3>{categoryName}</h3>
-      <p className='bold'>
-        {`מחיר ליחידה: ${price}`}
-        <span style={{ padding: 0, margin: 0 }}>&#8362;</span>
-      </p>
-      <div className='row'>{controls}</div>
+    <div className='container' style={{ paddingBottom: '2rem' }}>
+      <div className={classes.Header}>
+        <h3 style={{ paddingBottom: '0' }}>{categoryName}</h3>
+        <p className='bold'>
+          {`מחיר ליחידה: `}
+          <span style={{ padding: 0, margin: 0, fontWeight: '500' }}>
+            &#8362;{price}
+          </span>
+        </p>
+      </div>
+      <div className='row' style={{ paddingTop: '1.5rem' }}>
+        {controls}
+      </div>
     </div>
   );
 }

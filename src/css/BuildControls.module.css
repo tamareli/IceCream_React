@@ -39,11 +39,11 @@
 
 /* Handle */
 .Controls::-webkit-scrollbar-thumb {
-  background-color: var(--brown-color);
+  background-color: var(--brown-color-light);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 .Controls::-webkit-scrollbar-thumb:hover {
-  background-color: var(--brown-color);
+  background-color: var(--brown-color-light);
 }

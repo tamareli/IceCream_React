@@ -18,6 +18,7 @@ export default class DeliveryTypes extends Component {
             control: (provided, state) => ({
               ...provided,
               borderRadius: '15px',
+              backgroundColor: 'var(--lighter-green-color)',
             }),
             menu: (provided, state) => ({
               ...provided,

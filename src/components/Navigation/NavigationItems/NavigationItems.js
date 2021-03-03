@@ -24,7 +24,7 @@ const navigationItems = (props) => (
       </>
     )}
 
-    <NavigationItem link='/ourProducts' activeClass={true}>
+    <NavigationItem link='/Products' activeClass={true}>
       המוצרים שלנו
     </NavigationItem>
 

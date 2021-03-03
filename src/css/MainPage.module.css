@@ -1,73 +1,110 @@
-/*
-
-.ledItemContainer {
-  padding: 1rem 10rem;
-  margin-bottom: 10rem;
-  text-align: left;
-  line-height: 60px;
-}
-.ledItem {
-  font-size: 60px;
-  letter-spacing: 0.6rem;
-  font-family: 'Yellowtail', cursive;
-  color: #fff;
-  padding: 2px;
-  font-weight: 600;
-  width: 300px;
-  height: 300px;
-  margin: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(233, 149, 149, 0.603);
-  border-radius: 50%;
-}
-.icecream {
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #3ef88b, 0 0 20px #3ef88b,
-    0 0 25px #3ef88b, 0 0 30px #3ef88b, 0 0 35px #3ef88b;
-}
-.yogurt {
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #f56c83, 0 0 20px #f56c83,
-    0 0 25px #f56c83, 0 0 30px #f56c83, 0 0 35px #f56c83;
-}
-.fun {
-  text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ee56fc, 0 0 20px #ee56fc,
-    0 0 25px #ee56fc, 0 0 30px #ee56fc, 0 0 35px #ee56fc;
-  line-height: 70px;
-  text-align: left;
-}
-.categories {
-  display: flex;
-  align-items: center;
-}
-*/
 * {
   margin: 0;
   padding: 0;
 }
-/*.MainPage {
+
+.ImageContainer {
+  height: 78vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.ImageContainer::after {
+  content: '';
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  background-color: rgba(51, 38, 19, 0.555);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.Header {
+  width: 100%;
+  text-align: center;
+  background-color: var(--green-color);
+  color: var(--bg-color);
+  padding: 4rem;
+  margin-top: 100px;
+}
+.Header h1,
+.Header p {
+  color: var(--bg-color);
+}
+.Title {
+  font-size: 42px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%; /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+  transform: translate(-50%, -50%);
+  color: var(--bg-color);
+  z-index: 4;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.Container {
-  width: 100%;
-  display: flex;
-  padding: 0 20%;
-  justify-content: space-between;
-  align-items: center;
-}*/
-.ImageContainer {
-  margin: 6rem 0;
-  width: 100%;
-  height: 500px;
-}
-.Header {
-  width: 100%;
+.Title p {
+  font-size: inherit;
+  font-weight: 600;
   text-align: center;
-  background-color: white;
-  padding: 4rem;
+  color: inherit;
+}
+.Button {
+  padding: 0.8rem 1.4rem;
+  border: 3px solid var(--bg-color);
+  box-shadow: 4px 4px var(--light-bg-color);
+  border-radius: 10px;
+  background-color: inherit;
+  color: var(--bg-color);
+  font-weight: 600;
+}
+.Button:hover {
+  background-color: var(--bg-color);
+  color: var(--green-color);
+  font-weight: 600;
+}
+.BgButton {
+  padding: 0.8rem 1.4rem;
+  border: 3px solid var(--bg-color);
+  border-radius: 10px;
+  font-size: 18px;
+  color: var(--bg-color);
+  background-color: transparent;
+  font-weight: 600;
+}
+.BgButton:hover {
+  cursor: pointer;
+  background-color: var(--bg-color);
+  color: var(--brown-color);
+  font-weight: 600;
+}
+.Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Ilu {
+  width: 200px;
+  height: 200px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.Item {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: rgb(236, 222, 195);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 1.8rem;
+  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px;
+}
+.Item p {
+  font-size: 18px;
+  font-weight: 500;
 }

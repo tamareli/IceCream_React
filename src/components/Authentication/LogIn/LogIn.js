@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Spinner from '../../UI/Spinner/Spinner';
 import Input from '../../UI/Input/Input';
 import { checkValidity } from '../../../shared/validate';
+import GreenButton from '../../UI/Button/GreenButton';
 
 export class LogIn extends Component {
   state = {
@@ -75,7 +76,7 @@ export class LogIn extends Component {
     let loginForm = (
       <form onSubmit={this.onSubmit} className={classes.Form}>
         {authRedirect}
-        <h3>התחבר/י</h3>
+        <h4>התחבר/י</h4>
         <hr></hr>
         {error}
         <Input
@@ -102,15 +103,14 @@ export class LogIn extends Component {
         />
 
         <div>
-          <input
-            className={classes.Button}
+          <GreenButton
+            text='כניסה'
             type='submit'
-            value='כניסה'
             disabled={!this.state.isValidForm}
-          />
+          ></GreenButton>
         </div>
 
-        <div className={classes.ForgetPass}>
+        <div className={classes.ForgotPassword}>
           {/* הקישור יפנה לדף של שיחזור סיסמה */}
           <Link to='/ForgetPassword'> שכחת סיסמה? לחץ כאן</Link>
         </div>

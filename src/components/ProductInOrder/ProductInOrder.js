@@ -25,11 +25,17 @@ class Product extends Component {
     }
     return (
       <div className={classes.Product}>
-        <h1> הרכבת {pname}</h1>
-        <p>
-          במוצר זה כלול {this.props.freeToppingsAmount.sauces} רטבים חינמיים
-        </p>
-        <p>ו{this.props.freeToppingsAmount.others} תוספות שונות</p>
+        <div>
+          <h1 className={classes.Line} style={{ padding: '0.5rem' }}>
+            {' '}
+            הרכבת {pname}
+          </h1>
+          <p>
+            במוצר זה כלול <b>{this.props.freeToppingsAmount.sauces}</b> רטבים
+            חינמיים
+            <br /> ו<b>{this.props.freeToppingsAmount.others}</b> תוספות שונות
+          </p>
+        </div>
         <Canvas
           productImagePath={productImage}
           toppings={transformedToppings}

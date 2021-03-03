@@ -7,7 +7,7 @@ import { Component } from 'react';
 class categories extends Component {
   render() {
     return (
-      <div className='row'>
+      <div className='row justify-content-center'>
         {this.props.categories.map((category) => {
           return (
             <Link
@@ -16,7 +16,7 @@ class categories extends Component {
                 pathname: '/products/' + category.categoryId,
               }}
               style={{ textDecoration: 'none' }}
-              className='col-md-4'
+              className='col-md-3'
             >
               <Category
                 name={category.categoryName}

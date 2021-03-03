@@ -1,0 +1,36 @@
+.Button {
+  padding: 0.6rem 2rem;
+  background-color: var(--bg-color);
+  color: rgb(66, 28, 28);
+  text-align: center;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  position: relative;
+  margin: 0.5rem;
+}
+.PinkButton {
+  border: 2px solid var(--pink-color);
+  box-shadow: 5px 5px var(--light-pink-color);
+}
+.GreenButton {
+  border: 2px solid var(--green-color);
+  box-shadow: 5px 5px var(--light-green-color);
+}
+
+.Button:hover {
+  cursor: pointer;
+}
+.PinkButton:hover {
+  background-color: var(--pink-color) !important;
+  color: var(--bg-color);
+}
+.GreenButton:hover {
+  background-color: var(--green-color) !important;
+  color: var(--bg-color);
+}
+.whitePinkBtn {
+  background-color: white;
+}
+.whitePinkBtn:hover {
+  color: white;
+}

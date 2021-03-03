@@ -8,25 +8,28 @@
   font-weight: bold;
   display: block;
   margin-bottom: 5px;
+  padding-right: 0.5rem;
+  font-size: 1rem;
 }
 
 .InputElement {
   outline: none;
   border: 1px solid #ccc;
-  background-color: white;
+  background-color: var(--lighter-green-color);
   font: inherit;
   padding: 6px 10px;
   display: block;
   width: 100%;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
-.InputElement:focus {
+.InputElement:focus,
+.InputElement:active {
   outline: none;
-  background-color: #ccc;
+  background-color: rgba(235, 241, 235, 0.336);
 }
 .InValid {
-  border: 1px solid red;
+  border: 1px solid rgb(226, 33, 33);
   background-color: rgb(238, 228, 227);
 }

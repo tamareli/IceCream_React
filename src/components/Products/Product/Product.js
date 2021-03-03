@@ -1,5 +1,6 @@
 import classes from './Product.module.css';
 import React from 'react';
+import PinkButton from '../../UI/Button/GreenButton';
 
 export default function Product(props) {
   console.log(props.selectedProduct);
@@ -18,7 +19,7 @@ export default function Product(props) {
           <h2>{props.selectedProduct.productName}</h2>
           <p>{props.selectedProduct.description}</p>
         </div>
-        <div className={classes.Button}>הרכב מנה</div>
+        <PinkButton text='הרכב מנה' bgColor='white' />
       </div>
     </div>
   );

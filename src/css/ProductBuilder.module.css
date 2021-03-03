@@ -19,7 +19,7 @@
   text-align: center;
   font-size: 1.1rem;
   border-radius: 50px;
-  background-color: #9ce0a4;
+  background-color: var(--green-color);
   border: 3px solid var(--brown-color);
   color: var(--brown-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -29,4 +29,10 @@
   background-color: var(--brown-color);
   border: 3px solid var(--brown-color);
   color: white;
+}
+.Summary {
+  background-color: var(--light-green-color);
+  padding: 1rem;
+  border: 6px double var(--bg-color);
+  border-radius: 10px;
 }

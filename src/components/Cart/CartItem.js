@@ -15,7 +15,10 @@ export default function CartItem(props) {
       );
     }
   );
+  console.log('cart item', props.cartItem.product);
   const productImage = require(`../../assets/images/products/${props.cartItem.product.image}`);
+  const sizeImage = require(`../../assets/images/sizes/${props.cartItem.size.image}`);
+
   return (
     <>
       <div className={classes.cartItem}>
@@ -29,28 +32,44 @@ export default function CartItem(props) {
           <div className={classes.Header}>
             גודל:
             <div
-              className={classes.Img}
+              className={classes.sizeImg}
               style={{
-                backgroundImage: 'url(' + productImage + ')',
+                backgroundImage: 'url(' + sizeImage + ')',
               }}
             ></div>
-            <p>{props.cartItem.size.sizeName}</p>
+            <p style={{ fontWeight: '500', marginTop: 0 }}>
+              {props.cartItem.size.sizeName}
+            </p>
           </div>
         </div>
         <div className={classes.Description}>
           <div>
-            <h2>{props.cartItem.product.productName}</h2>
-            <p className={classes.Header}>תוספות:</p>
-            {transformedToppings}
+            <h3>{props.cartItem.product.productName}</h3>
+            {props.cartItem.toppings.length <= 0 ? null : (
+              <>
+                {' '}
+                <p className={classes.Header} style={{ marginBottom: '5px' }}>
+                  תוספות:
+                </p>
+                {transformedToppings}
+              </>
+            )}
           </div>
         </div>{' '}
         <div className={classes.AmountPrice}>
           <p className={classes.Remove}>
-            <b onClick={props.deleteOrder}>X</b>
+            <b
+              style={{ color: 'var(--pink-color)' }}
+              onClick={props.deleteOrder}
+            >
+              X
+            </b>
           </p>
 
           <div className={classes.Price}>
-            <p className={classes.Header}>מחיר:</p>
+            <p className={classes.Header} style={{ marginBottom: '5px' }}>
+              מחיר:
+            </p>
             <p> &#8362;{props.cartItem.price}</p>
           </div>
           <div className={classes.AmountEditContainer}>
@@ -59,16 +78,16 @@ export default function CartItem(props) {
             </div>
             <div className={classes.Amount}>
               <div className={classes.Plus} onClick={props.increaseOrderAmount}>
-                <b>+</b>
+                <b style={{ fontSize: '20px' }}>+</b>
               </div>
-              <span>
+              <span style={{ zIndex: '2' }}>
                 <b>{props.cartItem.amount}</b>
               </span>
               <div
                 className={classes.Minus}
                 onClick={props.decreaseOrderAmount}
               >
-                <b>-</b>
+                <b style={{ fontSize: '25px' }}>-</b>
               </div>
             </div>
           </div>

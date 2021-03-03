@@ -1,39 +1,18 @@
 .Form {
   direction: rtl;
-  background-color: white;
   padding: 2rem 3rem;
-  border-radius: 15px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-hr {
-  width: 100%;
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(66, 28, 28, 0.75),
-    rgba(0, 0, 0, 0)
-  );
+
+.ForgotPassword {
+  margin: 0.8rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--green-color);
 }
-.Button {
-  margin: 1rem;
-  padding: 0.4rem 2rem;
-  text-align: center;
-  font-size: 1.1rem;
-  border-radius: 50px;
-  background-color: #9ce0a4;
-  border: 3px solid var(--brown-color);
-  color: var(--brown-color);
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-.Button:hover {
-  cursor: pointer;
-  background-color: var(--brown-color);
-  border: 3px solid var(--brown-color);
-  color: white;
+.ForgotPasswordForm {
+  border: 8px double var(--light-green-color);
+  padding: 2rem;
 }

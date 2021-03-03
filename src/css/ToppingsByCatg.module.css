@@ -13,3 +13,6 @@
   align-items: center;
   flex-wrap: wrap;
 }
+.Header {
+  border-bottom: 7px dotted var(--green-color);
+}

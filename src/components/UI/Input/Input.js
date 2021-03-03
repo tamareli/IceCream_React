@@ -22,7 +22,7 @@ const input = (props) => {
     <div className={classes.Input}>
       <label className={classes.Label}>{props.label}</label>
       {inputElement}
-      <h5 style={{ color: 'red' }}>{props.errmessage}</h5>
+      <p style={{ color: 'red' }}>{props.errmessage}</p>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 .Product {
   width: 500px;
-  height: 300px;
+  height: 280px;
   background-color: white;
   color: black;
   border-color: 2px solid var(--brown-color);
@@ -10,7 +10,7 @@
   align-items: center;
   margin: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .Content {
   width: 60%;

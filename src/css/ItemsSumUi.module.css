@@ -2,7 +2,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background-color: #9ce0a4;
+  background-color: var(--green-color);
   color: rgb(66, 28, 28);
   position: absolute;
   top: 20px;

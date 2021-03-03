@@ -7,10 +7,9 @@
   align-items: center;
   width: 150px;
   padding: 2rem 0;
-  border: 2px solid var(--brown-color);
+  border: 3px solid var(--green-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: 20px;
-  background-color: white;
+  border-radius: 10px;
   font-size: 1.2rem;
   margin-top: 20px;
 }
@@ -20,7 +19,7 @@
   text-align: center;
 }
 .Active {
-  color: white;
+  color: var(--bg-color) !important;
   font-weight: 600;
   background-color: var(--green-color);
 }

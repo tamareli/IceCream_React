@@ -8,6 +8,9 @@ import OrderSummary from '../components/ProductInOrder/OrderSummary/OrderSummary
 import { connect } from 'react-redux';
 import * as productBuilderActions from '../store/actions/productBuilder';
 import * as cartActions from '../store/actions/cart';
+import PinkButton from '../components/UI/Button/PinkButton';
+import GreenButton from '../components/UI/Button/GreenButton';
+import NextStep from '../components/ProductInOrder/OrderSummary/NextStep';
 
 class ProductBuilder extends Component {
   constructor(props) {
@@ -15,6 +18,7 @@ class ProductBuilder extends Component {
     this.state = {
       purchaseble: false,
       preferenceClicked: false,
+      purchased: false,
     };
   }
 
@@ -77,6 +81,9 @@ class ProductBuilder extends Component {
 
     this.props.addTopping(topping, -1);
   };
+  purchaseHandler = () => {
+    this.setState({ purchased: true, purchaseble: false });
+  };
   render() {
     if (
       this.props.toppingsCatgsLoading === true ||
@@ -91,12 +98,15 @@ class ProductBuilder extends Component {
           modalClosed={this.purchasableCanceleddHandler}
         >
           <OrderSummary
-            toppings={this.props.toppings}
             product={this.props.product}
             totalPrice={this.props.startingPrice + this.props.toppingsPrice}
             size={this.props.selectedSize}
             initProductBuilder={this.props.initProductBuilder}
+            purchaseHandler={this.purchaseHandler}
           />
+        </Modal>
+        <Modal show={this.state.purchased}>
+          <NextStep />
         </Modal>
         <Modal
           show={this.state.preferenceClicked}
@@ -111,38 +121,33 @@ class ProductBuilder extends Component {
         </Modal>
         <div className='row'>
           <div className='col-md-3 d-flex flex-column justify-content-center align-items-center'>
-            <div>
-              מחיר:{' '}
-              <span className='bold'>
-                &#8362;{this.props.startingPrice + this.props.toppingsPrice}
-              </span>
+            <div style={{ margin: '1rem' }}>
+              <GreenButton text='בחר גודל' onClick={this.preferenceHandler} />
             </div>
-            <div>
-              {this.props.selectedSize !== null
-                ? `גודל: ${this.props.selectedSize.sizeName}`
-                : null}
+            <div className={classes.Summary}>
+              <p style={{ textAlign: 'right' }}>
+                {this.props.selectedSize !== null ? (
+                  <>
+                    {' '}
+                    <b>גודל: </b>
+                    <span>{this.props.selectedSize.sizeName}</span>
+                  </>
+                ) : null}
+              </p>
+              <p style={{ textAlign: 'right' }}>
+                <b>מחיר: </b>
+                <span>
+                  &#8362;{this.props.startingPrice + this.props.toppingsPrice}
+                </span>
+              </p>
             </div>
-            <div
-              className={classes.FinishButton}
-              onClick={this.preferenceHandler}
-            >
-              בחר גודל
+            <div style={{ margin: '1rem' }}>
+              {this.props.edit !== undefined ? (
+                <PinkButton text='אישור' onClick={this.editOkClickedHandler} />
+              ) : (
+                <PinkButton text='סיום' onClick={this.purchasableHandler} />
+              )}
             </div>
-            {this.props.edit !== undefined ? (
-              <div
-                className={classes.FinishButton}
-                onClick={this.editOkClickedHandler}
-              >
-                אישור
-              </div>
-            ) : (
-              <div
-                className={classes.FinishButton}
-                onClick={this.purchasableHandler}
-              >
-                סיום
-              </div>
-            )}
           </div>
           <div className='col-md-5'>
             <ProductInOrder

@@ -27,10 +27,15 @@ class BuildControl extends Component {
   render() {
     let toppingClasses = [
       classes.Topping,
+      'rounded-circle',
       this.state.chosen || this.props.chosen ? classes.Chosen : null,
     ].join(' ');
     if (this.props.active === false) {
-      toppingClasses = [classes.NotActive, classes.Topping].join(' ');
+      toppingClasses = [
+        classes.NotActive,
+        classes.Topping,
+        'rounded-circle',
+      ].join(' ');
     }
     const toppingImage = require(`../../../../assets/images/toppings/${this.props.image}`);
     return (
