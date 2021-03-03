@@ -8,6 +8,7 @@ import * as authActions from '../store/actions/auth';
 import Input from '../components/UI/Input/Input';
 import { checkValidity } from '../shared/validate';
 import { sendEmail } from '../shared/Email';
+import PinkButton from '../components/UI/Button/PinkButton';
 
 class OrderDetails extends Component {
   constructor(props) {
@@ -261,34 +262,40 @@ class OrderDetails extends Component {
     console.log('this.state.deliverySelected', this.state.deliverySelected);
     return (
       <div className={classes.OrderDetails}>
-        <h2>פרטים אישיים להזמנה</h2>
+        <h3 style={{ textAlign: 'center' }}>הכנס פרטים אישיים להזמנה</h3>
         <form onSubmit={this.submitHandler} className={classes.Form}>
-          <Input
-            type='text'
-            name='first-name'
-            value={this.state.user.firstName}
-            id='first-name'
-            inputtype='input'
-            label='שם פרטי'
-            onChange={this.handleChange('firstName')}
-            readOnly={this.props.isAuthenticated ? true : false}
-            invalid={(!this.state.userValid.firstName.valid).toString()}
-            touched={this.state.userValid.firstName.touched.toString()}
-            errmessage={this.state.userValid.firstName.errmessage}
-          />
-          <Input
-            type='text'
-            name='last-name'
-            value={this.state.user.lastName}
-            id='last-name'
-            inputtype='input'
-            label='שם משפחה'
-            onChange={this.handleChange('lastName')}
-            readOnly={this.props.isAuthenticated ? true : false}
-            invalid={(!this.state.userValid.lastName.valid).toString()}
-            touched={this.state.userValid.lastName.touched.toString()}
-            errmessage={this.state.userValid.lastName.errmessage}
-          />
+          <div className='row'>
+            <div className='col-md-6'>
+              <Input
+                type='text'
+                name='first-name'
+                value={this.state.user.firstName}
+                id='first-name'
+                inputtype='input'
+                label='שם פרטי'
+                onChange={this.handleChange('firstName')}
+                readOnly={this.props.isAuthenticated ? true : false}
+                invalid={(!this.state.userValid.firstName.valid).toString()}
+                touched={this.state.userValid.firstName.touched.toString()}
+                errmessage={this.state.userValid.firstName.errmessage}
+              />
+            </div>
+            <div className='col-md-6'>
+              <Input
+                type='text'
+                name='last-name'
+                value={this.state.user.lastName}
+                id='last-name'
+                inputtype='input'
+                label='שם משפחה'
+                onChange={this.handleChange('lastName')}
+                readOnly={this.props.isAuthenticated ? true : false}
+                invalid={(!this.state.userValid.lastName.valid).toString()}
+                touched={this.state.userValid.lastName.touched.toString()}
+                errmessage={this.state.userValid.lastName.errmessage}
+              />
+            </div>
+          </div>
           <Input
             type='text'
             name='phone'
@@ -315,25 +322,30 @@ class OrderDetails extends Component {
             touched={this.state.userValid.email.touched.toString()}
             errmessage={this.state.userValid.email.errmessage}
           />
-          <div className='delivery'>
-            <label htmlFor='delivery-type' style={{ fontWeight: 600 }}>
-              סוג משלוח
-            </label>
-            <DeliveryTypes
-              delTypes={this.state.deliverySelects}
-              handleSelectChange={(selectedOption) => {
-                console.log('selectedOption', selectedOption);
-                this.handleSelectChange(selectedOption);
-              }}
-              value={
-                this.state.deliverySelected !== null
-                  ? this.state.deliverySelected
-                  : null
-              }
-            />
-            <p style={{ fontWeight: 600 }}>
-              {`מחיר המשלוח: ${this.state.deliveryPrice}`}
-            </p>
+          <div className='delivery row'>
+            <div className='col-md-6'>
+              <label htmlFor='delivery-type' style={{ fontWeight: 600 }}>
+                סוג משלוח
+              </label>
+              <DeliveryTypes
+                delTypes={this.state.deliverySelects}
+                handleSelectChange={(selectedOption) => {
+                  console.log('selectedOption', selectedOption);
+                  this.handleSelectChange(selectedOption);
+                }}
+                value={
+                  this.state.deliverySelected !== null
+                    ? this.state.deliverySelected
+                    : null
+                }
+              />
+            </div>
+            <div className='col-md-6' style={{ alignSelf: 'flex-end' }}>
+              <p style={{ fontWeight: 600 }}>
+                מחיר משלוח: <span>&#8362;</span>
+                {this.state.deliveryPrice}
+              </p>
+            </div>
           </div>
           <Input
             type='text'
@@ -348,14 +360,11 @@ class OrderDetails extends Component {
             touched={this.state.userValid.address.touched.toString()}
             errmessage={this.state.userValid.address.errmessage}
           />
-
-          <button
-            className={classes.Button}
+          <PinkButton
+            text='תשלום'
             type='submit'
             disabled={!this.state.isValidForm}
-          >
-            תשלום
-          </button>
+          />
         </form>
       </div>
     );

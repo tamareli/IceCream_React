@@ -1,15 +1,16 @@
 import React from 'react';
 import classes from '../../css/Cart.module.css';
 import { Link } from 'react-router-dom';
+import PinkButton from '../UI/Button/PinkButton';
 
 export default function PayButton(props) {
   return props.length === 0 ? null : (
     <div className={classes.Pay}>
-      <p>
+      <h5 style={{ textAlign: 'center' }}>
         מחיר סופי:<span>&#8362;{props.finalPrice}</span>
-      </p>
+      </h5>
       <Link to={props.path}>
-        <button className={classes.Button}>המשך לתשלום</button>
+        <button className='PinkWhiteButton'>המשך לתשלום</button>
       </Link>
     </div>
   );

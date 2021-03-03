@@ -7,7 +7,7 @@ import * as AuthActions from '../../../store/actions/auth';
 import Input from '../../UI/Input/Input';
 import { checkValidity } from '../../../shared/validate';
 import { sendEmail } from '../../../shared/Email';
-
+import PinkButton from '../../UI/Button/PinkButton';
 class SignIn extends Component {
   state = {
     emailError: null,
@@ -87,9 +87,13 @@ class SignIn extends Component {
         this.props.onAuth(this.state.user.email, this.state.user.password);
       })
       .then(() => {
+        const image = require(`../../../assets/images/logo3.png`);
+
         const dreamCream = 'Dream Cream';
         const subject = 'ברוכה הבאה מDream Cream';
-        const body = ` <br /> ${this.state.user.firstName} היי ,<br /> ברוכה הבאה לאתר שלנו.<br /> אנו שמחים שהצטרפת לקהל לקחותינו המרוצים ומקווים שתהנה.<br /> ${dreamCream} מציעה חווית קניה יוצאת דופן ומגוון עשיר ונרחב של מוצרים. </ br>אנחנו פה לשירותכם לכל שאלה ומבטיחים מענה זריז ומהיר. <br />צוות ${dreamCream}<br />`;
+        const body = `<div style="width: 50%; font-size: 18px;"><p style="width:100%; padding: 36px; background-color: #8cb8a69f;">
+          היי ${this.state.user.firstName}</p> <div style="width:100%; padding: 36px; background-color: #8cb8a64b;"><p>ברוכה הבאה לאתר שלנו</p> <p>אנו שמחים שהצטרפת לקהל לקחותינו המרוצים ומקווים שתהנה</p><p>${dreamCream} מציעה חווית קניה יוצאת דופן ומגוון עשיר ונרחב של מוצרים</p><p>אנחנו פה לשירותך לכל שאלה ומבטיחים מענה זריז ומהיר</p><p>צוות <b>${dreamCream}</b></p></div><p style="width:100%; height: 100px; padding: 36px; background-color: rgb(243, 233, 215); background-image: url('https://d2cbg94ubxgsnp.cloudfront.net/Pictures/1024x536/4/0/8/132408_shutterstock_406445776.jpg'); background-position: center; background-size: contain; background-repeat: no-repeat;
+          "></p></div>`;
         sendEmail(this.state.user.email, subject, body);
       })
       .catch((err) => {
@@ -113,88 +117,97 @@ class SignIn extends Component {
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'></div>
-          <form
-            onSubmit={this.handleSubmit}
-            className={['col-md-4', classes.Form].join(' ')}
-          >
-            {authRedirect}
-            <h3>הירשם</h3>
+          <div className='col-md-4'>
+            <h4 style={{ textAlign: 'center' }}>הירשם</h4>
             <hr></hr>
-            <Input
-              type='text'
-              name='first-name'
-              inputtype='input'
-              label='שם פרטי'
-              value={this.state.user.firstName}
-              onChange={this.handleChange('firstName')}
-              invalid={(!this.state.userValid.firstName.valid).toString()}
-              touched={this.state.userValid.firstName.touched.toString()}
-              errmessage={this.state.userValid.firstName.errmessage}
-            />
-
-            <Input
-              type='text'
-              name='last-name'
-              inputtype='input'
-              label='שם משפחה'
-              value={this.state.user.lastName}
-              onChange={this.handleChange('lastName')}
-              invalid={(!this.state.userValid.lastName.valid).toString()}
-              touched={this.state.userValid.lastName.touched.toString()}
-              errmessage={this.state.userValid.lastName.errmessage}
-            />
-            <Input
-              type='text'
-              name='phone'
-              inputtype='input'
-              label='טלפון'
-              value={this.state.user.phone}
-              onChange={this.handleChange('phone')}
-              invalid={(!this.state.userValid.phone.valid).toString()}
-              touched={this.state.userValid.phone.touched.toString()}
-              errmessage={this.state.userValid.phone.errmessage}
-            />
-            <Input
-              type='text'
-              name='address'
-              inputtype='input'
-              label='כתובת'
-              value={this.state.user.address}
-              onChange={this.handleChange('address')}
-              invalid={(!this.state.userValid.address.valid).toString()}
-              touched={this.state.userValid.address.touched.toString()}
-              errmessage={this.state.userValid.address.errmessage}
-            />
-            <Input
-              type='email'
-              name='email'
-              inputtype='input'
-              label='מייל'
-              value={this.state.user.email}
-              onChange={this.handleChange('email')}
-              invalid={(!this.state.userValid.email.valid).toString()}
-              touched={this.state.userValid.email.touched.toString()}
-              errmessage={this.state.userValid.email.errmessage}
-            />
-            {error}
-            <Input
-              type='password'
-              name='password'
-              inputtype='input'
-              label='סיסמה'
-              value={this.state.user.password}
-              onChange={this.handleChange('password')}
-              invalid={(!this.state.userValid.password.valid).toString()}
-              touched={this.state.userValid.password.touched.toString()}
-              errmessage={this.state.userValid.password.errmessage}
-            />
-            <input
-              className={classes.Button}
-              type='submit'
-              value='הירשם'
-              disabled={!this.state.isValidForm}
-            />
-          </form>
+            <form
+              onSubmit={this.handleSubmit}
+              style={{ padding: 0 }}
+              className={[classes.Form].join(' ')}
+            >
+              {authRedirect}
+              <div className='row'>
+                <div className='col-md-6'>
+                  <Input
+                    type='text'
+                    name='first-name'
+                    inputtype='input'
+                    label='שם פרטי'
+                    value={this.state.user.firstName}
+                    onChange={this.handleChange('firstName')}
+                    invalid={(!this.state.userValid.firstName.valid).toString()}
+                    touched={this.state.userValid.firstName.touched.toString()}
+                    errmessage={this.state.userValid.firstName.errmessage}
+                  />
+                </div>
+                <div className='col-md-6'>
+                  <Input
+                    type='text'
+                    name='last-name'
+                    inputtype='input'
+                    label='שם משפחה'
+                    value={this.state.user.lastName}
+                    onChange={this.handleChange('lastName')}
+                    invalid={(!this.state.userValid.lastName.valid).toString()}
+                    touched={this.state.userValid.lastName.touched.toString()}
+                    errmessage={this.state.userValid.lastName.errmessage}
+                  />
+                </div>
+              </div>
+              <Input
+                type='text'
+                name='phone'
+                inputtype='input'
+                label='טלפון'
+                value={this.state.user.phone}
+                onChange={this.handleChange('phone')}
+                invalid={(!this.state.userValid.phone.valid).toString()}
+                touched={this.state.userValid.phone.touched.toString()}
+                errmessage={this.state.userValid.phone.errmessage}
+              />
+              <Input
+                type='text'
+                name='address'
+                inputtype='input'
+                label='כתובת'
+                value={this.state.user.address}
+                onChange={this.handleChange('address')}
+                invalid={(!this.state.userValid.address.valid).toString()}
+                touched={this.state.userValid.address.touched.toString()}
+                errmessage={this.state.userValid.address.errmessage}
+              />
+              <Input
+                type='email'
+                name='email'
+                inputtype='input'
+                label='מייל'
+                value={this.state.user.email}
+                onChange={this.handleChange('email')}
+                invalid={(!this.state.userValid.email.valid).toString()}
+                touched={this.state.userValid.email.touched.toString()}
+                errmessage={this.state.userValid.email.errmessage}
+              />
+              {error}
+              <Input
+                type='password'
+                name='password'
+                inputtype='input'
+                label='סיסמה'
+                value={this.state.user.password}
+                onChange={this.handleChange('password')}
+                invalid={(!this.state.userValid.password.valid).toString()}
+                touched={this.state.userValid.password.touched.toString()}
+                errmessage={this.state.userValid.password.errmessage}
+              />
+              <div>
+                <PinkButton
+                  text='הירשם'
+                  type='submit'
+                  disabled={!this.state.isValidForm}
+                />
+              </div>
+            </form>
+          </div>
           <div className='col-md-4'></div>
         </div>
       </div>

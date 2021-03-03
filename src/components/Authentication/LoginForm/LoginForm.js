@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Component } from 'react';
+import GreenButton from '../../UI/Button/GreenButton';
 
 class LoginForm extends Component {
   render() {
@@ -12,17 +13,17 @@ class LoginForm extends Component {
     }
     return (
       <div className={classes.Form}>
-        <h3>חדש באתר?</h3>
+        <h4>חדש באתר?</h4>
         <hr></hr>
         <Link to={'/SignIn?redirectTo=' + this.props.redirectTo}>
-          <button className={classes.Button}>להרשמה</button>
+          <GreenButton text='הירשם' />
         </Link>
 
         {this.props.isAuthenticated ? null : (
           <>
-            <p>או</p>
+            <p style={{ marginTop: '1rem' }}>או</p>
             <Link exact='true' to={path}>
-              <button className={classes.Button}>המשך כאורח</button>
+              <GreenButton text='המשך כאורח' />
             </Link>
           </>
         )}

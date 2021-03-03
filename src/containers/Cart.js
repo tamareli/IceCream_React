@@ -7,13 +7,14 @@ import { Component } from 'react';
 import * as cartActions from '../store/actions/cart';
 import CartItems from '../components/Cart/CartItems';
 import Pay from '../components/Cart/PayButton';
+import PinkButton from '../components/UI/Button/PinkButton';
 
 class OrdersSummary extends Component {
   render() {
     let path = '/Authenticate?redirectTo=/OrderDetails';
     return (
       <div className={classes.Content}>
-        <h2>פירוט הזמנה</h2>
+        <h3 style={{ paddingBottom: '2rem' }}>פירוט הזמנה</h3>
 
         <div className={classes.OrdersSummary}>
           {this.props.cartItems.length === 0 ? (
@@ -23,8 +24,8 @@ class OrdersSummary extends Component {
                 style={{ fontSize: '11rem' }}
                 className='fa fa-shopping-cart'
               ></i>
-              <Link to='/' className={classes.Button}>
-                הוסף מוצרים לעגלה
+              <Link to='/Products' style={{ margin: '1rem' }}>
+                <PinkButton text='הוסף מוצרים לעגלה' />
               </Link>
             </div>
           ) : (

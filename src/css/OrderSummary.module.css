@@ -5,11 +5,8 @@
   align-items: center;
   padding: 1rem;
 }
-.ProductContainer {
-  width: 40%;
-}
+
 .DetailsContainer {
-  width: 40%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -28,7 +25,7 @@
   text-align: center;
   font-size: 1.1rem;
   border-radius: 50px;
-  background-color: #9ce0a4;
+  background-color: var(--green-color);
   border: 3px solid var(--brown-color);
   color: var(--brown-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Category.module.css';
+import PinkButton from '../../UI/Button/PinkButton';
 
 export default function Category(props) {
   let imageClasses = [classes.Image];
@@ -20,7 +21,7 @@ export default function Category(props) {
       <div className={classes.MoreInfo}>
         <h3> {props.name}</h3>
         <p>{props.description}</p>
-        <div className={classes.Button}>ראה עוד</div>
+        <PinkButton text='ראה עוד' />
       </div>
     </div>
   );

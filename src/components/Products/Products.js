@@ -41,50 +41,58 @@ class Products extends Component {
       const bgImage = require(`../../assets/images/categories/${this.props.category.image}`);
       const bgIllu = require(`../../assets/images/${this.props.category.image}`);
       return (
-        <div className={classes.ProductsPage}>
-          {/*<div
-            className={classes.Img}
+        <div className='container'>
+          <div
+            className={['row', classes.Bg].join(' ')}
             style={{
-              backgroundImage: 'url(' + bgImage + ')',
+              backgroundColor: 'var(--green-color)',
+              position: 'relative',
             }}
-          ></div>*/}
-          <div className={classes.txtContent}>
-            <h1>{this.props.category.categoryName}</h1>
-            <p>
+          >
+            <h1 style={{ color: 'var(--bg-color)', fontWeight: '600' }}>
+              {this.props.category.categoryName}
+            </h1>
+            <h4 style={{ color: 'var(--bg-color)' }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
+            </h4>
+            <div
+              className={classes.BgIllu}
+              style={{
+                backgroundImage: 'url(' + bgIllu + ')',
+                top: '150px',
+                left: '-10px',
+                transform: 'rotate(350deg)',
+                zIndex: 3,
+              }}
+            ></div>
+            <div
+              className={classes.BgIllu}
+              style={{
+                backgroundImage: 'url(' + bgIllu + ')',
+                top: '50px',
+                left: '-25px',
+                transform: 'rotate(340deg)',
+                zIndex: 3,
+                width: '100px',
+              }}
+            ></div>
+
+            <div
+              className={classes.BgIllu}
+              style={{
+                backgroundImage: 'url(' + bgIllu + ')',
+                top: '-10px',
+                right: '10px',
+                transform: 'rotate(10deg)',
+                zIndex: 3,
+              }}
+            ></div>
           </div>
           <div className={classes.Container}>
             <ProductsNavigation />
             <div className={classes.Products}>{products}</div>
           </div>
-          <div
-            className={classes.BgIllu}
-            style={{
-              backgroundImage: 'url(' + bgIllu + ')',
-              top: '100px',
-              left: '100px',
-              transform: 'rotate(340deg)',
-            }}
-          ></div>
-          <div
-            className={classes.BgIllu}
-            style={{
-              backgroundImage: 'url(' + bgIllu + ')',
-              top: '500px',
-              left: '150px',
-            }}
-          ></div>
-          <div
-            className={classes.BgIllu}
-            style={{
-              backgroundImage: 'url(' + bgIllu + ')',
-              top: '90px',
-              right: '100px',
-              transform: 'rotate(10deg)',
-            }}
-          ></div>
         </div>
       );
     } else {

@@ -50,7 +50,7 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.ADD_TOPPING:
       let amount = 0;
-      let toppings = state.toppings;
+      let toppings = [...state.toppings];
       if (action.amount === 1) {
         amount = 1;
         toppings.push(action.topping);

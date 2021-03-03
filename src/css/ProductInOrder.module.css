@@ -13,3 +13,16 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+.Line {
+  position: relative;
+}
+.Line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 38%;
+  width: 22%;
+  height: 100%;
+  border-bottom: 4px double var(--light-pink-color);
+  z-index: 4;
+}

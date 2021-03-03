@@ -21,7 +21,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 100%;
 }
 .Img {
   width: 60%;
@@ -46,6 +46,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 3rem;
-  width: 50%;
+}
+.Bg {
+  width: 100%;
+  color: var(--bg-color);
+  padding: 5rem 8rem !important;
+  margin-bottom: 3rem;
+  border: 8px double var(--bg-color);
+  text-align: center;
 }

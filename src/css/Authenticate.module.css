@@ -7,3 +7,11 @@
   align-items: center;
   direction: rtl;
 }*/
+.Bg {
+  width: 100%;
+  background-color: var(--pink-color);
+  color: var(--bg-color);
+  padding: 3rem !important;
+  margin-bottom: 3rem;
+  border: 8px double var(--bg-color);
+}

@@ -1,6 +1,6 @@
 .Content {
   width: 100%;
-  padding: 4rem;
+  padding: 0 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -20,7 +20,7 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .Container {
@@ -82,43 +82,43 @@
   align-items: center;
 }
 .Amount {
+  width: 100px;
+  height: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   margin: 1rem;
-  background-color: #9ce0a4;
-  border-radius: 20px;
+  border: 2px solid var(--pink-color);
+  border-radius: 25px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  overflow: hidden;
 }
-.Plus {
-  padding: 0.5rem 1rem;
-}
+.Plus,
 .Minus {
-  padding: 0.5rem 1rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .Plus:hover,
 .Minus:hover {
-  background-color: #79bd81;
-  border-radius: 20px;
+  color: var(--pink-color);
   cursor: pointer;
 }
 .Remove {
   position: absolute;
   top: 20px;
-  left: 20px;
-  width: 40px;
-  height: 40px;
-  background-color: #9ce0a4;
-  border-radius: 50%;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 16px;
+  left: 30px;
+  color: var(--pink-color);
+  font-size: 22px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .Remove:hover {
-  background-color: #79bd81;
-  border-radius: 50%;
   cursor: pointer;
 }
 span {
@@ -126,32 +126,32 @@ span {
 }
 .Header {
   font-weight: 600;
-  padding: 0.8rem 0 0.5rem 0;
 }
 .Pay {
   padding: 2rem;
   height: 200px;
   background-color: white;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.Button {
-  margin: 1rem;
-  padding: 0.4rem 2rem;
+.PinkWhiteButton {
+  padding: 0.6rem 2rem;
+  background-color: white;
+  color: rgb(66, 28, 28);
   text-align: center;
   font-size: 1.1rem;
-  border-radius: 50px;
-  background-color: #9ce0a4;
-  border: 3px solid var(--brown-color);
-  color: var(--brown-color);
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 10px;
+  position: relative;
+  margin: 0.5rem;
+  border: 2px solid var(--pink-color);
+  box-shadow: 5px 5px var(--light-pink-color);
 }
-.Button:hover {
-  cursor: pointer;
-  background-color: var(--brown-color);
-  border: 3px solid var(--brown-color);
+.PinkWhiteButton:hover {
+  background-color: var(--pink-color) !important;
   color: white;
+  cursor: pointer;
 }
+
 .Empty {
   display: flex;
   flex-direction: column;
@@ -164,8 +164,8 @@ h2 {
 .Edit {
   width: 40px;
   height: 40px;
-  background-color: #9ce0a4;
   border-radius: 50%;
+  border: 2px solid var(--pink-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 16px;
   display: flex;
   justify-content: center;
@@ -173,5 +173,16 @@ h2 {
 }
 .Edit:hover {
   cursor: pointer;
-  background-color: #79bd81;
+  background-color: var(--light-pink-color);
+  color: white;
+}
+b {
+  color: inherit;
+}
+.sizeImg {
+  width: 100%;
+  height: 60px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }

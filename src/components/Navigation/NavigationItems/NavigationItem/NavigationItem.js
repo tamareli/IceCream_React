@@ -13,7 +13,7 @@ const navigationItem = (props) => {
         exact
         activeClassName={active}
         to={props.link}
-        activeStyle={{ color: '#69be73' }}
+        activeStyle={{ color: 'var(--green-color)' }}
       >
         {props.children}
       </NavLink>

@@ -8,6 +8,23 @@ function Authenticate(props) {
   let redirectTo = urlParams.get('redirectTo');
   return (
     <div className={['container', classes.Authenticate].join(' ')}>
+      <div
+        className={['row', classes.Bg].join(' ')}
+        style={{ paddingTop: '4rem' }}
+      >
+        <h1
+          className='text-center'
+          style={{ fontWeight: '700', color: 'var(--bg-color' }}
+        >
+          הצטרף לקהל לקחותינו המרוצים
+        </h1>
+        <h5
+          className='text-center'
+          style={{ fontWeight: '600', color: 'var(--bg-color' }}
+        >
+          הרשמה לאתר תאפשר לך חוית קניה נוחה ופשוטה יותר
+        </h5>
+      </div>
       <div className='row'>
         <div className='col-md-2'></div>
         <div className='col-md-4'>

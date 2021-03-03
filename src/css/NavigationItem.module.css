@@ -34,6 +34,6 @@
   }
 
   .NavigationItem a:hover {
-    color: #69be73;
+    color: var(--green-color);
   }
 }
