@@ -38,7 +38,6 @@ export const checkAuthTimeOut = (expireTime) => {
   };
 };
 export const auth = (email, password, path) => {
-  console.log('auth');
   return (dispatch) => {
     dispatch(authStart());
     let body = qs.stringify({
@@ -54,15 +53,19 @@ export const auth = (email, password, path) => {
     axios
       .post('https://localhost:44300/token', body, header)
       .then((response) => {
-        console.log(response.data);
         localStorage.setItem('token', response.data.access_token);
         localStorage.setItem('expireDate', response.data['.expires']);
         dispatch(authSuccess(response.data.access_token));
         dispatch(checkAuthTimeOut(response.data.expires_in));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch(authFail(err.response.data.error_description));
+        console.log(err.res,'err');
+        if(err.response === undefined){
+          dispatch(authFail('ארעה שגיאת התחברות. רענן את הדף ונסה שוב.'));
+        }
+        else{
+          dispatch(authFail(err.response.data.error_description));
+        }
       });
   };
 };
@@ -74,10 +77,8 @@ export const setUserId = (id) => {
 };
 export const authCheckState = () => {
   return (dispatch) => {
-    console.log('app');
     let token = localStorage.getItem('token');
     if (!token) {
-      console.log('!token');
       dispatch(logout());
     } else {
       let expireDate = new Date(localStorage.getItem('expireDate'));

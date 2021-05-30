@@ -2,21 +2,35 @@ import classes from '../../css/ProductInOrder.module.css';
 import ProductTopping from './ProductTopping/ProductTopping';
 import React from 'react';
 import Canvas from '../../containers/Canvas';
+import OutsideToppings from './OutsideToppings';
 import { Component } from 'react';
 
 class Product extends Component {
   render() {
     let transformedToppings = null;
+    let transformedOtherToppings = null;
     if (this.props.toppings) {
-      transformedToppings = this.props.toppings.map((topping) => {
-        return {
-          key: topping.toppingId,
-          reference: topping.toppingId,
-          image: require(`../../assets/images/toppings/${topping.image}`),
-        };
+      transformedToppings = this.props.toppings.filter((topping) => {
+       return topping.categoryId === 24 || topping.categoryId === 27
+        });
+        transformedToppings = transformedToppings.map((topping) => {   
+          return {
+            key: topping.toppingId,
+            reference: topping.toppingId,
+            image: require(`../../assets/images/toppings/${topping.image}`),
+          };
       });
+
+        transformedOtherToppings = this.props.toppings.filter((topping) => {
+        return topping.categoryId === 23 || topping.categoryId === 28
+         });
+         transformedOtherToppings = transformedOtherToppings.map((topping) => {   
+           return {
+             key: topping.toppingId,
+             image: require(`../../assets/images/toppings/${topping.image}`),
+           };
+       });
     }
-    console.log('toppings from productInOrder', this.props.toppings);
     let pname = null;
     let productImage = null;
     if (this.props.product) {
@@ -39,7 +53,9 @@ class Product extends Component {
         <Canvas
           productImagePath={productImage}
           toppings={transformedToppings}
+          categoryId={this.props.categoryId}
         ></Canvas>
+        <OutsideToppings toppings={transformedOtherToppings}/>
       </div>
     );
   }

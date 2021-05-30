@@ -1,9 +1,11 @@
 import * as actionTypes from '../actionTypes/cart';
+
 const initialState = {
   cartItems: JSON.parse(localStorage.getItem('cartItems') || '[]'),
   editClicked: false,
-  finalPrice: 0,
+  finalPrice: JSON.parse(localStorage.getItem('cartItems')) !== null ? JSON.parse(localStorage.getItem('cartItems')).reduce((sum, item)=> sum + item.price * item.amount, 0) : 0,
 };
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TO_CART:

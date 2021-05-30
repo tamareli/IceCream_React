@@ -15,7 +15,6 @@ export default function CartItem(props) {
       );
     }
   );
-  console.log('cart item', props.cartItem.product);
   const productImage = require(`../../assets/images/products/${props.cartItem.product.image}`);
   const sizeImage = require(`../../assets/images/sizes/${props.cartItem.size.image}`);
 
@@ -59,10 +58,9 @@ export default function CartItem(props) {
         <div className={classes.AmountPrice}>
           <p className={classes.Remove}>
             <b
-              style={{ color: 'var(--pink-color)' }}
               onClick={props.deleteOrder}
             >
-              X
+            <i className={["fas fa-times fa-lg"].join(' ')} style={{ color: 'var(--pink-color)' }}></i>
             </b>
           </p>
 

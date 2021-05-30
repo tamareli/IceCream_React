@@ -44,6 +44,7 @@
   border-radius: 10px;
   position: relative;
   border: 2px solid var(--pink-color);
+  transition: background-color 0.3s;
 }
 .Button:hover {
   cursor: pointer;

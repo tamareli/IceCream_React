@@ -2,4 +2,33 @@
   width: 100%;
   height: 200px;
   background-color: var(--brown-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.NavigationItems{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+  list-style-type: disc;
+  color: var(--bg-color);
+}
+.NavigationItem{
+  padding: 1rem;
+  direction: ltr;
+  display: inline;
+}
+.Circle{
+  width: 100px;
+  height: 100px;
+  color: var(--bg-color);
+  border-radius: 50%;
+  z-index: 30;
+}
+@media (max-width: 550px){
+  .NavigationItems{
+      flex-flow: column; 
+    }
 }

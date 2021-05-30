@@ -16,10 +16,8 @@ export default function Order(props) {
         {orderDate}
         <b> :תאריך</b>
       </p>
-      <p>
-        <b>סוג משלוח:</b> {props.order.deliveryTypeName}
-      </p>
-      <ul style={{ direction: 'rtl' }}>
+  
+      <ul style={{ direction: 'rtl', listStyleType: 'circle'}}>
         {props.order.orderItems.map((item) => {
           return (
             <li key={uuid()}>
@@ -28,6 +26,9 @@ export default function Order(props) {
           );
         })}
       </ul>
+      <p>
+        <b>סוג משלוח:</b> {props.order.deliveryTypeName}
+      </p>
       <p>
         <b>מחיר סופי:</b> &#8362;{props.order.finalPrice}
       </p>

@@ -3,7 +3,6 @@
   background-color: var(--bg-color);
   color: rgb(66, 28, 28);
   text-align: center;
-  font-size: 1.1rem;
   border-radius: 10px;
   position: relative;
   margin: 0.5rem;
@@ -11,10 +10,12 @@
 .PinkButton {
   border: 2px solid var(--pink-color);
   box-shadow: 5px 5px var(--light-pink-color);
+  transition: background-color 0.3s;
 }
 .GreenButton {
   border: 2px solid var(--green-color);
   box-shadow: 5px 5px var(--light-green-color);
+  transition: background-color 0.3s;
 }
 
 .Button:hover {
@@ -28,9 +29,12 @@
   background-color: var(--green-color) !important;
   color: var(--bg-color);
 }
-.whitePinkBtn {
-  background-color: white;
-}
-.whitePinkBtn:hover {
-  color: white;
+
+
+@media (max-width: 460px) {
+  .Button {
+    padding: 0.3rem 1.6rem;
+    font-size: 0.6rem;
+    transition: background-color 0.3s;
+  }
 }

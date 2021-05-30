@@ -8,9 +8,15 @@ import Input from '../../UI/Input/Input';
 import { checkValidity } from '../../../shared/validate';
 import { sendEmail } from '../../../shared/Email';
 import PinkButton from '../../UI/Button/PinkButton';
+import Spinner from '../../UI/Spinner/Spinner';
+import ErrorMessageForm from '../../UI/Error/FormErrorMessage'
+import Layout from '../../../hoc/Layout/Layout'
+
 class SignIn extends Component {
   state = {
+    isLoading: false,
     emailError: null,
+    hasError: false,
     user: {
       firstName: '',
       lastName: '',
@@ -79,16 +85,15 @@ class SignIn extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({isLoading: true});
     axios
       .post('user/register', this.state.user)
       .then((res) => {
-        this.setState({ emailError: null });
-        alert('ברוכה הבאה');
+        this.setState({ emailError: null, isLoading: false, hasError: false });
         this.props.onAuth(this.state.user.email, this.state.user.password);
       })
       .then(() => {
         const image = require(`../../../assets/images/logo3.png`);
-
         const dreamCream = 'Dream Cream';
         const subject = 'ברוכה הבאה מDream Cream';
         const body = `<div style="width: 50%; font-size: 18px;"><p style="width:100%; padding: 36px; background-color: #8cb8a69f;">
@@ -97,23 +102,37 @@ class SignIn extends Component {
         sendEmail(this.state.user.email, subject, body);
       })
       .catch((err) => {
-        console.log('from catch', err.response.data.Message);
-        this.setState({ emailError: err.response.data.Message });
+        console.log(err.response)
+        if(err.response.status === 404){
+          this.setState({ hasError: true, isLoading: false });
+        }
+        else{
+          this.setState({ emailError: err.response.data.Message, isLoading: false });
+        }
       });
   };
 
   render() {
-    console.log(this.state.emailError);
     let error = null;
     error = <p style={{ color: 'red' }}>{this.state.emailError}</p>;
     var urlParams = new URLSearchParams(window.location.search);
     let redirectTo = urlParams.get('redirectTo');
     let path = '/';
-    if (redirectTo != null) path = redirectTo;
+    if (redirectTo !== null) path = redirectTo;
     let authRedirect = null;
-    console.log(path);
     if (this.props.isAuthenticated) authRedirect = <Redirect to={path} />;
+    if(this.state.isLoading){
+      return <Layout> <Spinner /></Layout>
+    }
+    if(this.state.hasError){
+      return <Layout>
+              <div className="container"> 
+                <ErrorMessageForm />
+              </div>
+              </Layout>
+    }
     return (
+      <Layout>
       <div className='container'>
         <div className='row'>
           <div className='col-md-4'></div>
@@ -127,7 +146,7 @@ class SignIn extends Component {
             >
               {authRedirect}
               <div className='row'>
-                <div className='col-md-6'>
+                <div className='col-lg-6 col-md-12'>
                   <Input
                     type='text'
                     name='first-name'
@@ -140,7 +159,7 @@ class SignIn extends Component {
                     errmessage={this.state.userValid.firstName.errmessage}
                   />
                 </div>
-                <div className='col-md-6'>
+                <div className='col-lg-6 col-md-12'>
                   <Input
                     type='text'
                     name='last-name'
@@ -211,6 +230,7 @@ class SignIn extends Component {
           <div className='col-md-4'></div>
         </div>
       </div>
+      </Layout>
     );
   }
 }

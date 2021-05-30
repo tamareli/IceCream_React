@@ -21,3 +21,11 @@
   margin-bottom: 3rem;
   border: 8px double var(--bg-color);
 }
+@media (max-width: 400px){
+  .Bg{
+    padding: 1.5rem !important;
+  }
+  h1{
+    font-size: 18px;
+  }
+}

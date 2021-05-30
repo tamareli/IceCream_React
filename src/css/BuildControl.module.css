@@ -11,13 +11,12 @@
   width: 80px;
   height: 80px;
   border: 4px double var(--green-color);
+  position: relative;
 }
 .Topping:hover {
   cursor: pointer;
 }
 .Chosen {
-  border: 5px solid var(--green-color);
-  background-color: var(--lighter-green-color);
   box-shadow: var(--box-shadow-light);
 }
 .BuildControl button {
@@ -76,4 +75,10 @@
   align-items: center;
   color: whitesmoke;
   font-size: 0.9rem;
+}
+.CheckMark{
+  color: var(--pink-color);
+  position: absolute; 
+  top: -5px; 
+  right: 10px;
 }

@@ -5,10 +5,18 @@ import classes from '../../css/Products.module.css';
 import { connect } from 'react-redux';
 import * as productBuilderActions from '../../store/actions/productBuilder';
 import ProductsNavigation from './ProductsNavigation';
+import ErrorMessage from '../UI/Error/ErrorMessage'
+import Layout from '../../hoc/Layout/Layout'
 
 class Products extends Component {
+  state={
+    descriptions:{
+      yogurt: '.גלידת היוגורט שלנו מורכבת מיוגורט אורגני, יצרנו טעמים שונים מפירות איכותיים וטריים. מוזמנים להתרשם',
+      iceCream: 'הגלידה שלנו מיוצרת על ידינו עם מתכון מיוחד הישר מאיטליה. עם הטעמים הרבים שיצרנו לכם כל אחד יוכל למצוא את הגלידה האהובה עליו. מוזמנים להתרשם',
+      waffle: 'הוופל הלגי שלנו רך כמו ענן ופריך בדיוק במידה הנכונה, ועם התוספות המפנקות זו בכלל חגיגה שלימה. מוזמנים להתרשם' 
+    }
+  }
   componentDidMount() {
-    console.log('componentDidMount', this.props.match.params.catg_id);
     this.props.setCategory(this.props.match.params.catg_id);
     this.props.setProductsForCatg(this.props.match.params.catg_id);
   }
@@ -19,28 +27,55 @@ class Products extends Component {
     }
   }
   render() {
+    let productDesc = null;
+    if(this.props.match.params.catg_id == 22){
+      productDesc = this.state.descriptions.yogurt;
+    }
+    else{
+      if(this.props.match.params.catg_id == 20){
+        productDesc = this.state.descriptions.iceCream;
+      }
+      else{
+        productDesc = this.state.descriptions.waffle;
+      }
+    }
     let products = null;
+    let productClass= 'col-md-6';
+    if(this.props.productsError){
+        return (
+          <Layout>
+            <div className="container">
+              <ErrorMessage />
+            </div>
+          </Layout>
+        )
+    }
     if (this.props.products)
+    {
+      productClass = this.props.products.length === 1 ? 'col-md-12': 'col-md-6';
       products = this.props.products.map((product) => {
         return (
-          <Link
-            to={{
-              pathname:
-                '/ProductBuilder/' +
-                this.props.match.params.catg_id +
-                '/' +
-                product.productId,
-            }}
-            key={product.productId}
-          >
-            <Product selectedProduct={product} />
-          </Link>
+          <div className={productClass} key={product.productId}>
+            <Link
+              to={{
+                pathname:
+                  '/ProductBuilder/' +
+                  this.props.match.params.catg_id +
+                  '/' +
+                  product.productId,
+              }}
+            >
+              <Product selectedProduct={product} />
+            </Link>
+          </div>
         );
       });
+    }
+
     if (this.props.category) {
-      const bgImage = require(`../../assets/images/categories/${this.props.category.image}`);
       const bgIllu = require(`../../assets/images/${this.props.category.image}`);
       return (
+        <Layout>
         <div className='container'>
           <div
             className={['row', classes.Bg].join(' ')}
@@ -53,8 +88,7 @@ class Products extends Component {
               {this.props.category.categoryName}
             </h1>
             <h4 style={{ color: 'var(--bg-color)' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              {productDesc}
             </h4>
             <div
               className={classes.BgIllu}
@@ -91,12 +125,17 @@ class Products extends Component {
           </div>
           <div className={classes.Container}>
             <ProductsNavigation />
-            <div className={classes.Products}>{products}</div>
+            <div className="container" style={{direction: 'rtl'}}>
+              <div className={['row'].join(' ')}>
+                {products}
+              </div>
+            </div>
           </div>
         </div>
+        </Layout>
       );
     } else {
-      return <div></div>;
+      return <Layout><div></div></Layout>;
     }
   }
 }
@@ -104,6 +143,7 @@ const mapStateToProps = (state) => {
   return {
     category: state.productBuilder.category,
     products: state.productBuilder.products,
+    productsError: state.productBuilder.productsError
   };
 };
 const mapDispatchToProps = (dispatch) => {

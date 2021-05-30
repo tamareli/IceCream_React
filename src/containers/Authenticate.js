@@ -1,12 +1,19 @@
-import React from 'react';
-import LogIn from '../components/Authentication/LogIn/LogIn';
-import NewUser from '../components/Authentication/LoginForm/LoginForm';
-import classes from '../css/Authenticate.module.css';
+import React from 'react'
+import LogIn from '../components/Authentication/LogIn/LogIn'
+import NewUser from '../components/Authentication/LoginForm/LoginForm'
+import classes from '../css/Authenticate.module.css'
+import ErrorBoundary from '../components/ErrorBoundary'
+import Layout from '../hoc/Layout/Layout';
+
+
 
 function Authenticate(props) {
+
   var urlParams = new URLSearchParams(window.location.search);
   let redirectTo = urlParams.get('redirectTo');
+
   return (
+    <Layout>
     <div className={['container', classes.Authenticate].join(' ')}>
       <div
         className={['row', classes.Bg].join(' ')}
@@ -25,17 +32,22 @@ function Authenticate(props) {
           הרשמה לאתר תאפשר לך חוית קניה נוחה ופשוטה יותר
         </h5>
       </div>
-      <div className='row'>
-        <div className='col-md-2'></div>
-        <div className='col-md-4'>
-          <NewUser redirectTo={redirectTo} />
+      <div className={classes.Container}>
+        <div className='row'>
+          <div className='col-md-6'>
+            <ErrorBoundary>
+              <NewUser redirectTo={redirectTo} />
+            </ErrorBoundary>
+          </div>
+          <div className='col-md-6'>
+            <ErrorBoundary>
+              <LogIn redirectTo={redirectTo} />
+            </ErrorBoundary>
+          </div>
         </div>
-        <div className='col-md-4'>
-          <LogIn redirectTo={redirectTo} />
-        </div>
-        <div className='col-md-2'></div>
       </div>
     </div>
+    </Layout>
   );
 }
 

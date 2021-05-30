@@ -5,6 +5,7 @@
   display: inline-block;
   max-width: 400px;
   background-color: aliceblue;
+  transition: background-color 0.3s;
 }
 .ToppingsButton:hover {
   cursor: pointer;

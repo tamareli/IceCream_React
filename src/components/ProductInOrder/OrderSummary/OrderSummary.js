@@ -7,13 +7,14 @@ import uuid from 'react-uuid';
 class OrderSummary extends Component {
   onClickedChangehandler = () => {
     this.props.purchaseHandler();
-    console.log('onClickedChangehandler', this.props.toppings);
     this.props.addToCart(
       this.props.product,
       this.props.totalPrice,
       this.props.toppings,
       this.props.size,
-      this.props.orders
+      this.props.orders,
+      this.props.toppingsAmount,
+      this.props.toppingsPrice
     );
     this.props.initProductBuilder();
   };
@@ -25,9 +26,7 @@ class OrderSummary extends Component {
         return top.toppingName;
       });
     }
-    console.log('toppings from OrderSummary', this.props.toppings);
 
-    console.log('trans toppings', transformedToppings);
     let pname = null;
     let productImage = null;
     if (this.props.product) {
@@ -37,6 +36,8 @@ class OrderSummary extends Component {
 
     return (
       <div className='row'>
+        <p>סיכום הזמנה</p>
+        <hr></hr>
         <div className={[classes.DetailsContainer, 'col-md-7'].join(' ')}>
           <h4>:תוספות</h4>
           <p style={{ textAlign: 'right' }}>{transformedToppings.join(', ')}</p>
@@ -64,7 +65,7 @@ class OrderSummary extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (newProduct, totalprice, newToppings, newSize, orders) => {
+    addToCart: (newProduct, totalprice, newToppings, newSize, orders, toppingsAmount, toppingsPrice) => {
       let newOrder = {
         id: uuid(),
         product: newProduct,
@@ -72,6 +73,8 @@ const mapDispatchToProps = (dispatch) => {
         toppings: newToppings,
         size: newSize,
         amount: 1,
+        toppingsAmount: toppingsAmount,
+        toppingsPrice: toppingsPrice
       };
       dispatch(cartActions.addOrder(orders, newOrder));
     },
@@ -81,6 +84,8 @@ const mapStateToProps = (state) => {
   return {
     orders: state.cart.cartItems,
     toppings: state.productBuilder.toppings,
+    toppingsAmount: state.productBuilder.toppingsAmount,
+    toppingsPrice: state.productBuilder.toppingsPrice,
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);

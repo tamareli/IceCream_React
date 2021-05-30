@@ -1,61 +1,96 @@
 import React, { Component } from 'react';
 
 class Canvas extends Component {
-  state = {
-    canvas: null,
-    ctx: null,
-    imgWidth: 150,
-    imgHeight: 100,
-    paddingLeft: 50,
-    paddingRight: 30,
-    paddingTop: 100,
-    paddingBottom: 100,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      canvas: null,
+      ctx: null,
+      right: 0,
+      left: 40,
+      top: 50,
+      bottom: 0,
+      imgWidth: 150,
+      imgHeight: 100,
+      addToBorder: 50,
+    };
+  }
+
   componentDidMount() {
     const canvas = this.refs.canvas;
     const ctx = canvas.getContext('2d');
     this.setState({ canvas: canvas, ctx: ctx });
+    if (this.props.categoryId === 22) {
+      //yogurt
+      this.setState({ bottom: ctx.canvas.height - 100 });
+      this.setState({ right: ctx.canvas.width - 100 });
+    } else {
+      if (this.props.categoryId === 20) {
+        //icecream
+        this.setState({
+          bottom: ctx.canvas.height - 200,
+          top: 10,
+          right: ctx.canvas.width - 100,
+          left: 100,
+          addToBorder: 10,
+          imgHeight: 90,
+        });
+      } else {
+        if (this.props.categoryId === 26) {
+          //waffle
+          this.setState({
+            bottom: ctx.canvas.height - 115,
+            top: 60,
+            right: ctx.canvas.width - 200,
+            left: 80,
+            addToBorder: 0,
+          });
+        }
+      }
+    }
   }
   componentDidUpdate() {
-    const {
-      imgWidth,
-      imgHeight,
-      paddingLeft,
-      paddingRight,
-      paddingTop,
-      paddingBottom,
-    } = this.state;
+    const { imgWidth, imgHeight, left, right, top, bottom } = this.state;
+    let leftBorder = left;
+    let rightBorder = right;
+    let margin = 0;
     if (this.props.toppings !== null) {
       const context = this.state.ctx;
       context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-      let array = new Array();
+      let toppingsToDraw = new Array();
       for (let index = 0; index <= this.props.toppings.length; ) {
-        for (
-          let i = context.canvas.height - (paddingBottom + imgHeight);
-          i > paddingTop;
-          i -= imgHeight
-        ) {
-          for (
-            let j = paddingLeft;
-            j <= context.canvas.width - (paddingRight + imgWidth + 100);
-            j += 130
-          ) {
-            if (index === 3) {
-              j += 65;
-            }
-            array.push({ x: j, y: i });
+        leftBorder = left;
+        rightBorder = right;
+        for (let i = bottom - imgHeight; i > top; i -= imgHeight) {
+          for (let j = leftBorder; j <= rightBorder - imgWidth; j += imgWidth) {
+            toppingsToDraw.push({ x: j + margin, y: i - margin });
             index++;
           }
+          leftBorder += this.state.addToBorder;
+          rightBorder -= this.state.addToBorder;
         }
+        margin += 20;
       }
       this.props.toppings.map((top, i) => {
         const img = this.refs[top.reference];
         if (!img.complete) {
           img.onload = () => {
-            context.drawImage(img, array[i].x, array[i].y, 150, 100);
+            context.drawImage(
+              img,
+              toppingsToDraw[i].x,
+              toppingsToDraw[i].y,
+              this.state.imgWidth,
+              this.state.imgHeight
+            );
           };
         } else {
-          context.drawImage(img, array[i].x, array[i].y, 150, 100);
+          context.drawImage(
+            img,
+            toppingsToDraw[i].x,
+            toppingsToDraw[i].y,
+            this.state.imgWidth,
+            this.state.imgHeight
+          );
         }
       });
     }
@@ -82,6 +117,7 @@ class Canvas extends Component {
                     ref={top.reference}
                     src={top.image}
                     className='hidden'
+                    alt=''
                   ></img>
                 );
               })

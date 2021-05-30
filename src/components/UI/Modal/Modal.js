@@ -20,6 +20,9 @@ class Modal extends Component {
             opacity: this.props.show ? '1' : '0',
           }}
         >
+          <i className={["fas fa-times fa-3x", classes.Close].join(' ')}
+              onClick={this.props.modalClosed}
+          ></i>
           {this.props.children}
         </div>
       </React.Fragment>

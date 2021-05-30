@@ -8,7 +8,7 @@ import GreenButton from '../../UI/Button/GreenButton';
 class LoginForm extends Component {
   render() {
     let path = '/';
-    if (this.props.redirectTo != null) {
+    if (this.props.redirectTo !== null) {
       path = this.props.redirectTo;
     }
     return (

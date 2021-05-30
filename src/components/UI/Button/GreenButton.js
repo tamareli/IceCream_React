@@ -1,7 +1,15 @@
 import React from 'react';
 import classes from './Button.module.css';
+import Radium from 'radium';
 
-export default function Button(props) {
+
+ function Button(props) {
+  const style = {
+    backgroundColor: props.bgColor,
+    ':hover': {
+      color: props.fontColor,
+    },
+  };
   if (props.type === 'submit') {
     return (
       <input
@@ -9,7 +17,7 @@ export default function Button(props) {
         type='submit'
         value={props.text}
         disabled={props.disabled}
-        style={{ backgroundColor: props.bgColor }}
+        style={style}
       />
     );
   }
@@ -17,9 +25,10 @@ export default function Button(props) {
     <div
       className={[classes.Button, classes.GreenButton, 'btn'].join(' ')}
       onClick={props.onClick}
-      style={{ backgroundColor: props.bgColor }}
+      style={style}
     >
       {props.text}
     </div>
   );
 }
+export default Radium(Button);
