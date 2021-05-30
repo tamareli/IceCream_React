@@ -7,8 +7,14 @@
   align-items: center;
   height: 100%; 
 }
-
-@media (min-width: 500px){
+.SideNavigationItems a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 18px;
+}
+@media (min-width: 745px){
     .NavigationItems{
         flex-flow: row; 
       }

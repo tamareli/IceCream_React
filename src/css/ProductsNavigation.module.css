@@ -23,3 +23,8 @@
   font-weight: 600;
   background-color: var(--green-color);
 }
+@media(max-width: 1405px){
+  .ProductsNavigation {
+    display: none;
+  }
+}

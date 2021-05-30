@@ -5,9 +5,12 @@ import BuildControl from './BuildControls/BuildControl/BuildControl';
 export default function ToppingsByCatg(props) {
   const categoryId = Object.keys(props.categoryForToppings)[0];
   const price = props.categoryForToppings[categoryId][0].price;
-  const categoryName = props.toppingsCatgs.find(
+  let category = props.toppingsCatgs.find(
     (x) => x.categoryId === parseInt(categoryId)
-  ).categoryName;
+  );
+  if(category !== undefined){
+    category = category.categoryName;
+  }
   let chosen;
   let controls = props.categoryForToppings[categoryId].map((topping) => {
     chosen = false;
@@ -31,7 +34,7 @@ export default function ToppingsByCatg(props) {
   return (
     <div className='container' style={{ paddingBottom: '2rem' }}>
       <div className={classes.Header}>
-        <h3 style={{ paddingBottom: '0' }}>{categoryName}</h3>
+        <h3 style={{ paddingBottom: '0' }}>{category}</h3>
         <p className='bold'>
           {`מחיר ליחידה: `}
           <span style={{ padding: 0, margin: 0, fontWeight: '500' }}>
@@ -39,7 +42,7 @@ export default function ToppingsByCatg(props) {
           </span>
         </p>
       </div>
-      <div className='row' style={{ paddingTop: '1.5rem' }}>
+      <div className={['row', classes.Controls].join(' ')} style={{ paddingTop: '1.5rem' }}>
         {controls}
       </div>
     </div>

@@ -13,7 +13,6 @@ class BuildControl extends Component {
     if (!active) {
       return;
     }
-    console.log('clicked');
     let func = null;
     if (this.state.chosen) {
       func = this.props.removeClicked;
@@ -21,7 +20,6 @@ class BuildControl extends Component {
       func = this.props.addClicked;
     }
     this.setState({ chosen: !this.state.chosen });
-    console.log(func, 'func');
     func();
   };
   render() {
@@ -30,6 +28,11 @@ class BuildControl extends Component {
       'rounded-circle',
       this.state.chosen || this.props.chosen ? classes.Chosen : null,
     ].join(' ');
+
+    let check = null;
+    if (this.state.chosen || this.props.chosen){
+        check = <i className={["fas fa-check-circle fa-lg", classes.CheckMark].join(' ')} ></i>
+    }
     if (this.props.active === false) {
       toppingClasses = [
         classes.NotActive,
@@ -39,12 +42,14 @@ class BuildControl extends Component {
     }
     const toppingImage = require(`../../../../assets/images/toppings/${this.props.image}`);
     return (
-      <div className={['col-md-4', classes.BuildControl].join(' ')} disabled>
+      <div className={['col-md-4 col-sm-4', classes.BuildControl].join(' ')} disabled>
         <div
           className={toppingClasses}
           style={{ backgroundImage: 'url(' + toppingImage + ')' }}
           onClick={() => this.toppingClickedHandler(this.props.active)}
-        ></div>
+        >
+          {check}
+        </div>
         <h6>{this.props.title}</h6>
       </div>
     );

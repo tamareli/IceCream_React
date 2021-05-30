@@ -6,9 +6,7 @@ export const addOrder = (orders, newOrder) => {
     orders = returnedObj.orders;
     if (!returnedObj.edited) {
       let exist = checkAndUpdateExistingOrder(orders, newOrder, dispatch);
-      console.log(exist);
       if (exist === true) {
-        console.log(exist);
         return;
       }
       localStorage.setItem(
@@ -22,7 +20,7 @@ export const addOrder = (orders, newOrder) => {
   };
 };
 const editOrder = (orders, newOrder) => {
-  let foundIndex = orders.findIndex((x) => x.id == newOrder.id);
+  let foundIndex = orders.findIndex((x) => x.id === newOrder.id);
   let edited = false;
   if (foundIndex !== -1 && orders.length !== 0) {
     orders[foundIndex] = newOrder;
@@ -49,7 +47,6 @@ export const setEditFalse = () => {
 };
 export const deleteOrder = (orders, index) => {
   return (dispatch) => {
-    alert('אתה הולך למחוק את הפריט מהעגלה');
     orders.splice(index, 1);
     localStorage.setItem('cartItems', JSON.stringify(orders));
     dispatch({ type: actionTypes.DELETE_FROM_CART });
@@ -57,11 +54,8 @@ export const deleteOrder = (orders, index) => {
 };
 export const updateOrderAmount = (orders, index, amount) => {
   return (dispatch) => {
-    console.log('index', index);
-    console.log('orders', orders);
     let orderToUpdate = orders[index];
     if (orderToUpdate.amount + amount <= 0) {
-      console.log('Byee');
       dispatch(deleteOrder(orders, index));
       return;
     }

@@ -16,3 +16,9 @@
 .Header {
   border-bottom: 7px dotted var(--green-color);
 }
+@media (max-width: 1155px) and (min-width: 768px) {
+  .Controls {
+    flex-direction: column;
+  }
+
+}

@@ -7,7 +7,11 @@ const toolbar = (props) => (
   <header className={classes.Toolbar}>
     <DrawerToggler clicked={props.drawerToggleClicked} />
     <nav className={classes.DesktopOnly}>
-      <NavigationItems isAuth={props.isAuth} redirectTo='/' />
+      <NavigationItems
+        isAuth={props.isAuth}
+        redirectTo='/'
+        sideDrawer={false}
+      />
     </nav>
   </header>
 );

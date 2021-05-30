@@ -3,16 +3,22 @@ import classes from '../../../css/SelectSize.module.css';
 import Sizes from './Sizes/Sizes';
 import PinkButton from '../../UI/Button/PinkButton';
 import { Component } from 'react';
-class ServingPreference extends Component {
-  state = {
-    selectedSize: null,
-  };
-  sizeClickedHandler = (size) => {
-    console.log('size: ', size);
+import ErrorMessage from '../../UI/Error/ErrorMessage';
 
+class ServingPreference extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      size: props.selectedSize,
+    }
+  }
+  sizeClickedHandler = (size) => {
     this.setState({ size: size });
   };
   render() {
+    if(this.props.sizesError){
+      return <ErrorMessage />
+    }
     return (
       <div className={classes.Container}>
         <h3>בחר/י גודל רצוי</h3>

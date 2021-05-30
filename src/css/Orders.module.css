@@ -7,11 +7,11 @@
   align-items: center;
 }
 .Orders {
-  width: 40%;
   background-color: white;
   border-radius: 15px;
   padding: 2rem;
   box-shadow: var(--box-shadow-light);
+  min-width: 460px;
 }
 .Order {
   text-align: right;
@@ -19,4 +19,14 @@
 }
 .OrderItem {
   padding-bottom: 1rem;
+}
+@media (max-width: 430px) {
+  .Orders {
+    min-width: unset;
+    width: 100%;
+  }
+  .OrdersContent {
+    padding: 1rem;
+    width: 100%;
+  }
 }

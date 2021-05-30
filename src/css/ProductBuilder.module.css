@@ -1,7 +1,6 @@
 .ProductBuilder {
   color: black;
   width: 100%;
-
   direction: ltr;
 }
 .Middle {
@@ -23,6 +22,7 @@
   border: 3px solid var(--brown-color);
   color: var(--brown-color);
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: background-color 0.3s;
 }
 .FinishButton:hover {
   cursor: pointer;
@@ -35,4 +35,9 @@
   padding: 1rem;
   border: 6px double var(--bg-color);
   border-radius: 10px;
+}
+@media (max-width: 768px) {
+  .ProductBuilder {
+    direction: ltr;
+  }
 }

@@ -3,52 +3,75 @@ import axios from '../axios';
 import Order from '../components/Orders/Order';
 import { connect } from 'react-redux';
 import classes from '../css/Orders.module.css';
+import Spinner from '../components/UI/Spinner/Spinner'
+import ErrorBoundary from '../components/ErrorBoundary';
+import ErrorMessage from '../components/UI/Error/ErrorMessage'
+import Layout from '../hoc/Layout/Layout';
 
 class Orders extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       orders: null,
+      hasError: false
     };
   }
 
   componentDidMount() {
     if (this.props.token !== null) {
+      this.setState({isLoading: true});
       axios
         .get('order/orders', {
           headers: { Authorization: `Bearer ${this.props.token}` },
         })
         .then((response) => {
-          console.log(response.data, 'cdm');
-          this.setState({ orders: response.data });
+          this.setState({ orders: response.data, isLoading: false });
         });
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.token !== prevProps.token) {
+      this.setState({isLoading: true});
       axios
         .get('order/orders', {
           headers: { Authorization: `Bearer ${this.props.token}` },
         })
         .then((response) => {
-          console.log(response.data, 'cdu');
-          this.setState({ orders: response.data });
+          this.setState({ orders: response.data, isLoading: false  });
+        }).catch(err =>{
+          this.setState({hasError: true})
         });
     }
   }
   render() {
+    if(this.state.hasError){
+      return <Layout>
+              <div className={classes.OrdersContent}>
+               <ErrorMessage />
+              </div>
+            </Layout>
+    }
+    let orders = <Spinner />;
+    if(this.state.orders !== null){
+      if(this.state.orders.length <= 0)
+        orders= <p>עוד לא ביצעת הזמנות</p>
+        else{
+          orders= <div className={[classes.Orders,'col-md-5', 'col-sm-12'].join(' ')}>
+          {this.state.orders.map((order) => {
+            return <ErrorBoundary key={order.orderId}><Order order={order} /></ErrorBoundary>;
+          })}
+        </div>
+        }
+    }
     return (
-      <div className={classes.OrdersContent}>
-        <h3>ההזמנות האחרונות שלך</h3>
-        {this.state.orders !== null ? (
-          <div className={classes.Orders}>
-            {this.state.orders.map((order) => {
-              return <Order key={order.orderId} order={order} />;
-            })}
-          </div>
-        ) : null}
-      </div>
+      <Layout>
+        <div className={classes.OrdersContent}>
+          <h3>ההזמנות האחרונות שלך</h3>
+          {orders}
+        </div>
+      </Layout>
     );
   }
 }

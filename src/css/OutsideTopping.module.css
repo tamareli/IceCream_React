@@ -1,0 +1,7 @@
+.Image{
+    width: 70px;
+    height: 70px;
+    margin: 0.2rem;
+    border-radius: 50%;
+    border: 2px solid var(--pink-color);
+}

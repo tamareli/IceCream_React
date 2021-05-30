@@ -3,12 +3,14 @@ import * as actionTypes from '../actionTypes/productBuilder';
 const initialState = {
   category: null,
   products: null,
+  productsError: false,
   product: null,
   toppingsCatgs: [],
   toppingsCatgsLoading: true,
   toppingsForCatgs: [],
   toppingsForCatgsLoading: true,
   sizes: [],
+  sizesError: false,
   freeToppingsAmount: {
     sauces: 0,
     others: 0,
@@ -30,8 +32,11 @@ const reducer = (state = initialState, action) => {
         category: null,
         products: null,
         product: null,
+        productError: false,
+        categoryError: false,
         toppingsCatgs: [],
         toppingsCatgsLoading: false,
+        catgsToppingsError: false,
         toppingsForCatgs: [],
         toppingsForCatgsLoading: false,
         sizes: [],
@@ -73,7 +78,6 @@ const reducer = (state = initialState, action) => {
       let topping = state.toppings.filter(
         (top) => top.toppingId === action.toppingId
       )[0];
-      console.log('topping', topping);
       let price = 0;
       if (
         state.toppingsAmount[topping.categoryType] >
@@ -111,22 +115,42 @@ const reducer = (state = initialState, action) => {
           sauces: action.category.freeToppingsForSaucesAmount,
           others: action.category.freeToppingsForOthersAmount,
         },
+        categoryError: false
       };
     case actionTypes.SET_PRODUCTS:
       return {
         ...state,
         products: action.products,
+        productsError: false
       };
+    case actionTypes.SET_PRODUCTS_ERROR:
+    return {
+      ...state,
+      productsError: true,
+    };
     case actionTypes.SET_PRODUCT:
       return {
         ...state,
         product: action.product,
+        productError: false
       };
+    case actionTypes.SET_PRODUCT_ERROR:
+    return {
+      ...state,
+      productError: true
+    };
+    case actionTypes.SET_CATEGORY_ERROR:
+    return {
+      ...state,
+      categoryError: true
+    };
     case actionTypes.SET_TOPPINGS_CATEGORIES:
       return {
         ...state,
         toppingsCatgs: action.categories,
         toppingsCatgsLoading: false,
+        catgsToppingsError: false
+
       };
     case actionTypes.SET_TOPPINGS_FOR_CATEGORIES:
       return {
@@ -142,13 +166,20 @@ const reducer = (state = initialState, action) => {
           sizes: action.sizes,
           selectedSize: action.sizes[0],
           startingPrice: action.sizes[0].price,
+          sizesError: false
         };
       } else {
         return {
           ...state,
           sizes: action.sizes,
+          sizesError: false
         };
       }
+    case actionTypes.SET_SIZES_ERROR:
+      return {
+        ...state,
+        sizesError: true
+      };
     case actionTypes.SET_SELECTED_SIZE:
       return {
         ...state,
@@ -160,16 +191,30 @@ const reducer = (state = initialState, action) => {
         ...state,
         toppingsCatgsLoading: action.loading,
       };
-    case actionTypes.SET_LOADING_FOR_CATEGORIES_TOPPINGS:
+    
+    case actionTypes.SET_CATEGORIES_TOPPINGS_ERROR:
       return {
         ...state,
-        toppingsForCatgsLoading: action.loading,
+        catgsToppingsError: true,
+        toppingsCatgsLoading: false,
+        toppingsForCatgsLoading: false
       };
+
     case actionTypes.SET_TOPPINGS:
       return {
         ...state,
         toppings: action.toppings,
       };
+    case actionTypes.SET_TOPPINGS_AMOUNT: 
+      return {
+        ...state,
+        toppingsAmount: action.toppingsAmount
+      };
+    case actionTypes.SET_TOPPINGS_PRICE: 
+    return {
+      ...state,
+      toppingsPrice: action.toppingsPrice
+    }
   }
   return state;
 };

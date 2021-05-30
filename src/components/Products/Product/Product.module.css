@@ -1,5 +1,6 @@
 .Product {
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
   height: 280px;
   background-color: white;
   color: black;
@@ -42,6 +43,7 @@
   text-align: center;
   font-size: 1.1rem;
   border-radius: 50px;
+  transition: background-color 0.3s;
 }
 .Button:hover {
   cursor: pointer;

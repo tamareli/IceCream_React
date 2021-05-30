@@ -1,0 +1,30 @@
+.Content{
+    direction: rtl;
+    line-height: 160%;
+    padding-right: 3rem;
+    padding-left: 3rem;
+    text-align: right;
+}
+.Span{
+    line-height: 260%;
+    font-size: 22px;
+    color: var(--green-color);
+}
+.Container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+@media (max-width: 1050px) {
+    .Content {
+      font-size: 0.7em;
+    }
+  }
+  @media (max-width: 1050px) {
+    .Span {
+      font-size: 16px;
+    }
+  }

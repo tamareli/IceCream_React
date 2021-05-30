@@ -26,12 +26,32 @@ const setProducts = (products) => {
     products: products,
   };
 };
+
+const setProductsError = () => {
+  return {
+    type: actionTypes.SET_PRODUCTS_ERROR,
+  };
+};
+
 const setSelectedProduct = (product) => {
   return {
     type: actionTypes.SET_PRODUCT,
     product: product,
   };
 };
+
+const setSelectedProductError = () => {
+  return {
+    type: actionTypes.SET_PRODUCT_ERROR,
+  };
+};
+
+const setCategoryError = () => {
+  return {
+    type: actionTypes.SET_CATEGORY_ERROR,
+  };
+};
+
 export const initSelectedProduct = (productId) => {
   return (dispatch) => {
     axios
@@ -40,7 +60,7 @@ export const initSelectedProduct = (productId) => {
         dispatch(setSelectedProduct(res.data));
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(setSelectedProductError());
       });
   };
 };
@@ -52,7 +72,7 @@ export const initProducts = (catgId) => {
         dispatch(setProducts(res.data));
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(setProductsError());
       });
   };
 };
@@ -66,8 +86,14 @@ const setToppingsForCategories = (categories) => {
         let obj = { [category.categoryId]: res.data };
         toppingsForCategories.push(obj);
         if (index === categories.length) {
-          dispatch(setToppingsCategories(toppingsForCategories));
-          console.log(index, 'index');
+          let transformedToppingsForCategories=[];
+          for (let i = 0; i < categories.length; i++) {
+            let category2 = toppingsForCategories.filter(
+              category => Object.keys(category)[0] == categories[i].categoryId
+            );  
+            transformedToppingsForCategories.push(category2[0]);
+          }          
+          dispatch(setToppingsCategories(transformedToppingsForCategories));
         }
       });
     });
@@ -91,12 +117,20 @@ const setCategoriesForToppingsLoading = (loading) => {
     loading: loading,
   };
 };
+
 const setToppingsCategoriesLoading = (loading) => {
   return {
     type: actionTypes.SET_LOADING_FOR_CATEGORIES_TOPPINGS,
     loading: loading,
   };
 };
+
+const setCategoriesForToppingsError = () => {
+  return {
+    type: actionTypes.SET_CATEGORIES_TOPPINGS_ERROR,
+  };
+};
+
 export const initToppingsCategories = (catgId) => {
   return (dispatch) => {
     dispatch(setCategoriesForToppingsLoading(true));
@@ -107,23 +141,38 @@ export const initToppingsCategories = (catgId) => {
         dispatch(setToppingsForCategories(res.data));
         dispatch(setCategoriesForToppings(res.data));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch(setCategoriesForToppingsError());
+      });
   };
 };
+
 const setSizes = (sizes) => {
   return {
     type: actionTypes.SET_SIZES,
     sizes: sizes,
   };
 };
-export const initSizes = (catgId) => {
+
+export const setSizesError = () => {
+  return {
+    type: actionTypes.SET_SIZES_ERROR,
+  };
+};
+
+export const initSizes = (catgId, from) => {
   return (dispatch) => {
     axios
       .get('size/sizes/' + catgId)
       .then((res) => {
         dispatch(setSizes(res.data));
+        if(from === 'fromCreate'){
+          dispatch(setSelectedSize(res.data[0]));
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch(setSizesError());
+      });
   };
 };
 
@@ -168,5 +217,19 @@ export const setSelectedSize = (size) => {
   return {
     type: actionTypes.SET_SELECTED_SIZE,
     size: size,
+  };
+};
+
+export const setToppingsAmount = (toppingsAmount) => {
+  return {
+    type: actionTypes.SET_TOPPINGS_AMOUNT,
+    toppingsAmount: toppingsAmount,
+  };
+};
+
+export const setToppingsPrice = (toppingsPrice) => {
+  return {
+    type: actionTypes.SET_TOPPINGS_PRICE,
+    toppingsPrice: toppingsPrice,
   };
 };

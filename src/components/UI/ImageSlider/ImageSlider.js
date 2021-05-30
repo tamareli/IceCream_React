@@ -5,13 +5,13 @@ export default class ImageSlider extends Component {
   state = {
     images: [
       {
+        original: require('../../../assets/images/slide/icecream2.jpg'),
+      },
+      {
         original: require('../../../assets/images/slide/waffle.jpg'),
       },
       {
         original: require('../../../assets/images/slide/icecream1.jpg'),
-      },
-      {
-        original: require('../../../assets/images/slide/icecream2.jpg'),
       },
       {
         original: require('../../../assets/images/slide/icecream4.jpg'),
@@ -33,7 +33,7 @@ export default class ImageSlider extends Component {
         isRTL={true}
         showThumbnails={false}
         showBullets={true}
-        slideInterval={5000}
+        slideInterval={4000}
         slideDuration={550}
       />
     );

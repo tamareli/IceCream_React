@@ -57,13 +57,12 @@ export class LogIn extends Component {
   };
 
   render() {
-    console.log();
     let path = '/';
     let authRedirect = null;
     let error = null;
 
     if (this.props.isAuthenticated) {
-      if (this.props.redirectTo != null) {
+      if (this.props.redirectTo !== null) {
         path = this.props.redirectTo;
       }
       authRedirect = <Redirect to={path} />;

@@ -11,6 +11,10 @@ import * as cartActions from '../store/actions/cart';
 import PinkButton from '../components/UI/Button/PinkButton';
 import GreenButton from '../components/UI/Button/GreenButton';
 import NextStep from '../components/ProductInOrder/OrderSummary/NextStep';
+import Spinner from '../components/UI/Spinner/Spinner'
+import ErrorBoundary from '../components/ErrorBoundary';
+import ErrorMessage from '../components/UI/Error/ErrorMessage';
+import Layout from '../hoc/Layout/Layout';
 
 class ProductBuilder extends Component {
   constructor(props) {
@@ -23,20 +27,20 @@ class ProductBuilder extends Component {
   }
 
   componentDidMount() {
-    console.log('cmd');
     if (this.props.edit !== undefined) {
       this.props.setProduct(this.props.productId);
       this.props.setClickedCategory(this.props.categoryId);
       this.props.setToppingsCatgs(this.props.categoryId);
-      this.props.setSizes(this.props.categoryId);
+      this.props.setSizes(this.props.categoryId, 'fromEdit');
       this.props.setToppings(this.props.toppingsEdit);
       this.props.setSelectedSize(this.props.size);
-      console.log('edit');
+      this.props.setToppingsAmount(this.props.toppingsAmountEdit);
+      this.props.setToppingsPrice(this.props.toppingsPriceEdit);
     } else {
       this.props.setProduct(this.props.match.params.product_id);
       this.props.setClickedCategory(this.props.match.params.catg_id);
       this.props.setToppingsCatgs(this.props.match.params.catg_id);
-      this.props.setSizes(this.props.match.params.catg_id);
+      this.props.setSizes(this.props.match.params.catg_id, 'fromCreate');
       this.props.setToppings([]);
     }
   }
@@ -49,7 +53,9 @@ class ProductBuilder extends Component {
       this.props.selectedSize,
       this.props.orders,
       this.props.editItemId,
-      this.props.amount
+      this.props.amount,
+      this.props.toppingsAmount,
+      this.props.toppingsPrice
     );
     this.props.setEditToFalse();
   };
@@ -71,7 +77,6 @@ class ProductBuilder extends Component {
   };
 
   addToppingHandler = (topping) => {
-    console.log('addToppingHandler');
     this.props.addTopping(topping, 1);
     this.props.updatePriceAdd(topping.toppingId);
   };
@@ -84,43 +89,59 @@ class ProductBuilder extends Component {
   purchaseHandler = () => {
     this.setState({ purchased: true, purchaseble: false });
   };
-  render() {
+  render() 
+  {
+    if(this.props.catgsToppingsError || this.props.productError || this.props.categoryError){
+      return <div className={['container', classes.ProductBuilder].join(' ')}>
+              <ErrorMessage />
+            </div>
+    }
     if (
       this.props.toppingsCatgsLoading === true ||
       this.props.toppingsForCatgsLoading === true
     ) {
-      return <div>loading...</div>;
+      return <Spinner />;
     }
     return (
+      <Layout page='build' header={this.props.edit !== undefined}>
       <div className={['container', classes.ProductBuilder].join(' ')}>
         <Modal
           show={this.state.purchaseble}
           modalClosed={this.purchasableCanceleddHandler}
         >
-          <OrderSummary
-            product={this.props.product}
-            totalPrice={this.props.startingPrice + this.props.toppingsPrice}
-            size={this.props.selectedSize}
-            initProductBuilder={this.props.initProductBuilder}
-            purchaseHandler={this.purchaseHandler}
-          />
+          <ErrorBoundary>
+            <OrderSummary
+              product={this.props.product}
+              totalPrice={this.props.startingPrice + this.props.toppingsPrice}
+              size={this.props.selectedSize}
+              initProductBuilder={this.props.initProductBuilder}
+              purchaseHandler={this.purchaseHandler}
+            />
+          </ErrorBoundary>
         </Modal>
+
         <Modal show={this.state.purchased}>
-          <NextStep />
+          <ErrorBoundary>
+            <NextStep />
+          </ErrorBoundary>
         </Modal>
+
         <Modal
           show={this.state.preferenceClicked}
           modalClosed={this.preferenceCanceleddHandler}
         >
-          <SelectSize
-            sizes={this.props.sizes}
-            sizeClicked={this.sizeClickHandler}
-            selectedSize={this.props.selectedSize}
-            onClose={this.preferenceCanceleddHandler}
-          />
+          <ErrorBoundary>
+            <SelectSize
+              sizes={this.props.sizes}
+              sizeClicked={this.sizeClickHandler}
+              selectedSize={this.props.selectedSize}
+              onClose={this.preferenceCanceleddHandler}
+              sizesError={this.props.sizesError}
+            />
+          </ErrorBoundary>
         </Modal>
         <div className='row'>
-          <div className='col-md-3 d-flex flex-column justify-content-center align-items-center'>
+          <div className='col-md-3 col-sm-12 d-flex flex-column justify-content-center align-items-center'>
             <div style={{ margin: '1rem' }}>
               <GreenButton text='בחר גודל' onClick={this.preferenceHandler} />
             </div>
@@ -128,7 +149,6 @@ class ProductBuilder extends Component {
               <p style={{ textAlign: 'right' }}>
                 {this.props.selectedSize !== null ? (
                   <>
-                    {' '}
                     <b>גודל: </b>
                     <span>{this.props.selectedSize.sizeName}</span>
                   </>
@@ -149,14 +169,17 @@ class ProductBuilder extends Component {
               )}
             </div>
           </div>
-          <div className='col-md-5'>
-            <ProductInOrder
-              toppings={this.props.toppings}
-              product={this.props.product}
-              freeToppingsAmount={this.props.freeToppingsAmount}
-            />
+          <div className='col-md-5 col-sm-12'>
+            <ErrorBoundary>
+              <ProductInOrder
+                toppings={this.props.toppings}
+                product={this.props.product}
+                freeToppingsAmount={this.props.freeToppingsAmount}
+                categoryId={this.props.category !== null ? this.props.category.categoryId : 0}
+              />
+            </ErrorBoundary>
           </div>
-          <div className='col-md-4'>
+          <div className='col-md-4 col-sm-12'>
             <BuildControls
               addTopping={this.addToppingHandler}
               removeTopping={this.removeToppingHandler}
@@ -169,10 +192,12 @@ class ProductBuilder extends Component {
               toppingsForCategories={this.props.toppingsForCategories}
               openSize={this.chooseSizeClickedHandler}
               toppings={this.props.toppings}
+              catgsToppingsError={this.props.catgsToppingsError}
             />
           </div>
         </div>
       </div>
+      </Layout>
     );
   }
 }
@@ -192,6 +217,11 @@ const mapStateToProps = (state) => {
     toppingsCatgsLoading: state.productBuilder.toppingsCatgsLoading,
     toppingsForCatgsLoading: state.productBuilder.toppingsForCatgsLoading,
     orders: state.cart.cartItems,
+    sizesError: state.productBuilder.sizesError,
+    catgsToppingsError: state.productBuilder.catgsToppingsError,
+    productError: state.productBuilder.productError,
+    categoryError: state.productBuilder.categoryError
+
   };
 };
 
@@ -205,7 +235,9 @@ const mapDispatchToProps = (dispatch) => {
       newSize,
       orders,
       id,
-      amount
+      amount,        
+      toppingsAmount,
+      toppingsPrice
     ) => {
       let newOrder = {
         id: id,
@@ -214,6 +246,8 @@ const mapDispatchToProps = (dispatch) => {
         toppings: newToppings,
         size: newSize,
         amount: amount,
+        toppingsAmount: toppingsAmount,
+        toppingsPrice: toppingsPrice
       };
       dispatch(cartActions.addOrder(orders, newOrder));
     },
@@ -231,8 +265,8 @@ const mapDispatchToProps = (dispatch) => {
     setToppingsCatgs: (catgId) => {
       dispatch(productBuilderActions.initToppingsCategories(catgId));
     },
-    setSizes: (catgId) => {
-      dispatch(productBuilderActions.initSizes(catgId));
+    setSizes: (catgId, from) => {
+      dispatch(productBuilderActions.initSizes(catgId, from));
     },
     setFreeToppingsAmount: () => {
       dispatch(productBuilderActions.initFreeToppingsAmount());
@@ -252,6 +286,13 @@ const mapDispatchToProps = (dispatch) => {
     updatePriceRemove: (toppingId) => {
       dispatch(productBuilderActions.updatePriceRemove(toppingId));
     },
+    setToppingsAmount: (toppingsAmount) => {
+      dispatch(productBuilderActions.setToppingsAmount(toppingsAmount));
+    },
+    setToppingsPrice: (toppingsPrice) => {
+      dispatch(productBuilderActions.setToppingsPrice(toppingsPrice));
+      
+    }
   };
 };
 

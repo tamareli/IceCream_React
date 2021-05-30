@@ -1,0 +1,18 @@
+.not-found-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.code {
+  font-size: 15rem;
+  font-weight: 600;
+  color: #fff;
+}
+.txt {
+  padding: 2rem;
+  font-size: 24px;
+}

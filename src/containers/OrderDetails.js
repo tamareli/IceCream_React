@@ -9,11 +9,20 @@ import Input from '../components/UI/Input/Input';
 import { checkValidity } from '../shared/validate';
 import { sendEmail } from '../shared/Email';
 import PinkButton from '../components/UI/Button/PinkButton';
+import Spinner from '../components/UI/Spinner/Spinner';
+import {Link} from 'react-router-dom';
+import ErrorBoundary from '../components/ErrorBoundary';
+import ErrorMessageForm from '../components/UI/Error/FormErrorMessage';
+import Layout from '../hoc/Layout/Layout';
 
 class OrderDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoadingForm: false,
+      orderIsLoading: false,
+      isOrderSent: false,
+      hasError: false,
       user: {
         userId: 0,
         firstName: '',
@@ -67,17 +76,16 @@ class OrderDetails extends Component {
         const options = res.data.map((type) => {
           return {
             value: type.deliveryTypeId,
-            label: type.deliveryDescription,
+            label: type.deliveryDescription + ':      ' + '₪' + type.price,
           };
         });
-        console.log('options', options[options.length - 1]);
         this.setState({ deliverySelects: options });
         this.setState({ deliveryTypes: res.data });
         this.setState({ deliverySelected: options[options.length - 1] });
         this.setState({ deliveryType: options[options.length - 1].value });
       })
       .catch((err) => {
-        console.log(err);
+        this.setState({hasError: true, orderIsLoading: false, isLoadingForm: false});
       });
     this.autoUserInputs();
   }
@@ -88,12 +96,12 @@ class OrderDetails extends Component {
   }
   autoUserInputs = () => {
     if (this.props.isAuthenticated) {
+      this.setState({isLoadingForm: true});
       axios
         .get('user/GetUser', {
           headers: { Authorization: `Bearer ${this.props.token}` },
         })
         .then((res) => {
-          console.log('user data:', res.data);
           this.setState({
             ...this.state,
             user: {
@@ -106,10 +114,11 @@ class OrderDetails extends Component {
               address: res.data.address,
             },
             isValidForm: true,
+            isLoadingForm: false
           });
         })
         .catch((err) => {
-          console.log(err);
+          this.setState({hasError: true, orderIsLoading: false, isLoadingForm: false});
         });
     }
   };
@@ -137,8 +146,8 @@ class OrderDetails extends Component {
     });
   };
   setupOrder = (userId) => {
+    this.setState({orderIsLoading: true});
     let newOrderItems = JSON.parse(localStorage.getItem('cartItems'));
-    console.log('cart Items1', JSON.parse(localStorage.getItem('cartItems')));
     newOrderItems = newOrderItems.map((item) => {
       let newToppings = Object.values(item.toppings).map((top) => {
         return {
@@ -161,27 +170,26 @@ class OrderDetails extends Component {
       finalPrice: this.state.deliveryPrice + this.props.finalPrice,
       clientId: userId,
     };
-    console.log('newOrderItems', newOrderItems);
     axios
       .post('order/order', order, {
         headers: { Authorization: `Bearer ${this.props.token}` },
       })
       .then((res) => {
+        this.setState({orderIsLoading: false, isOrderSent: true});
         this.sendingEmails();
         this.props.onPay();
       })
       .catch((err) => {
-        console.log(err);
+        this.setState({hasError: true, orderIsLoading: false, isLoadingForm: false});
       });
-
-    alert('...ההזמנה בדרך אליך :)');
   };
 
   sendingEmails = () => {
     const dreamCream = 'Dream Cream';
     const subject = 'ההזמנה שלך התקבלה';
-    const paragraph = `<br />ההזמנה שלך התקבלה באתר בהצלחה.<br />בקרוב יגיע אליך שליח.<br /> תודה שבחרת לקנות אצלינו ${dreamCream}`;
-    const space = '<br /><br />המוצרים שהזמנת:<br />';
+    const paragraph = `<p style="width: 100%; padding: 18px; background-color: #8cb8a69f;"><br />ההזמנה שלך התקבלה באתר בהצלחה.<br />בקרוב יגיע אליך שליח.<br /> תודה שבחרת לקנות אצלינו <b>${dreamCream}</b></p>`;
+    const space =
+      '<p style="width: 100%; padding: 18px; background-color: #b3d4c69f;">המוצרים שהזמנת:<br />';
     let body = JSON.parse(localStorage.getItem('cartItems'))
       .map((item) => {
         const toppings = item.toppings
@@ -198,18 +206,28 @@ class OrderDetails extends Component {
         return arr.join('<br />');
       })
       .join('<br />');
+    body += '</p>';
     body +=
-      '<br /><br /> סוג משלוח: ' +
+      '<p style="width: 100%; padding: 18px; height: 100px; background-color: #ec6f779c; background-image: url(' +
+      'https://d2cbg94ubxgsnp.cloudfront.net/Pictures/1024x536/4/0/8/132408_shutterstock_406445776.jpg' +
+      '); background-position: center; background-size: contain; background-repeat: no-repeat;"> סוג משלוח: ' +
       this.state.deliveryTypes.find((del) => {
         return del.deliveryTypeId === this.state.deliverySelected.value;
       }).deliveryDescription;
     body += '<br /> כתובת: ' + this.state.user.address;
     let price = this.state.deliveryPrice + this.props.finalPrice;
     body += '<br /> מחיר סופי: ' + price;
+    body += '</p>';
     sendEmail(
       this.state.user.email,
       subject,
-      paragraph + '' + space + '' + body
+      '<div style="width: 50%; font-size:18px;">' +
+        paragraph +
+        '' +
+        space +
+        '' +
+        body +
+        '</div>'
     );
     sendEmail(
       process.env.REACT_APP_MANAGER_EMAIL,
@@ -230,21 +248,18 @@ class OrderDetails extends Component {
         password: 'guestUser',
       };
       axios
-        .post('user/register', guestUser)
+        .post('user/addGuestUser', guestUser)
         .then((res) => {
-          console.log(res.data);
           this.props.setUserId(res.data);
           return res.data;
         })
         .then((userId) => {
-          console.log(userId);
           this.setupOrder(userId);
         })
         .catch((err) => {
-          console.log(err);
+          this.setState({hasError: true, orderIsLoading: false, isLoadingForm: false});
         });
     } else {
-      console.log('else');
       this.setupOrder(this.state.user.userId);
     }
   };
@@ -257,116 +272,166 @@ class OrderDetails extends Component {
     );
     this.setState({ deliveryPrice: typeObj.price });
   };
-
   render() {
-    console.log('this.state.deliverySelected', this.state.deliverySelected);
-    return (
-      <div className={classes.OrderDetails}>
-        <h3 style={{ textAlign: 'center' }}>הכנס פרטים אישיים להזמנה</h3>
-        <form onSubmit={this.submitHandler} className={classes.Form}>
+    let form = (
+      <form onSubmit={this.submitHandler} className={classes.Form}>
           <div className='row'>
-            <div className='col-md-6'>
+            <div className='col-md-4'></div>
+            <div className='row col-md-4'>
+                <div className='col-lg-6 col-md-12'>
+                <Input
+                  type='text'
+                  name='first-name'
+                  value={this.state.user.firstName}
+                  id='first-name'
+                  inputtype='input'
+                  label='שם פרטי'
+                  onChange={this.handleChange('firstName')}
+                  readOnly={this.props.isAuthenticated ? true : false}
+                  invalid={(!this.state.userValid.firstName.valid).toString()}
+                  touched={this.state.userValid.firstName.touched.toString()}
+                  errmessage={this.state.userValid.firstName.errmessage}
+                />
+              </div>
+              <div className='col-lg-6 col-md-12'>
+                <Input
+                  type='text'
+                  name='last-name'
+                  value={this.state.user.lastName}
+                  id='last-name'
+                  inputtype='input'
+                  label='שם משפחה'
+                  onChange={this.handleChange('lastName')}
+                  readOnly={this.props.isAuthenticated ? true : false}
+                  invalid={(!this.state.userValid.lastName.valid).toString()}
+                  touched={this.state.userValid.lastName.touched.toString()}
+                  errmessage={this.state.userValid.lastName.errmessage}
+                />
+              </div>
               <Input
                 type='text'
-                name='first-name'
-                value={this.state.user.firstName}
-                id='first-name'
+                name='phone'
+                value={this.state.user.phone}
+                id='phone'
                 inputtype='input'
-                label='שם פרטי'
-                onChange={this.handleChange('firstName')}
+                label='טלפון'
+                onChange={this.handleChange('phone')}
                 readOnly={this.props.isAuthenticated ? true : false}
-                invalid={(!this.state.userValid.firstName.valid).toString()}
-                touched={this.state.userValid.firstName.touched.toString()}
-                errmessage={this.state.userValid.firstName.errmessage}
+                invalid={(!this.state.userValid.phone.valid).toString()}
+                touched={this.state.userValid.phone.touched.toString()}
+                errmessage={this.state.userValid.phone.errmessage}
               />
-            </div>
-            <div className='col-md-6'>
               <Input
                 type='text'
-                name='last-name'
-                value={this.state.user.lastName}
-                id='last-name'
+                name='email'
+                value={this.state.user.email}
+                id='email'
                 inputtype='input'
-                label='שם משפחה'
-                onChange={this.handleChange('lastName')}
+                label='אימייל'
+                onChange={this.handleChange('email')}
                 readOnly={this.props.isAuthenticated ? true : false}
-                invalid={(!this.state.userValid.lastName.valid).toString()}
-                touched={this.state.userValid.lastName.touched.toString()}
-                errmessage={this.state.userValid.lastName.errmessage}
+                invalid={(!this.state.userValid.email.valid).toString()}
+                touched={this.state.userValid.email.touched.toString()}
+                errmessage={this.state.userValid.email.errmessage}
               />
-            </div>
-          </div>
-          <Input
-            type='text'
-            name='phone'
-            value={this.state.user.phone}
-            id='phone'
-            inputtype='input'
-            label='טלפון'
-            onChange={this.handleChange('phone')}
-            readOnly={this.props.isAuthenticated ? true : false}
-            invalid={(!this.state.userValid.phone.valid).toString()}
-            touched={this.state.userValid.phone.touched.toString()}
-            errmessage={this.state.userValid.phone.errmessage}
-          />
-          <Input
-            type='text'
-            name='email'
-            value={this.state.user.email}
-            id='email'
-            inputtype='input'
-            label='אימייל'
-            onChange={this.handleChange('email')}
-            readOnly={this.props.isAuthenticated ? true : false}
-            invalid={(!this.state.userValid.email.valid).toString()}
-            touched={this.state.userValid.email.touched.toString()}
-            errmessage={this.state.userValid.email.errmessage}
-          />
-          <div className='delivery row'>
-            <div className='col-md-6'>
-              <label htmlFor='delivery-type' style={{ fontWeight: 600 }}>
-                סוג משלוח
-              </label>
-              <DeliveryTypes
-                delTypes={this.state.deliverySelects}
-                handleSelectChange={(selectedOption) => {
-                  console.log('selectedOption', selectedOption);
-                  this.handleSelectChange(selectedOption);
+              <Input
+                type='text'
+                name='address'
+                value={this.state.user.address}
+                id='address'
+                inputtype='input'
+                label='כתובת'
+                onChange={this.handleChange('address')}
+                readOnly={this.props.isAuthenticated ? true : false}
+                invalid={(!this.state.userValid.address.valid).toString()}
+                touched={this.state.userValid.address.touched.toString()}
+                errmessage={this.state.userValid.address.errmessage}
+              />
+              <div className='delivery row'>
+                <div className='col-lg-6 col-md-12'>
+                  <label htmlFor='delivery-type' style={{ fontWeight: 700 }}>
+                    סוג משלוח
+                  </label>
+                  <ErrorBoundary>
+                    <DeliveryTypes
+                      delTypes={this.state.deliverySelects}
+                      handleSelectChange={(selectedOption) => {
+                        this.handleSelectChange(selectedOption);
+                      }}
+                      value={
+                        this.state.deliverySelected !== null
+                          ? this.state.deliverySelected
+                          : null
+                      }
+                    />
+                  </ErrorBoundary>
+                </div>
+                <div
+                  className='col-lg-6 col-md-12'
+                  style={{ alignSelf: 'flex-end' }}
+                >
+                  <p style={{ fontWeight: 600 }}>מחיר סופי + משלוח: <span>&#8362;</span>
+                    {this.props.finalPrice + this.state.deliveryPrice}
+                  </p>
+                </div>
+              </div>
+               <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-                value={
-                  this.state.deliverySelected !== null
-                    ? this.state.deliverySelected
-                    : null
-                }
-              />
+              >
+                <PinkButton
+                  text='תשלום'
+                  type='submit'
+                  disabled={!this.state.isValidForm}
+                />
+              </div>
+            
             </div>
-            <div className='col-md-6' style={{ alignSelf: 'flex-end' }}>
-              <p style={{ fontWeight: 600 }}>
-                מחיר משלוח: <span>&#8362;</span>
-                {this.state.deliveryPrice}
-              </p>
-            </div>
+            <div className='col-md-4'></div>
           </div>
-          <Input
-            type='text'
-            name='address'
-            value={this.state.user.address}
-            id='address'
-            inputtype='input'
-            label='כתובת'
-            onChange={this.handleChange('address')}
-            readOnly={this.props.isAuthenticated ? true : false}
-            invalid={(!this.state.userValid.address.valid).toString()}
-            touched={this.state.userValid.address.touched.toString()}
-            errmessage={this.state.userValid.address.errmessage}
-          />
-          <PinkButton
-            text='תשלום'
-            type='submit'
-            disabled={!this.state.isValidForm}
-          />
         </form>
-      </div>
+    );
+     if(this.state.isLoadingForm || this.state.orderIsLoading){
+       form = <Spinner />;
+     }
+     if(this.state.hasError){
+       form = <ErrorMessageForm />;
+     }
+     if(this.state.isOrderSent === true){
+      form = (
+        <div className='col-md-12 d-flex flex-column justify-content-center align-items-center'>
+          <i
+            className='far fa-check-circle fa-4x'
+            style={{ margin: '1.5rem', color: 'var(--green-color)' }}
+          ></i>
+          <h4>.הזמנתך התקבלה בהצלחה</h4>
+          <p>.נשלח לך פירוט ההזמנה לתיבת האימייל השמורה במערכת</p>
+        </div>
+      )
+    }
+    if(this.props.finalPrice === 0){
+      form = (
+        <div className='col-md-12 d-flex flex-column justify-content-center align-items-center'>
+          <p>...העגלה שלך ריקה</p>
+          <i
+            style={{ fontSize: '11rem' }}
+            className='fa fa-shopping-cart'
+          ></i>
+          <Link to='/Products' style={{ margin: '1rem' }}>
+            <PinkButton text='הוסף מוצרים לעגלה' />
+          </Link>
+        </div>)
+    }
+    return (
+      <Layout>
+        <div className={classes.OrderDetails}>
+          <h3 style={{ textAlign: 'center' }}>הכנס פרטים אישיים להזמנה</h3>
+          {form}
+        </div>
+      </Layout>
     );
   }
 }
